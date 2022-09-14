@@ -1,0 +1,136 @@
+﻿{
+  "settings": {},
+  "data": [
+    {
+      "id": "medicament_name",
+      "name": "药品名称",
+      "opt_type": 2,
+      "option": [],
+      "option_exc": [
+        {
+          "content": "短肽（力存优太）",
+          "exec": [
+            {
+              "key": "medicament_unit",
+              "content": "桶"
+            },
+            {
+              "key": "medicament_usage",
+              "content": "每日3-6次，每次2-4勺，2勺加水100ml，4勺加水200 ml，水温40-60℃"
+            }
+          ]
+        },
+        {
+          "content": "乳清蛋白粉",
+          "exec": [
+            {
+              "key": "medicament_unit",
+              "content": "桶"
+            },
+            {
+              "key": "medicament_usage",
+              "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。"
+            }
+          ]
+        },
+        {
+          "content": "乳清",
+          "exec": [
+            {
+              "key": "medicament_unit",
+              "content": "桶"
+            },
+            {
+              "key": "medicament_usage",
+              "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。术后6小时服用。"
+            }
+          ]
+        },
+        {
+          "content": "蛋白质组件（浦索）",
+          "exec": [
+            {
+              "key": "medicament_unit",
+              "content": "桶"
+            },
+            {
+              "key": "medicament_usage",
+              "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃"
+            }
+          ]
+        },
+        {
+          "content": "高蛋白全营养粉（唯卡能）",
+          "exec": [
+            {
+              "key": "medicament_unit",
+              "content": "桶"
+            },
+            {
+              "key": "medicament_usage",
+              "content": "每日3-6次，每次4-5勺，加水200ml，水温40-60℃。"
+            }
+          ]
+        }
+      ],
+      "default": ""
+    },
+    {
+      "id": "medicament_num",
+      "name": "药品数量",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": "1"
+    },
+    {
+      "id": "medicament_unit",
+      "name": "药品单位",
+      "opt_type": 1,
+      "option": [ "桶", "盒", "袋" ],
+      "option_exc": [],
+      "default": "桶"
+    },
+    {
+      "id": "patient_dept",
+      "name": "病人科室",
+      "opt_type": 1,
+      "option": [ "放疗科", "普通外科", "肿瘤外科" ],
+      "option_exc": [],
+      "default": ""
+    },
+    {
+      "id": "patient_bed",
+      "name": "床号",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": ""
+    },
+    {
+      "id": "patient_name",
+      "name": "姓名",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": ""
+    },
+    {
+      "id": "patient_no",
+      "name": "住院号",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": ""
+    },
+    {
+      "id": "medicament_usage",
+      "name": "用法",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": ""
+    }
+
+  ]
+}
