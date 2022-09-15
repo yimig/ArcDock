@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using ArcDock.Data;
 
 namespace ArcDock
@@ -32,10 +33,13 @@ namespace ArcDock
 
         public void LoadConfig()
         {
-            TextReader tReader = new StreamReader(new FileStream(@"template/temp.json", FileMode.Open));
+            TextReader tReader = new StreamReader(new FileStream(@"template/template.html", FileMode.Open));
             var text = tReader.ReadToEnd();
             tReader.Close();
-            var config = JsonConvert.DeserializeObject<Config>(text);
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.LoadXml(text);
+            XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
+            var config = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
             Console.ReadLine();
         }
     }
