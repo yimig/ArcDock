@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ArcDock.Data
+namespace ArcDock.Data.Json
 {
     [JsonObject]
     public class ConfigItem
@@ -24,6 +20,9 @@ namespace ArcDock.Data
 
         [JsonProperty("option_exc")]
         public List<OptionItem> OptionItemList { get; set; }
+
+        [JsonProperty("default")]
+        public string Default { get; set; }
 
         [JsonProperty("rules")]
         public string Rules { get; set; }

@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom" Height="30" Name="btnPrint" Click="BtnPrint_OnClick">打印</Button>
+            <StackPanel Orientation="Vertical" Name="StMain"></StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
