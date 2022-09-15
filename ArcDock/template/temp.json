@@ -1,5 +1,9 @@
 ﻿{
-  "settings": {},
+  "settings": {
+    "printer": "",
+    "height": 265,
+    "width": 340
+  },
   "data": [
     {
       "id": "medicament_name",
@@ -55,7 +59,7 @@
             },
             {
               "key": "medicament_usage",
-              "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃"
+              "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃。"
             }
           ]
         },
@@ -73,7 +77,8 @@
           ]
         }
       ],
-      "default": ""
+      "default": "",
+      "rules": ""
     },
     {
       "id": "medicament_num",
@@ -81,7 +86,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": "1"
+      "default": "1",
+      "rules": ""
     },
     {
       "id": "medicament_unit",
@@ -89,7 +95,8 @@
       "opt_type": 1,
       "option": [ "桶", "盒", "袋" ],
       "option_exc": [],
-      "default": "桶"
+      "default": "桶",
+      "rules": ""
     },
     {
       "id": "patient_dept",
@@ -97,7 +104,8 @@
       "opt_type": 1,
       "option": [ "放疗科", "普通外科", "肿瘤外科" ],
       "option_exc": [],
-      "default": ""
+      "default": "",
+      "rules": ""
     },
     {
       "id": "patient_bed",
@@ -105,7 +113,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": ""
+      "default": "",
+      "rules": ""
     },
     {
       "id": "patient_name",
@@ -113,7 +122,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": ""
+      "default": "",
+      "rules": ""
     },
     {
       "id": "patient_no",
@@ -121,7 +131,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": ""
+      "default": "",
+      "rules": ""
     },
     {
       "id": "medicament_usage",
@@ -129,7 +140,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": ""
+      "default": "",
+      "rules": ""
     }
 
   ]

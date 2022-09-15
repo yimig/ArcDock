@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ArcTemplate</title>
+	<meta name="viewport" content="width=340px,height=265px" />
+	<script type="config/json">
+		{
+		  "settings": {
+			"printer": "",
+			"height": 265,
+			"width": 340
+		  },
+		  "data": [
+			{
+			  "id": "medicament_name",
+			  "name": "药品名称",
+			  "opt_type": 2,
+			  "option": [],
+			  "option_exc": [
+				{
+				  "content": "短肽（力存优太）",
+				  "exec": [
+					{
+					  "key": "medicament_unit",
+					  "content": "桶"
+					},
+					{
+					  "key": "medicament_usage",
+					  "content": "每日3-6次，每次2-4勺，2勺加水100ml，4勺加水200 ml，水温40-60℃"
+					}
+				  ]
+				},
+				{
+				  "content": "乳清蛋白粉",
+				  "exec": [
+					{
+					  "key": "medicament_unit",
+					  "content": "桶"
+					},
+					{
+					  "key": "medicament_usage",
+					  "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。"
+					}
+				  ]
+				},
+				{
+				  "content": "乳清",
+				  "exec": [
+					{
+					  "key": "medicament_unit",
+					  "content": "桶"
+					},
+					{
+					  "key": "medicament_usage",
+					  "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。术后6小时服用。"
+					}
+				  ]
+				},
+				{
+				  "content": "蛋白质组件（浦索）",
+				  "exec": [
+					{
+					  "key": "medicament_unit",
+					  "content": "桶"
+					},
+					{
+					  "key": "medicament_usage",
+					  "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃。"
+					}
+				  ]
+				},
+				{
+				  "content": "高蛋白全营养粉（唯卡能）",
+				  "exec": [
+					{
+					  "key": "medicament_unit",
+					  "content": "桶"
+					},
+					{
+					  "key": "medicament_usage",
+					  "content": "每日3-6次，每次4-5勺，加水200ml，水温40-60℃。"
+					}
+				  ]
+				}
+			  ],
+			  "default": "",
+			  "rules": ""
+			},
+			{
+			  "id": "medicament_num",
+			  "name": "药品数量",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "1",
+			  "rules": ""
+			},
+			{
+			  "id": "medicament_unit",
+			  "name": "药品单位",
+			  "opt_type": 1,
+			  "option": [ "桶", "盒", "袋" ],
+			  "option_exc": [],
+			  "default": "桶",
+			  "rules": ""
+			},
+			{
+			  "id": "patient_dept",
+			  "name": "病人科室",
+			  "opt_type": 1,
+			  "option": [ "放疗科", "普通外科", "肿瘤外科" ],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
+			},
+			{
+			  "id": "patient_bed",
+			  "name": "床号",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
+			},
+			{
+			  "id": "patient_name",
+			  "name": "姓名",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
+			},
+			{
+			  "id": "patient_no",
+			  "name": "住院号",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
+			},
+			{
+			  "id": "medicament_usage",
+			  "name": "用法",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
+			}
+
+		  ]
+		}
+	</script>
+	<style>
+		html, body {
+			height: 265px;
+			width: 340px;
+			overflow: hidden;
+			margin: 0px;
+			padding: 0px;
+		}
+
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 11px;
+		}
+
+		#main {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 100%;
+			border: solid black 1px;
+			flex-wrap: nowrap;
+		}
+
+		.title {
+			font-size: 22px;
+			font-weight: bold;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 2px 0;
+		}
+
+		.content {
+			margin-top: 10px;
+			font-size: 15px;
+			display: flex;
+			flex-wrap: wrap;
+			column-gap: 20px;
+			row-gap: 10px;
+		}
+	</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">
+		<div class="title-item">{{medicament_name}}：</div>
+		<div class="title-item">{{medicament_num}}</div>
+		<div class="title-item">{{medicament_unit}}</div>
+	</div>
+	<div class="content">
+		<div class="content-item">科室：{{patient_dept}}</div>
+		<div class="content-item">床号：{{patient_bed}}</div>
+		<div class="content-item">姓名：{{patient_name}}</div>
+		<div class="content-item">住院号：{{patient_no}}</div>
+		<div class="content-item">用法：{{medicament_usage}}</div>
+	</div>
+</div>
+</body>
+</html>
