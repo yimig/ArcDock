@@ -16,6 +16,12 @@
             <Button DockPanel.Dock="Bottom" Height="30" Name="btnPrint" Click="BtnPrint_OnClick">打印</Button>
             <StackPanel Orientation="Vertical" Name="StMain"></StackPanel>
         </DockPanel>
-        <wpf:ChromiumWebBrowser Name="Browser" Grid.Column="1"></wpf:ChromiumWebBrowser>
+        <Grid Grid.Column="1" Background="AliceBlue">
+            <Grid Name="GdBrowser">
+                <Border BorderBrush="Crimson" BorderThickness="2">
+                    <wpf:ChromiumWebBrowser Name="Browser"></wpf:ChromiumWebBrowser>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

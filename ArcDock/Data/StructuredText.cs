@@ -96,7 +96,7 @@ namespace ArcDock.Data
                 try
                 {
                     var template = configItems.Single(item => item.Id.Equals(subText));
-                    AddTemplate(template.Id, subText);
+                    AddTemplate(template.Id, "");
                 }
                 catch (InvalidOperationException)
                 {
