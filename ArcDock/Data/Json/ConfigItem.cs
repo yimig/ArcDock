@@ -12,6 +12,9 @@ namespace ArcDock.Data.Json
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
         [JsonProperty("opt_type")]
         public int OptionType { get; set; }
 

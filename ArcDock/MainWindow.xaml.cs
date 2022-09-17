@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Windows.Controls;
@@ -19,9 +20,6 @@ using System.Xml;
 using ArcDock.Data;
 using ArcDock.Data.Json;
 using ArcDock.Data.UI;
-using System.Windows.Forms;
-using WebBrowser = System.Windows.Forms.WebBrowser;
-using Rectangle = System.Drawing.Rectangle;
 
 namespace ArcDock
 {
@@ -31,75 +29,61 @@ namespace ArcDock
     public partial class MainWindow : Window
     {
         private Config config;
-        private string htmlText;
+        private string templateHtml;
+        private StructuredText structuredText;
 
         public MainWindow()
         {
             InitializeComponent();
             LoadConfig();
             SetChildren();
+            Browser.Address = Environment.CurrentDirectory + "\\temp.html";
         }
 
         private void LoadConfig()
         {
             TextReader tReader = new StreamReader(new FileStream(@"template/template.html", FileMode.Open));
-            htmlText = tReader.ReadToEnd();
+            templateHtml = tReader.ReadToEnd();
             tReader.Close();
             XmlDocument xDoc = new XmlDocument();
-            xDoc.LoadXml(htmlText);
+            xDoc.LoadXml(templateHtml);
             XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
             config = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
+            structuredText = new StructuredText(config.ConfigItemList, templateHtml);
         }
 
         private void SetChildren()
         {
             foreach (var configItem in config.ConfigItemList)
             {
-                StMain.Children.Add(new InputArea(configItem));
+                StMain.Children.Add(new InputArea(configItem,Browser,ChangeHtml));
             }
         }
 
-        private void BtnPrint_OnClick(object sender, RoutedEventArgs e)
+        private void ChangeHtml(string id, string content)
+        {
+            structuredText[id] = content;
+            TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
+            tw.Write(structuredText);
+            tw.Close();
+        }
+
+        private void SaveHtml()
         {
             foreach (var Child in StMain.Children)
             {
                 var InputItem = Child as InputArea;
-                htmlText = htmlText.Replace("{{" + InputItem.Id + "}}", InputItem.Content);
+                structuredText[InputItem.Id] = InputItem.Content;
             }
 
             TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
-            tw.Write(htmlText);
+            tw.Write(structuredText);
             tw.Close();
-            var browser = new WebBrowser();
-            browser.Navigate(System.Environment.CurrentDirectory+"\\temp.html");
-            browser.DocumentCompleted += BrowserOnDocumentCompleted;
         }
 
-        private void BrowserOnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void BtnPrint_OnClick(object sender, RoutedEventArgs e)
         {
-            var browser = (WebBrowser)sender;
-            if (browser.ReadyState == WebBrowserReadyState.Complete)
-            {
-                if (browser.Document != null)
-                {
-                    if (browser.Document.Body != null)
-                    {
-                        var height = config.Settings.Height;
-                        var width = config.Settings.Width;
-                        browser.Height = height;
-                        browser.Width = width;
-                        using (var bitmap = new Bitmap(width, height))
-                        {
-                            var rectangle = new Rectangle(0, 0, width, height);
-                            browser.DrawToBitmap(bitmap, rectangle);
-                            var dialog = new SaveFileDialog();
-                            dialog.Filter = " JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png ";
-                            dialog.ShowDialog();
-                            bitmap.Save(dialog.FileName);
-                        }
-                    }
-                }
-            }
+            SaveHtml();
         }
     }
 }

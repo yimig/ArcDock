@@ -4,12 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
+        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1000">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <DockPanel>
             <Button DockPanel.Dock="Bottom" Height="30" Name="btnPrint" Click="BtnPrint_OnClick">打印</Button>
             <StackPanel Orientation="Vertical" Name="StMain"></StackPanel>
         </DockPanel>
+        <wpf:ChromiumWebBrowser Name="Browser" Grid.Column="1"></wpf:ChromiumWebBrowser>
     </Grid>
 </Window>

@@ -8,6 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ArcDock.Data.Json;
+using CefSharp;
+using CefSharp.DevTools.Security;
+using CefSharp.Wpf;
 
 namespace ArcDock.Data.UI
 {
@@ -15,6 +18,8 @@ namespace ArcDock.Data.UI
     {
         private ConfigItem config;
         private string content;
+        private ChromiumWebBrowser browser;
+        private Action<string,string> onContentChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,9 +38,11 @@ namespace ArcDock.Data.UI
             }
         }
 
-        public InputArea(ConfigItem config)
+        public InputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string,string> onContentChanged)
         {
             this.config = config;
+            this.browser = browser;
+            this.onContentChanged = onContentChanged;
             SetChildren();
             SetDefaultValue();
         }
@@ -58,7 +65,18 @@ namespace ArcDock.Data.UI
         {
             TextBox textBox = new TextBox();
             textBox.SetBinding(TextBox.TextProperty, new Binding("Content"){Source = this});
+            textBox.TextChanged += TextBoxOnTextChanged;
             this.Children.Add(textBox);
+        }
+
+        private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            onContentChanged(this.Id,textbox.Text);
+            if (browser.IsBrowserInitialized&&textbox.Text != null)
+            {
+                browser.Reload();
+            }
         }
 
         private void SetDefaultValue()

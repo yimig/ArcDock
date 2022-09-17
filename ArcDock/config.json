@@ -2,7 +2,10 @@
   "settings": {
     "printer": "Microsoft Print to PDF",
     "height": 0,
-    "width": 0
+    "width": 0,
+    "print_unit": "",
+    "print_height": 0,
+    "print_width": 0
   },
   "data": []
 }
