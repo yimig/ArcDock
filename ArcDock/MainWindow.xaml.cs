@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
@@ -179,6 +180,7 @@ namespace ArcDock
                 ps.Margins = new Margins(0, 0, 0, 0);
                 ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
                 pd.DefaultPageSettings = ps;
+                ps.Color = false;
                 pd.PrintPage += PdOnPrintPage;
                 pd.Print();
             }
@@ -186,6 +188,10 @@ namespace ArcDock
 
         private void PdOnPrintPage(object sender, PrintPageEventArgs e)
         {
+            e.Graphics.CompositingMode = CompositingMode.SourceCopy;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(printImage, 0, 0);
             e.HasMorePages = false;
         }
