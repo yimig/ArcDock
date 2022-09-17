@@ -32,6 +32,7 @@ using Binding = System.Windows.Data.Binding;
 using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using System.Windows.Interop;
 
 namespace ArcDock
 {
@@ -248,6 +249,18 @@ namespace ArcDock
             e.HasMorePages = false; //没有后续打印页
         }
 
+        private void BtnRefurbish_OnClick(object sender, RoutedEventArgs e)
+        {
+            Browser.Reload();
+        }
+
         #endregion
+
+        private void BtnConsole_OnClick(object sender, RoutedEventArgs e)
+        {
+            var wininfo = new WindowInfo();
+            wininfo.SetAsPopup(new WindowInteropHelper(this).Handle, "DevTools");
+            Browser.ShowDevTools(wininfo);
+        }
     }
 }

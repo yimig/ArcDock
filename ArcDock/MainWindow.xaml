@@ -25,8 +25,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <DockPanel>
+                <DockPanel Grid.ColumnSpan="3">
                     <DockPanel Height="30" DockPanel.Dock="Top">
                         <ToolBar DockPanel.Dock="right">
                             <Label>切换模板：</Label>
@@ -58,14 +63,36 @@
                         <Button Height="26" Margin="10 2 5 2" Name="btnPrint">新建</Button>
                         <Button Height="26" Margin="5 2 10 2" Name="btnNew" Click="BtnPrint_OnClick" Grid.Column="1">打印</Button>
                     </Grid>
-                    <StackPanel Orientation="Vertical" Name="StMain" Margin="10"></StackPanel>
+                    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" Name="StMain"></StackPanel>
+                    </ScrollViewer>
                 </DockPanel>
-                <Grid Grid.Column="1" Background="LightSteelBlue">
-                    <Grid Name="GdBrowser">
-                        <Border BorderBrush="Crimson" BorderThickness="2">
-                            <wpf:ChromiumWebBrowser Name="Browser"></wpf:ChromiumWebBrowser>
-                        </Border>
-                    </Grid>
+                <Grid Grid.Column="3" Grid.ColumnSpan="4" Background="LightSteelBlue">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Grid Name="GdBrowser">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                                    <ToolBar Width="130" Height="30">
+                                        <Button Name="BtnConsole" ToolTip="控制台" Click="BtnConsole_OnClick">
+                                            <Image Source="Icon/code.ico"></Image>
+                                        </Button>
+                                        <Button ToolTip="缩小">
+                                            <Image Source="Icon/zoom_out.ico"></Image>
+                                        </Button>
+                                        <Button ToolTip="放大">
+                                            <Image Source="Icon/zoom_in.ico"></Image>
+                                        </Button>
+                                        <Button Name="BtnRefurbish" ToolTip="强制刷新" Click="BtnRefurbish_OnClick">
+                                            <Image Source="Icon/reflesh.ico"></Image>
+                                        </Button>
+                                    </ToolBar>
+                                </StackPanel>
+                                <Border BorderBrush="Crimson" BorderThickness="2">
+                                    <wpf:ChromiumWebBrowser Name="Browser"></wpf:ChromiumWebBrowser>
+                                </Border>
+                            </DockPanel>
+                        </Grid>
+                    </ScrollViewer>
                 </Grid>
             </Grid>
         </DockPanel>
