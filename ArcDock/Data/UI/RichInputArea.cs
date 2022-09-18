@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ArcDock.Data.Json;
+using CefSharp.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,19 +9,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ArcDock.Data.Json;
 using CefSharp;
-using CefSharp.DevTools.Security;
-using CefSharp.Wpf;
 
 namespace ArcDock.Data.UI
 {
-    public class InputArea: CustomArea,INotifyPropertyChanged
+    public class RichInputArea : CustomArea, INotifyPropertyChanged
     {
         private ConfigItem config;
         private string content;
         private ChromiumWebBrowser browser;
-        private Action<string,string> onContentChanged;
+        private Action<string, string> onContentChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,7 +37,7 @@ namespace ArcDock.Data.UI
             }
         }
 
-        public InputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
+        public RichInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
         {
             this.config = config;
             this.browser = browser;
@@ -51,21 +50,25 @@ namespace ArcDock.Data.UI
         {
             SetLabel();
             SetTextBox();
-            SetGap(25);
+            SetGap(65);
         }
 
         private void SetLabel()
         {
             Label label = new Label();
             label.Content = config.Name + ": ";
-            DockPanel.SetDock(label,Dock.Left);
+            DockPanel.SetDock(label, Dock.Left);
             this.Label = label;
         }
 
         private void SetTextBox()
         {
             TextBox textBox = new TextBox();
-            textBox.SetBinding(TextBox.TextProperty, new Binding("Content"){Source = this});
+            textBox.AcceptsReturn = true;
+            textBox.TextWrapping = TextWrapping.Wrap;
+            textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            textBox.Height = 75;
+            textBox.SetBinding(TextBox.TextProperty, new Binding("Content") { Source = this });
             textBox.TextChanged += TextBoxOnTextChanged;
             this.InputControl = textBox;
         }
@@ -73,8 +76,8 @@ namespace ArcDock.Data.UI
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = sender as TextBox;
-            onContentChanged(this.Id,textbox.Text);
-            if (browser.IsBrowserInitialized&&textbox.Text != null)
+            onContentChanged(this.Id, textbox.Text);
+            if (browser.IsBrowserInitialized && textbox.Text != null)
             {
                 browser.Reload();
             }

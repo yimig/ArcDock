@@ -160,6 +160,16 @@
 			  "option_exc": [],
 			  "default": "",
 			  "rules": ""
+			},
+			{
+			  "id": "message",
+			  "name": "附加信息",
+			  "type": "input",
+			  "opt_type": 0,
+			  "option": [],
+			  "option_exc": [],
+			  "default": "",
+			  "rules": ""
 			}
 
 		  ]
@@ -216,8 +226,14 @@
 
 		.content-bottom {
 			margin-top: 8px;
+			row-gap: 8px;
 			display: flex;
 			flex-direction: column;
+		}
+
+		.content-message {
+			align-self: center;
+			font-weight: bold;
 		}
 	</style>
 </head>
@@ -237,6 +253,7 @@
 			</div>
 			<div class="content-bottom">
 				<div class="content-item">用法：{{medicament_usage}}</div>
+				<div class="content-message">{{message}}</div>
 			</div>
 		</div>
 	</div>

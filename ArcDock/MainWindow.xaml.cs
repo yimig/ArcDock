@@ -79,6 +79,8 @@ namespace ArcDock
             }
         }
 
+        private ControlDock controlDock;
+
         #endregion
 
         #region 初始化
@@ -111,11 +113,13 @@ namespace ArcDock
         /// </summary>
         private void SetChildren()
         {
+            controlDock = new ControlDock();
             SetBinding();
             foreach (var configItem in Config.ConfigItemList)
             {
-                StMain.Children.Add(new InputArea(configItem,Browser,ChangeHtml));
+                controlDock.AddArea(CustomArea.GetCustomArea(configItem, Browser, ChangeHtml));
             }
+            GdMain.Children.Add(controlDock);
         }
 
         /// <summary>
@@ -147,18 +151,18 @@ namespace ArcDock
         /// <summary>
         /// 一次性保存所有修改
         /// </summary>
-        private void SaveHtml()
-        {
-            foreach (var Child in StMain.Children)
-            {
-                var InputItem = Child as InputArea;
-                structuredText[InputItem.Id] = InputItem.Content;
-            }
-
-            TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
-            tw.Write(structuredText);
-            tw.Close();
-        }
+        // private void SaveHtml()
+        // {
+        //     foreach (var Child in StMain.Children)
+        //     {
+        //         var InputItem = Child as InputArea;
+        //         structuredText[InputItem.Id] = InputItem.Content;
+        //     }
+        //
+        //     TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
+        //     tw.Write(structuredText);
+        //     tw.Close();
+        // }
 
         /// <summary>
         /// 保存目前浏览器视口截图文件

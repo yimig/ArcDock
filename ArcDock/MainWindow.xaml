@@ -64,7 +64,7 @@
                         <Button Height="26" Margin="5 2 10 2" Name="btnNew" Click="BtnPrint_OnClick" Grid.Column="1">打印</Button>
                     </Grid>
                     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
-                        <StackPanel Orientation="Vertical" Name="StMain"></StackPanel>
+                        <Grid Name="GdMain"></Grid>
                     </ScrollViewer>
                 </DockPanel>
                 <Grid Grid.Column="3" Grid.ColumnSpan="4" Background="LightSteelBlue">

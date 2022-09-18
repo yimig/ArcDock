@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -19,7 +20,7 @@ namespace ArcDock.Data.UI
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
         private Label label;
-        private TextBox textBox;
+        private Control inputControl;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,24 +39,19 @@ namespace ArcDock.Data.UI
             }
         }
 
-        public Label Label => label;
-
-        public TextBox TextBox => textBox;
-
-        public CustomArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
+        public Label Label
         {
-            this.config = config;
-            this.browser = browser;
-            this.onContentChanged = onContentChanged;
-            SetChildren();
-            SetDefaultValue();
+            get => this.label;
+            set => this.label = value;
         }
 
-        private void SetChildren()
+        public Control InputControl
         {
-            SetLabel();
-            SetTextBox();
+            get => this.inputControl;
+            set => this.inputControl = value;
         }
+
+        public abstract void SetChildren();
 
         private void SetLabel()
         {
@@ -65,27 +61,27 @@ namespace ArcDock.Data.UI
             this.label = label;
         }
 
-        private void SetTextBox()
+        internal void SetGap(double height)
         {
-            TextBox textBox = new TextBox();
-            textBox.SetBinding(TextBox.TextProperty, new Binding("Content") { Source = this });
-            textBox.TextChanged += TextBoxOnTextChanged;
-            this.textBox = textBox;
+            this.Label.Height = height;
+            this.label.HorizontalAlignment = HorizontalAlignment.Right;
+            this.label.MinWidth = 40;
+            this.label.Margin = new Thickness(0, 0, 0, 5);
+            this.InputControl.Height = height;
+            this.inputControl.MinWidth = 100;
+            this.inputControl.Margin = new Thickness(0, 0, 0, 5);
         }
 
-        private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textbox = sender as TextBox;
-            onContentChanged(this.Id, textbox.Text);
-            if (browser.IsBrowserInitialized && textbox.Text != null)
-            {
-                browser.Reload();
-            }
-        }
+        public abstract void SetDefaultValue();
 
-        private void SetDefaultValue()
+
+        public static CustomArea GetCustomArea(ConfigItem config, ChromiumWebBrowser browser,
+            Action<string, string> onContentChanged)
         {
-            if (config.Default != String.Empty) Content = config.Default;
+            CustomArea customArea = null;
+            if (config.Type.Equals("input")) customArea = new InputArea(config, browser, onContentChanged);
+            else if (config.Type.Equals("richinput")) customArea = new RichInputArea(config, browser, onContentChanged);
+            return customArea;
         }
     }
 }

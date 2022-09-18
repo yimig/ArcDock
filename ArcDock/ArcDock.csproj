@@ -92,9 +92,10 @@
     <Compile Include="Data\Json\Setting.cs" />
     <Compile Include="Data\StructuredText.cs" />
     <Compile Include="Data\StructuredTextPiece.cs" />
-    <Compile Include="Data\UI\ControlStack.cs" />
+    <Compile Include="Data\UI\ControlDock.cs" />
     <Compile Include="Data\UI\CustomArea.cs" />
     <Compile Include="Data\UI\InputArea.cs" />
+    <Compile Include="Data\UI\RichInputArea.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
