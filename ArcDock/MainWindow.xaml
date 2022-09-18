@@ -35,9 +35,7 @@
                     <DockPanel Height="30" DockPanel.Dock="Top">
                         <ToolBar DockPanel.Dock="right">
                             <Label>切换模板：</Label>
-                            <ComboBox Width="200">
-                                <ComboBoxItem>template1.html</ComboBoxItem>
-                                <ComboBoxItem>template2.html</ComboBoxItem>
+                            <ComboBox Name="cbTemplate" Width="200" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
                             </ComboBox>
                         </ToolBar>
                         <ToolBar>

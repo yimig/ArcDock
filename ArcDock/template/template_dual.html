@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ArcTemplate</title>
+    <meta name="viewport" content="width=340px,height=265px" />
+    <script type="config/json">
+        {
+          "settings": {
+            "printer": "",
+            "height": 265,
+            "width": 340,
+            "print_unit": "cm",
+            "print_height": 7,
+            "print_width": 9
+          },
+          "data": [
+            {
+              "id": "medicament1_name",
+              "name": "药品一名称",
+              "type": "input",
+              "opt_type": 2,
+              "option": [],
+              "option_exc": [
+                {
+                  "content": "短肽（力存优太）",
+                  "exec": [
+                    {
+                      "key": "medicament1_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament1_usage",
+                      "content": "每日3-6次，每次2-4勺，2勺加水100ml，4勺加水200 ml，水温40-60℃"
+                    }
+                  ]
+                },
+                {
+                  "content": "乳清蛋白粉",
+                  "exec": [
+                    {
+                      "key": "medicament1_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament1_usage",
+                      "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。"
+                    }
+                  ]
+                },
+                {
+                  "content": "乳清",
+                  "exec": [
+                    {
+                      "key": "medicament1_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament1_usage",
+                      "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。术后6小时服用。"
+                    }
+                  ]
+                },
+                {
+                  "content": "蛋白质组件（浦索）",
+                  "exec": [
+                    {
+                      "key": "medicament1_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament1_usage",
+                      "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃。"
+                    }
+                  ]
+                },
+                {
+                  "content": "高蛋白全营养粉（唯卡能）",
+                  "exec": [
+                    {
+                      "key": "medicament1_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament1_usage",
+                      "content": "每日3-6次，每次4-5勺，加水200ml，水温40-60℃。"
+                    }
+                  ]
+                }
+              ],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "medicament1_num",
+              "name": "药品一数量",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "1",
+              "rules": ""
+            },
+            {
+              "id": "medicament1_unit",
+              "name": "药品一单位",
+              "type": "input",
+              "opt_type": 1,
+              "option": [ "桶", "盒", "袋" ],
+              "option_exc": [],
+              "default": "桶",
+              "rules": ""
+            },
+            {
+              "id": "medicament2_name",
+              "name": "药品二名称",
+              "type": "input",
+              "opt_type": 2,
+              "option": [],
+              "option_exc": [
+                {
+                  "content": "短肽（力存优太）",
+                  "exec": [
+                    {
+                      "key": "medicament_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament2_usage",
+                      "content": "每日3-6次，每次2-4勺，2勺加水100ml，4勺加水200 ml，水温40-60℃"
+                    }
+                  ]
+                },
+                {
+                  "content": "乳清蛋白粉",
+                  "exec": [
+                    {
+                      "key": "medicament2_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament2_usage",
+                      "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。"
+                    }
+                  ]
+                },
+                {
+                  "content": "乳清",
+                  "exec": [
+                    {
+                      "key": "medicament2_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament2_usage",
+                      "content": "每天3次，每次1-2勺，加入水或粥中食用，水温40-60℃。术后6小时服用。"
+                    }
+                  ]
+                },
+                {
+                  "content": "蛋白质组件（浦索）",
+                  "exec": [
+                    {
+                      "key": "medicament2_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament2_usage",
+                      "content": "每日2-3次，每次1-2袋，加入温开水或营养制剂中，水温40-45℃。"
+                    }
+                  ]
+                },
+                {
+                  "content": "高蛋白全营养粉（唯卡能）",
+                  "exec": [
+                    {
+                      "key": "medicament2_unit",
+                      "content": "桶"
+                    },
+                    {
+                      "key": "medicament2_usage",
+                      "content": "每日3-6次，每次4-5勺，加水200ml，水温40-60℃。"
+                    }
+                  ]
+                }
+              ],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "medicament2_num",
+              "name": "药品二数量",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "1",
+              "rules": ""
+            },
+            {
+              "id": "medicament2_unit",
+              "name": "药品二单位",
+              "type": "input",
+              "opt_type": 1,
+              "option": [ "桶", "盒", "袋" ],
+              "option_exc": [],
+              "default": "桶",
+              "rules": ""
+            },
+            {
+              "id": "patient_dept",
+              "name": "病人科室",
+              "type": "input",
+              "opt_type": 1,
+              "option": [ "放疗科", "普通外科", "肿瘤外科" ],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "patient_bed",
+              "name": "床号",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "patient_name",
+              "name": "姓名",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "patient_no",
+              "name": "住院号",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "medicament1_usage",
+              "name": "药品一用法",
+              "type": "richinput",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "medicament2_usage",
+              "name": "药品二用法",
+              "type": "richinput",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "message",
+              "name": "附加信息",
+              "type": "input",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            }
+
+          ]
+        }
+    </script>
+    <style>
+        html, body {
+            height: 265px;
+            width: 340px;
+            overflow: hidden;
+            margin: 0px;
+            padding: 0px;
+            background-color: white;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            height: 245px;
+            width: 320px;
+            margin: 10px;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2px 0;
+            column-gap: 10px;
+        }
+
+        .title-item {
+            display: flex;
+            flex-wrap: nowrap;
+            align-self: center;
+            justify-content: center;
+        }
+
+        .content {
+            margin-top: 6px;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-upper {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 20px;
+            row-gap: 5px;
+        }
+
+        .content-bottom {
+            margin-top: 5px;
+            row-gap: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-message {
+            align-self: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="title">
+            <div class="title-item" id="m1">
+                <div class="title-item">{{medicament1_name}}：</div>
+                <div class="title-item">{{medicament1_num}}</div>
+                <div class="title-item">{{medicament1_unit}}</div>
+            </div>
+            <div class="title-item" id="m2">
+                <div class="title-item">{{medicament2_name}}：</div>
+                <div class="title-item">{{medicament2_num}}</div>
+                <div class="title-item">{{medicament2_unit}}</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="content-upper">
+                <div class="content-item">科室：{{patient_dept}}</div>
+                <div class="content-item">床号：{{patient_bed}}</div>
+                <div class="content-item">姓名：{{patient_name}}</div>
+                <div class="content-item">住院号：{{patient_no}}</div>
+            </div>
+            <div class="content-bottom">
+                <div class="content-item">{{medicament1_name}}用法：{{medicament1_usage}}</div>
+                <div class="content-item">{{medicament2_name}}用法：{{medicament2_usage}}</div>
+                <div class="content-message">{{message}}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

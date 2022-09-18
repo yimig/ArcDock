@@ -32,5 +32,12 @@ namespace ArcDock.Data.UI
             textStack.Children.Add(ca.Label);
             inputStack.Children.Add(ca.InputControl);
         }
+
+        public void ClearChildren()
+        {
+            CustomAreas.Clear();
+            textStack.Children.Clear();
+            inputStack.Children.Clear();
+        }
     }
 }

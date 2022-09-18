@@ -33,6 +33,7 @@ using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Windows.Interop;
+using Path = System.IO.Path;
 
 namespace ArcDock
 {
@@ -81,12 +82,20 @@ namespace ArcDock
 
         private ControlDock controlDock;
 
+        private List<Config> configList;
+
+        private List<string> templateHtmlList;
+
+        private string[] templateFiles;
+
         #endregion
 
         #region 初始化
 
         public MainWindow()
         {
+            configList = new List<Config>();
+            templateHtmlList = new List<string>();
             InitializeComponent();
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
@@ -98,14 +107,19 @@ namespace ArcDock
         /// </summary>
         private void LoadConfig()
         {
-            TextReader tReader = new StreamReader(new FileStream(@"template/template.html", FileMode.Open));
-            templateHtml = tReader.ReadToEnd();
-            tReader.Close();
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.LoadXml(templateHtml);
-            XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
-            Config = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
-            structuredText = new StructuredText(Config.ConfigItemList, templateHtml);
+            templateFiles = Directory.GetFiles(@"template", "*.html");
+            foreach (var file in templateFiles)
+            {
+                TextReader tReader = new StreamReader(new FileStream(file, FileMode.Open));
+                templateHtml = tReader.ReadToEnd();
+                tReader.Close();
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.LoadXml(templateHtml);
+                XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
+                templateHtmlList.Add(templateHtml);
+                configList.Add(JsonConvert.DeserializeObject<Config>(configNode.InnerText));
+            }
+            ChangeConfig(0);
         }
 
         /// <summary>
@@ -115,11 +129,27 @@ namespace ArcDock
         {
             controlDock = new ControlDock();
             SetBinding();
-            foreach (var configItem in Config.ConfigItemList)
-            {
-                controlDock.AddArea(CustomArea.GetCustomArea(configItem, Browser, ChangeHtml));
-            }
+            SetControlDock();
             GdMain.Children.Add(controlDock);
+            SetCheckBoxTemplate();
+        }
+
+        private void SetControlDock()
+        {
+            if (controlDock != null)
+            {
+                controlDock.ClearChildren();
+                foreach (var configItem in Config.ConfigItemList)
+                {
+                    controlDock.AddArea(CustomArea.GetCustomArea(configItem, Browser, ChangeHtml));
+                }
+            }
+        }
+
+        private void SetCheckBoxTemplate()
+        {
+            cbTemplate.ItemsSource = templateFiles.Select(file=>Path.GetFileName(file));
+            cbTemplate.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -201,6 +231,14 @@ namespace ArcDock
             }
         }
 
+        private void ChangeConfig(int index)
+        {
+            Config = configList[index];
+            templateHtml = templateHtmlList[index];
+            structuredText = new StructuredText(Config.ConfigItemList, templateHtml);
+            SetControlDock();
+        }
+
         #endregion
 
         #region 事件处理
@@ -258,13 +296,18 @@ namespace ArcDock
             Browser.Reload();
         }
 
-        #endregion
-
         private void BtnConsole_OnClick(object sender, RoutedEventArgs e)
         {
             var wininfo = new WindowInfo();
             wininfo.SetAsPopup(new WindowInteropHelper(this).Handle, "DevTools");
             Browser.ShowDevTools(wininfo);
         }
+
+        private void CbTemplate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cbTemplate.SelectedIndex != -1) ChangeConfig(cbTemplate.SelectedIndex);
+        }
+
+        #endregion
     }
 }
