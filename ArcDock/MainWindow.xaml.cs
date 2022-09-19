@@ -33,6 +33,7 @@ using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Windows.Interop;
+using ArcDock.Data.Database;
 using Path = System.IO.Path;
 
 namespace ArcDock
@@ -48,31 +49,33 @@ namespace ArcDock
         /// 当前使用的配置
         /// </summary>
         private Config config;
+
         /// <summary>
         /// 模板HTML原文
         /// </summary>
         private string templateHtml;
+
         /// <summary>
         /// 结构化文本，操作模板的预留值
         /// </summary>
         private StructuredText structuredText;
+
         /// <summary>
         /// 点击打印时生成的网页截图
         /// </summary>
         private Image printImage;
+
         /// <summary>
         /// 绑定前台配置（网页视口大小）
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// 当前使用的配置属性
         /// </summary>
         public Config Config
         {
-            get
-            {
-                return config;
-            }
+            get { return config; }
             set
             {
                 config = value;
@@ -88,6 +91,8 @@ namespace ArcDock
 
         private string[] templateFiles;
 
+        private History history;
+
         #endregion
 
         #region 初始化
@@ -96,6 +101,7 @@ namespace ArcDock
         {
             configList = new List<Config>();
             templateHtmlList = new List<string>();
+            history = new History();
             InitializeComponent();
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
@@ -119,6 +125,7 @@ namespace ArcDock
                 templateHtmlList.Add(templateHtml);
                 configList.Add(JsonConvert.DeserializeObject<Config>(configNode.InnerText));
             }
+
             ChangeConfig(0);
         }
 
@@ -148,7 +155,7 @@ namespace ArcDock
 
         private void SetCheckBoxTemplate()
         {
-            cbTemplate.ItemsSource = templateFiles.Select(file=>Path.GetFileName(file));
+            cbTemplate.ItemsSource = templateFiles.Select(file => Path.GetFileName(file));
             cbTemplate.SelectedIndex = 0;
         }
 
@@ -177,22 +184,6 @@ namespace ArcDock
             tw.Write(structuredText);
             tw.Close();
         }
-
-        /// <summary>
-        /// 一次性保存所有修改
-        /// </summary>
-        // private void SaveHtml()
-        // {
-        //     foreach (var Child in StMain.Children)
-        //     {
-        //         var InputItem = Child as InputArea;
-        //         structuredText[InputItem.Id] = InputItem.Content;
-        //     }
-        //
-        //     TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
-        //     tw.Write(structuredText);
-        //     tw.Close();
-        // }
 
         /// <summary>
         /// 保存目前浏览器视口截图文件
@@ -239,29 +230,22 @@ namespace ArcDock
             SetControlDock();
         }
 
-        #endregion
-
-        #region 事件处理
-
-        /// <summary>
-        /// 打印按钮按下处理事件，截图并初始化打印机信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void BtnPrint_OnClick(object sender, RoutedEventArgs e)
+        private async void PrintWeb()
         {
             //截图配置，触发截图操作时会强制销毁打印机视图Graphics，故不能再打印事件中进行截图，先截好存起来
             var browserHost = Browser.GetBrowserHost();
             var pageClient = Browser.GetBrowser().GetDevToolsClient().Page;
             browserHost.Invalidate(PaintElementType.View);
             var viewport = new Viewport() { Height = Config.Settings.Height, Width = Config.Settings.Width };
-            var imageRawBuffer = await pageClient.CaptureScreenshotAsync(CaptureScreenshotFormat.Png, 100, viewport);//截图
+            var imageRawBuffer =
+                await pageClient.CaptureScreenshotAsync(CaptureScreenshotFormat.Png, 100, viewport); //截图
             if (imageRawBuffer.Data != null)
             {
                 using (var stream = new MemoryStream(imageRawBuffer.Data))
                 {
                     printImage = System.Drawing.Image.FromStream(stream, false, true); //暂存截图
                 }
+
                 // 初始化打印机信息
                 PrintDocument pd = new PrintDocument();
                 //pd.PrinterSettings.PrinterName = Config.Settings.Printer;
@@ -273,6 +257,36 @@ namespace ArcDock
                 pd.PrintPage += PdOnPrintPage;
                 pd.Print();
             }
+        }
+
+        private void SaveHistory(string printType)
+        {
+            var fileName = Path.GetFileName(templateFiles[cbTemplate.SelectedIndex]);
+            var result = new TemplateResult(fileName, printType);
+            foreach (var configItem in Config.ConfigItemList)
+            {
+                var resItem = new TemplateResultItem();
+                resItem.Name = configItem.Name;
+                resItem.Id = configItem.Id;
+                resItem.Content = structuredText[configItem.Id];
+                result.ResultItems.Add(resItem);
+            }
+            history.AddHistory(result,DateTime.Now);
+        }
+
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 打印按钮按下处理事件，截图并初始化打印机信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnPrint_OnClick(object sender, RoutedEventArgs e)
+        {
+            PrintWeb();
+            SaveHistory("Manual");
         }
 
         /// <summary>

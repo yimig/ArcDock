@@ -12,13 +12,25 @@
         <DockPanel>
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
-                    
+                    <MenuItem Header="新建"></MenuItem>
+                    <MenuItem Header="批量导入"></MenuItem>
+                    <MenuItem Header="导出为...">
+                        <MenuItem Header="HTML网页"></MenuItem>
+                        <MenuItem Header="PDF文档"></MenuItem>
+                        <MenuItem Header="JPG图片"></MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="打印..">
+                        <MenuItem Header="打印单份"></MenuItem>
+                        <MenuItem Header="打印多份"></MenuItem>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="设置">
-
+                    <MenuItem Header="全局设置"></MenuItem>
+                    <MenuItem Header="模板设置"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="关于">
-
+                    <MenuItem Header="软件信息"></MenuItem>
+                    <MenuItem Header="调试信息"></MenuItem>
                 </MenuItem>
             </Menu>
             <Grid>
@@ -35,12 +47,18 @@
                     <DockPanel Height="30" DockPanel.Dock="Top">
                         <ToolBar DockPanel.Dock="right">
                             <Label>切换模板：</Label>
-                            <ComboBox Name="cbTemplate" Width="200" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
+                            <ComboBox Name="cbTemplate" Width="150" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
                             </ComboBox>
                         </ToolBar>
                         <ToolBar>
                             <Button ToolTip="新建">
                                 <Image Source="Icon/addnew.ico"></Image>
+                            </Button>
+                            <Button ToolTip="解析患者信息">
+                                <Image Source="Icon/rename.ico"></Image>
+                            </Button>
+                            <Button ToolTip="批量导入">
+                                <Image Source="Icon/addworkplace.ico"></Image>
                             </Button>
                             <Button ToolTip="查看历史">
                                 <Image Source="Icon/search.ico"></Image>
