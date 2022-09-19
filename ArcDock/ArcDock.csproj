@@ -105,6 +105,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Database\History.cs" />
+    <Compile Include="Data\Database\DataResult.cs" />
     <Compile Include="Data\Json\Config.cs" />
     <Compile Include="Data\Json\ConfigItem.cs" />
     <Compile Include="Data\Json\ExecutionItem.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Data\StructuredText.cs" />
     <Compile Include="Data\StructuredTextPiece.cs" />
     <Compile Include="Data\TemplateResult.cs" />
+    <Compile Include="Data\TemplateResultItem.cs" />
     <Compile Include="Data\UI\ControlDock.cs" />
     <Compile Include="Data\UI\CustomArea.cs" />
     <Compile Include="Data\UI\InputArea.cs" />

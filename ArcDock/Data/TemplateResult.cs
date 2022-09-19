@@ -24,11 +24,4 @@ namespace ArcDock.Data
             this.PrintType = printType;
         }
     }
-
-    public class TemplateResultItem
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Content { get; set; }
-    }
 }

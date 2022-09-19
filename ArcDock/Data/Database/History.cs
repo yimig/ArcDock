@@ -13,11 +13,14 @@ namespace ArcDock.Data.Database
     {
         private static string connString = ConfigurationManager.ConnectionStrings["history"].ConnectionString;
         private SQLiteConnection conn;
+        private const int PAGE_RANGE = 100;
+        public int MaxPage { get; set; }
 
         public History()
         {
             conn = new SQLiteConnection(connString);
             OpenDatabase();
+            InitMaxPageNum();
         }
 
         public void OpenDatabase()
@@ -28,7 +31,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "Create table if not exists history(id INTEGER primary key autoincrement,item_id int,template text,template_id text,template_name text,template_content text,print_type text,print_date datetime)";
+                    "Create table if not exists history(item_id int,template text,template_id text,template_name text,template_content text,print_type text,print_date datetime)";
                 cmd.ExecuteNonQuery();
             }
         }
@@ -51,6 +54,26 @@ namespace ArcDock.Data.Database
             }
 
             return id + 1;
+        }
+
+        private void InitMaxPageNum()
+        {
+            var item_count = 0;
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "select count(*) from history;";
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    item_count = sr.GetInt32(0);
+                }
+                sr.Close();
+            }
+
+            MaxPage = item_count == 0 ? 1 : (item_count / PAGE_RANGE) + 1;
         }
 
         private void InsertData(int itemId,string tempFileName,string tempId,string tempName,string tempContent,string printType,DateTime printDate)
@@ -79,6 +102,101 @@ namespace ArcDock.Data.Database
             {
                 InsertData(itemId,result.TemplateFileName,res.Id,res.Name,res.Content,result.PrintType,printDate);
             }
+        }
+
+        private void DeleteData(DateTime limitedDate)
+        {
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "delete from history where print_date<@print_date";
+                cmd.Parameters.Add("print_date", DbType.DateTime).Value = limitedDate;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void RemoveOutDateHistory()
+        {
+            var limitedDate = DateTime.Now - TimeSpan.FromDays(365);
+            DeleteData(limitedDate);
+        }
+
+        private List<DataResult> SelectData(int startRow, int range)
+        {
+            var resList = new List<DataResult>();
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history limit @start_row,@range;";
+                cmd.Parameters.Add("start_row", DbType.Int32).Value = startRow;
+                cmd.Parameters.Add("range", DbType.Int32).Value = range;
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    var res = new DataResult();
+                    res.ItemId = sr.GetInt32(0);
+                    res.TemplateFileName = sr.GetString(1);
+                    res.TemplateId = sr.GetString(2);
+                    res.TemplateName = sr.GetString(3);
+                    res.TemplateContent = sr.GetString(4);
+                    res.PrintType = sr.GetString(5);
+                    res.RawDatetime = sr.GetDateTime(6);
+                    resList.Add(res);
+                }
+
+                sr.Close();
+            }
+
+            return resList;
+        }
+
+        private List<DataResult> SelectData(string contentQuery)
+        {
+            var resList = new List<DataResult>();
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content;";
+                cmd.Parameters.Add("content", DbType.String).Value = "%"+contentQuery+"%";
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    var res = new DataResult();
+                    res.ItemId = sr.GetInt32(0);
+                    res.TemplateFileName = sr.GetString(1);
+                    res.TemplateId = sr.GetString(2);
+                    res.TemplateName = sr.GetString(3);
+                    res.TemplateContent = sr.GetString(4);
+                    res.PrintType = sr.GetString(5);
+                    res.RawDatetime = sr.GetDateTime(6);
+                    resList.Add(res);
+                }
+                sr.Close();
+            }
+
+            return resList;
+        }
+
+        public List<DataResult> GetPage(int pageNo)
+        {
+            var resList = new List<DataResult>();
+            if (pageNo > 0 && pageNo <= MaxPage)
+            {
+                resList = SelectData((pageNo - 1) * PAGE_RANGE, PAGE_RANGE);
+            }
+
+            return resList;
+        }
+
+        public List<DataResult> GetQueryResult(string contentQuery)
+        {
+            return SelectData(contentQuery);
         }
     }
 }
