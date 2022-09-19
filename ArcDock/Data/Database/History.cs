@@ -131,7 +131,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history limit @start_row,@range;";
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history order by ROWID desc limit @start_row,@range;";
                 cmd.Parameters.Add("start_row", DbType.Int32).Value = startRow;
                 cmd.Parameters.Add("range", DbType.Int32).Value = range;
                 var sr = cmd.ExecuteReader();
@@ -162,7 +162,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content;";
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content order by ROWID desc;";
                 cmd.Parameters.Add("content", DbType.String).Value = "%"+contentQuery+"%";
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
