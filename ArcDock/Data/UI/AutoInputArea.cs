@@ -76,11 +76,7 @@ namespace ArcDock.Data.UI
                     {
                         App.Current.Dispatcher.Invoke((Action)(() =>
                         {
-                            DockPanel dp = new DockPanel();
-                            TextBox tb = new TextBox() { Text = optStr };
-                            DockPanel.SetDock(tb, Dock.Left);
-                            dp.Children.Add(tb);
-                            panels.Add(dp);
+                            panels.Add(new SearchItem(optStr));
                         }));
                     }
 
@@ -94,7 +90,7 @@ namespace ArcDock.Data.UI
 
         private void TextBoxOnKeyDown(object sender, KeyEventArgs e)
         {
-            var textbox = sender as TextBox;
+            var textbox = sender as AutoCompleteTextBox;
             onContentChanged(this.Id, textbox.Text);
             if (browser.IsBrowserInitialized && textbox.Text != null)
             {
