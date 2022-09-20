@@ -322,6 +322,11 @@ namespace ArcDock
             if(cbTemplate.SelectedIndex != -1) ChangeConfig(cbTemplate.SelectedIndex);
         }
 
+        private void BtnHistory_OnClick(object sender, RoutedEventArgs e)
+        {
+            new HistoryWindow(history).Show();
+        }
+
         #endregion
     }
 }

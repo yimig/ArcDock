@@ -60,7 +60,7 @@
                             <Button ToolTip="批量导入">
                                 <Image Source="Icon/addworkplace.ico"></Image>
                             </Button>
-                            <Button ToolTip="查看历史">
+                            <Button ToolTip="查看历史" Name="BtnHistory" Click="BtnHistory_OnClick">
                                 <Image Source="Icon/search.ico"></Image>
                             </Button>
                             <Button ToolTip="打印" Click="BtnPrint_OnClick">
