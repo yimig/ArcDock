@@ -90,6 +90,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfControls, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfControls.AutoCompleteTextBox.1.0.0.7\lib\net35\WpfControls.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -119,10 +122,12 @@
     <Compile Include="Data\StructuredTextPiece.cs" />
     <Compile Include="Data\TemplateResult.cs" />
     <Compile Include="Data\TemplateResultItem.cs" />
+    <Compile Include="Data\UI\AutoInputArea.cs" />
     <Compile Include="Data\UI\ControlDock.cs" />
     <Compile Include="Data\UI\CustomArea.cs" />
     <Compile Include="Data\UI\InputArea.cs" />
     <Compile Include="Data\UI\RichInputArea.cs" />
+    <Compile Include="Data\UI\SearchItem.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
     </Compile>
