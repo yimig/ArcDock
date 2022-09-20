@@ -65,6 +65,7 @@ namespace ArcDock.Data.UI
         private void SetTextBox()
         {
             TextBox textBox = new TextBox();
+            textBox.VerticalContentAlignment = VerticalAlignment.Center;
             textBox.SetBinding(TextBox.TextProperty, new Binding("Content"){Source = this});
             textBox.TextChanged += TextBoxOnTextChanged;
             this.InputControl = textBox;

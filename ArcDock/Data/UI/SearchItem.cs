@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ArcDock.Data.Json;
 
 namespace ArcDock.Data.UI
 {
@@ -17,9 +18,12 @@ namespace ArcDock.Data.UI
             set => textBlock.Text = value;
         }
 
-        public SearchItem(string text)
+        public SearchDataItem DataItem { get; set; }
+
+        public SearchItem(string text, SearchDataItem dataItem)
         {
             this.textBlock = new TextBlock() { Text = text };
+            this.DataItem = dataItem;
             DockPanel.SetDock(textBlock, Dock.Left);
             this.Children.Add(textBlock);
         }
@@ -27,6 +31,18 @@ namespace ArcDock.Data.UI
         public override string ToString()
         {
             return this.Text;
+        }
+
+        public static List<SearchItem> GetSearchResult(SearchDataSet data, string keyword)
+        {
+            List<SearchItem> result = new List<SearchItem>();
+            foreach (var item in data.GetResult(keyword))
+            {
+                result.Add(new SearchItem(item.Text,item));
+            }
+
+            return result;
+
         }
     }
 }

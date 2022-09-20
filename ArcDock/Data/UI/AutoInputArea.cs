@@ -9,9 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using ArcDock.Data.Json;
+using AutoCompleteTextBox.Editors;
 using CefSharp;
 using CefSharp.Wpf;
-using WpfControls;
+using TextChangedEventArgs = AutoCompleteTextBox.Editors.TextChangedEventArgs;
 
 namespace ArcDock.Data.UI
 {
@@ -21,7 +22,7 @@ namespace ArcDock.Data.UI
         private string content;
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
-
+        private SearchDataSet searchDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Id => config.Id;
@@ -44,6 +45,7 @@ namespace ArcDock.Data.UI
             this.config = config;
             this.browser = browser;
             this.onContentChanged = onContentChanged;
+            searchDataSet = new SearchDataSet(config);
             SetChildren();
             SetDefaultValue();
         }
@@ -65,44 +67,41 @@ namespace ArcDock.Data.UI
 
         private void SetTextBox()
         {
-            AutoCompleteTextBox textBox = new AutoCompleteTextBox();
+            AutoCompleteTextBox.Editors.AutoCompleteTextBox textBox = new AutoCompleteTextBox.Editors.AutoCompleteTextBox();
             textBox.LoadingContent = new TextBlock() { Margin = new Thickness(5), Text = "请稍后...", Height = 25 };
+            textBox.SetBinding(AutoCompleteTextBox.Editors.AutoCompleteTextBox.TextProperty, new Binding("Content") { Source = this });
+            textBox.TextChanged += TextBoxOnTextChanged;
+            textBox.SelectionChanged += TextBox_SelectionChanged;
             textBox.Delay = 100;
-            if (config.OptionType == 1)
-                textBox.Provider = new SuggestionProvider(str =>
+            textBox.Provider = new SuggestionProvider(str =>
+            {
+                List<Panel> panels = new List<Panel>();
+                App.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    List<Panel> panels = new List<Panel>();
-                    foreach (var optStr in config.Option)
+                    var result = SearchItem.GetSearchResult(searchDataSet, str);
+                    foreach (var item in result)
                     {
-                        App.Current.Dispatcher.Invoke((Action)(() =>
-                        {
-                            panels.Add(new SearchItem(optStr));
-                        }));
+                        panels.Add(item);
                     }
-
-                    return panels;
-                });
+                }));
+                return panels;
+            });
             this.InputControl = textBox;
-            textBox.SetBinding(AutoCompleteTextBox.TextProperty, new Binding("Content") { Source = this });
-            //textBox.Editor.TextChanged += TextBoxOnTextChanged;
-            textBox.KeyDown += TextBoxOnKeyDown;
         }
 
-        private void TextBoxOnKeyDown(object sender, KeyEventArgs e)
+        private void TextBox_SelectionChanged(object sender, TextChangedEventArgs e)
         {
-            var textbox = sender as AutoCompleteTextBox;
-            onContentChanged(this.Id, textbox.Text);
-            if (browser.IsBrowserInitialized && textbox.Text != null)
-            {
-                browser.Reload();
-            }
+            var textbox = sender as AutoCompleteTextBox.Editors.AutoCompleteTextBox;
+            if (textbox.Editor.IsFocused)
+                
+                TextBoxOnTextChanged(sender,e);
         }
 
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var textbox = sender as TextBox;
-            onContentChanged(this.Id, textbox.Text);
-            if (browser.IsBrowserInitialized && textbox.Text != null)
+            var textbox = sender as AutoCompleteTextBox.Editors.AutoCompleteTextBox;
+            onContentChanged(this.Id, e.ToString());
+            if (browser.IsBrowserInitialized && e.ToString() != null)
             {
                 browser.Reload();
             }

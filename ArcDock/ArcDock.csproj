@@ -63,6 +63,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NPinyinPro, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPinyinPro.0.3.3\lib\net20\NPinyinPro.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -90,15 +93,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfControls, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfControls.AutoCompleteTextBox.1.0.0.7\lib\net35\WpfControls.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools\PinyinHelpers.cs" />
     <Page Include="HistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +119,7 @@
     <Compile Include="Data\Json\ExecutionItem.cs" />
     <Compile Include="Data\Json\OptionItem.cs" />
     <Compile Include="Data\Json\Setting.cs" />
+    <Compile Include="Data\SearchDataItem.cs" />
     <Compile Include="Data\StructuredText.cs" />
     <Compile Include="Data\StructuredTextPiece.cs" />
     <Compile Include="Data\TemplateResult.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Data\UI\CustomArea.cs" />
     <Compile Include="Data\UI\InputArea.cs" />
     <Compile Include="Data\UI\RichInputArea.cs" />
+    <Compile Include="Data\SearchDataSet.cs" />
     <Compile Include="Data\UI\SearchItem.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
@@ -169,7 +172,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="template\template_dual.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -308,6 +310,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WPF-AutoComplete-TextBox\AutoCompleteTextBox\AutoCompleteTextBox\AutoCompleteTextBox.csproj">
+      <Project>{cabfd936-4d23-4af0-b52c-471b65e6d6ac}</Project>
+      <Name>AutoCompleteTextBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

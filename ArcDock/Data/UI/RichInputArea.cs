@@ -1,5 +1,4 @@
-﻿using ArcDock.Data.Json;
-using CefSharp.Wpf;
+﻿using CefSharp.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ArcDock.Data.Json;
 using CefSharp;
 
 namespace ArcDock.Data.UI
