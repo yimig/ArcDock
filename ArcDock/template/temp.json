@@ -11,7 +11,7 @@
     {
       "id": "medicament_name",
       "name": "药品名称",
-      "type": "input",
+      "type": "autoinput",
       "opt_type": 2,
       "option": [],
       "option_exc": [
@@ -97,7 +97,7 @@
     {
       "id": "medicament_unit",
       "name": "药品单位",
-      "type": "input",
+      "type": "autoinput",
       "opt_type": 1,
       "option": [ "桶", "盒", "袋" ],
       "option_exc": [],
@@ -107,7 +107,7 @@
     {
       "id": "patient_dept",
       "name": "病人科室",
-      "type": "input",
+      "type": "autoinput",
       "opt_type": 1,
       "option": [ "放疗科", "普通外科", "肿瘤外科" ],
       "option_exc": [],

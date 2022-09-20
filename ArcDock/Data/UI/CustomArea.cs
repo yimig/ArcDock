@@ -81,6 +81,7 @@ namespace ArcDock.Data.UI
             CustomArea customArea = null;
             if (config.Type.Equals("input")) customArea = new InputArea(config, browser, onContentChanged);
             else if (config.Type.Equals("richinput")) customArea = new RichInputArea(config, browser, onContentChanged);
+            else if (config.Type.Equals("autoinput")) customArea = new AutoInputArea(config, browser, onContentChanged);
             return customArea;
         }
     }
