@@ -334,6 +334,11 @@ namespace ArcDock
             new HistoryWindow(history).Show();
         }
 
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            history.RemoveOutDateHistory();
+        }
+
         #endregion
     }
 }

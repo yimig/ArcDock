@@ -13,7 +13,7 @@ namespace ArcDock.Data.Database
     {
         private static string connString = ConfigurationManager.ConnectionStrings["history"].ConnectionString;
         private SQLiteConnection conn;
-        private const int PAGE_RANGE = 10;
+        private const int PAGE_RANGE = 100;
         public int MaxPage { get; set; }
 
         public History()

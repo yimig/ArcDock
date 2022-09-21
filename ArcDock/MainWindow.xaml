@@ -7,7 +7,8 @@
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
         Icon="Icon/tag.ico"
-        Title="ArcDock" Height="450" Width="1000">
+        Title="ArcDock" Height="450" Width="1000"
+        Closing="MainWindow_OnClosing">
     <Grid>
         <DockPanel>
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">

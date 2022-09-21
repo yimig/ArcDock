@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="详细信息" Height="450" Width="400" WindowStyle="ToolWindow">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Name="StMain"></StackPanel>
         </ScrollViewer>
     </Grid>
