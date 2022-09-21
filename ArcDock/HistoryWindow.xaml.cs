@@ -131,7 +131,9 @@ namespace ArcDock
 
         private void OnListViewItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var a = (sender as ListViewItem).Content as DataResult;
+            var selectedId = ((sender as ListViewItem).Content as DataResult).ItemId;
+            var results = history.GetFullItemData(selectedId);
+            (new ItemDataWindow(results)).ShowDialog();
         }
     }
 }

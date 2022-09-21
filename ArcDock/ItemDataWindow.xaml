@@ -5,12 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
-        Title="ItemDataWindow" Height="450" Width="400" WindowStyle="ToolWindow">
+        Title="详细信息" Height="450" Width="400" WindowStyle="ToolWindow">
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock></TextBlock>
-            </StackPanel>
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="StMain"></StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
