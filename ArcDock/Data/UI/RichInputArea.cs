@@ -15,14 +15,11 @@ namespace ArcDock.Data.UI
 {
     public class RichInputArea : CustomArea, INotifyPropertyChanged
     {
-        private ConfigItem config;
         private string content;
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Id => config.Id;
 
         public string Content
         {

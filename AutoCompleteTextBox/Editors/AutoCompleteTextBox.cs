@@ -436,7 +436,6 @@ namespace AutoCompleteTextBox.Editors
             if (!_selectionCancelled)
             {
                 OnSelectionAdapterCommit(SelectionAdapter.EventCause.PopupClosed);
-                InvokeSelectionChangedEvent();
             }
         }
 
@@ -491,6 +490,7 @@ namespace AutoCompleteTextBox.Editors
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
+                InvokeSelectionChangedEvent();
             }
         }
 

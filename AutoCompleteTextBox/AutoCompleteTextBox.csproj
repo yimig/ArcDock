@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/quicoli/WPF-AutoComplete-TextBox</RepositoryUrl>
     <PackageTags>wpf, autocomplete, usercontrol</PackageTags>
     <PackageIconUrl>https://github.com/quicoli/WPF-AutoComplete-TextBox/blob/develop/AutoCompleteTextBox/Logo/AutoCompleteTextBox.ico?raw=true</PackageIconUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <ApplicationIcon>AutoCompleteTextBox.ico</ApplicationIcon>
     <PackageReleaseNotes>
 		Fix for issue #29.

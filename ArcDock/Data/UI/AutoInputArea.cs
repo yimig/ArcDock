@@ -18,14 +18,11 @@ namespace ArcDock.Data.UI
 {
     internal class AutoInputArea :CustomArea, INotifyPropertyChanged
     {
-        private ConfigItem config;
         private string content;
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
         private SearchDataSet searchDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Id => config.Id;
 
         public string Content
         {
@@ -39,6 +36,7 @@ namespace ArcDock.Data.UI
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Content"));
             }
         }
+        public ControlDock MainDock { get; set; }
 
         public AutoInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
         {
@@ -91,10 +89,18 @@ namespace ArcDock.Data.UI
 
         private void TextBox_SelectionChanged(object sender, TextChangedEventArgs e)
         {
-            var textbox = sender as AutoCompleteTextBox.Editors.AutoCompleteTextBox;
-            if (textbox.Editor.IsFocused)
-                
-                TextBoxOnTextChanged(sender,e);
+            if (config.OptionType == 2)
+            {
+                var executeItems = config.OptionItemList.Single(option=>option.Content.Equals(e.Text)).ExecutionItemList;
+                foreach (var execItem in executeItems)
+                {
+                    var customArea = MainDock.CustomAreas.Single(area => area.Id.Equals(execItem.Key));
+                    if (customArea.config.Type.Equals("input")) (customArea as InputArea).Content = execItem.Content;
+                    else if (customArea.config.Type.Equals("richinput")) (customArea as RichInputArea).Content = execItem.Content;
+                    else if (customArea.config.Type.Equals("autoinput")) (customArea as AutoInputArea).Content = execItem.Content;
+                }
+            }
+            TextBoxOnTextChanged(sender,e);
         }
 
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)

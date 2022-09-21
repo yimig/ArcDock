@@ -31,6 +31,7 @@ namespace ArcDock.Data.UI
         {
             textStack.Children.Add(ca.Label);
             inputStack.Children.Add(ca.InputControl);
+            CustomAreas.Add(ca);
         }
 
         public void ClearChildren()

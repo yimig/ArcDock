@@ -35,6 +35,7 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Windows.Interop;
 using ArcDock.Data.Database;
 using Path = System.IO.Path;
+using TextChangedEventArgs = AutoCompleteTextBox.Editors.TextChangedEventArgs;
 
 namespace ArcDock
 {
@@ -148,7 +149,13 @@ namespace ArcDock
                 controlDock.ClearChildren();
                 foreach (var configItem in Config.ConfigItemList)
                 {
-                    controlDock.AddArea(CustomArea.GetCustomArea(configItem, Browser, ChangeHtml));
+                    var area = CustomArea.GetCustomArea(configItem, Browser, ChangeHtml);
+                    if (configItem.OptionType == 2)
+                    {
+                        var areaAutoFill = area as AutoInputArea;
+                        areaAutoFill.MainDock = controlDock;
+                    }
+                    controlDock.AddArea(area);
                 }
             }
         }

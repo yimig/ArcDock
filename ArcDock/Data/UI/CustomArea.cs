@@ -15,7 +15,7 @@ namespace ArcDock.Data.UI
 {
     public abstract class CustomArea : INotifyPropertyChanged
     {
-        private ConfigItem config;
+        public ConfigItem config;
         private string content;
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
