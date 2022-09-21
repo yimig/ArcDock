@@ -311,12 +311,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WPF-AutoComplete-TextBox\AutoCompleteTextBox\AutoCompleteTextBox\AutoCompleteTextBox.csproj">
-      <Project>{cabfd936-4d23-4af0-b52c-471b65e6d6ac}</Project>
+    <ProjectReference Include="..\AutoCompleteTextBox\AutoCompleteTextBox.csproj">
+      <Project>{146ad313-8f4a-48d5-aac0-20b89076c831}</Project>
       <Name>AutoCompleteTextBox</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
