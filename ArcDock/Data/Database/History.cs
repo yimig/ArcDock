@@ -13,7 +13,7 @@ namespace ArcDock.Data.Database
     {
         private static string connString = ConfigurationManager.ConnectionStrings["history"].ConnectionString;
         private SQLiteConnection conn;
-        private const int PAGE_RANGE = 100;
+        private const int PAGE_RANGE = 10;
         public int MaxPage { get; set; }
 
         public History()
@@ -73,7 +73,12 @@ namespace ArcDock.Data.Database
                 sr.Close();
             }
 
-            MaxPage = item_count == 0 ? 1 : (item_count / PAGE_RANGE) + 1;
+            if (item_count == 0)
+            {
+                MaxPage = 1;
+                return;
+            }
+            MaxPage = item_count % PAGE_RANGE == 0 ? (item_count / PAGE_RANGE) : (item_count / PAGE_RANGE) + 1;
         }
 
         private void InsertData(int itemId,string tempFileName,string tempId,string tempName,string tempContent,string printType,DateTime printDate)
@@ -189,6 +194,35 @@ namespace ArcDock.Data.Database
             if (pageNo > 0 && pageNo <= MaxPage)
             {
                 resList = SelectData((pageNo - 1) * PAGE_RANGE, PAGE_RANGE);
+            }
+
+            return resList;
+        }
+
+        public List<DataResult> GetFullItemData(int ItemId)
+        {
+            var resList = new List<DataResult>();
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where item_id = @item_id";
+                cmd.Parameters.Add("item_id", DbType.Int32).Value = ItemId;
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    var res = new DataResult();
+                    res.ItemId = sr.GetInt32(0);
+                    res.TemplateFileName = sr.GetString(1);
+                    res.TemplateId = sr.GetString(2);
+                    res.TemplateName = sr.GetString(3);
+                    res.TemplateContent = sr.GetString(4);
+                    res.PrintType = sr.GetString(5);
+                    res.RawDatetime = sr.GetDateTime(6);
+                    resList.Add(res);
+                }
+                sr.Close();
             }
 
             return resList;

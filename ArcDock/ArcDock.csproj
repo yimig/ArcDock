@@ -99,8 +99,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ItemDataWindow.xaml.cs">
+      <DependentUpon>ItemDataWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tools\PinyinHelpers.cs" />
     <Page Include="HistoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

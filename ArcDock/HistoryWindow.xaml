@@ -9,16 +9,16 @@
     <Grid>
         <DockPanel Margin="10">
             <DockPanel DockPanel.Dock="Top" Height="25">
-                <Button DockPanel.Dock="Right">
+                <Button DockPanel.Dock="Right" Name="BtnSearch" Click="BtnSearch_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Icon/search.ico" Margin="5 2 5 2"></Image>
                         <TextBlock VerticalAlignment="Center" Margin="0 0 5 0">搜索</TextBlock>
                     </StackPanel>
                 </Button>
-                <TextBox Margin="0 0 10 0"></TextBox>
+                <TextBox Margin="0 0 10 0" Name="TbSearch" KeyDown="TbSearch_OnKeyDown"></TextBox>
             </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Height="25">
-                <Button Margin="0 0 20 0">
+                <Button Margin="0 0 20 0" Name="BtnForwardPage" Click="BtnForwardPage_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Icon/playfore.ico"></Image>
                         <TextBlock VerticalAlignment="Center" Margin="0 0 5 0">上一页</TextBlock>
@@ -27,9 +27,9 @@
                 <TextBlock VerticalAlignment="Center">第</TextBlock>
                 <TextBlock VerticalAlignment="Center" Name="TbNowPage"></TextBlock>
                 <TextBlock VerticalAlignment="Center">页 / 共</TextBlock>
-                <TextBlock VerticalAlignment="Center" Name="TbMaxPage" Text="{Binding MaxPage}"></TextBlock>
+                <TextBlock VerticalAlignment="Center" Name="TbMaxPage"></TextBlock>
                 <TextBlock VerticalAlignment="Center">页</TextBlock>
-                <Button Margin="20 0 0 0">
+                <Button Margin="20 0 0 0" Name="BtnNextPage" Click="BtnNextPage_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5 0 0 0">下一页</TextBlock>
                         <Image Source="Icon/playnext.ico"></Image>
@@ -47,6 +47,13 @@
                         <GridViewColumn Header="打印时间" DisplayMemberBinding="{Binding PrintDate}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Style.Setters>
+                            <EventSetter Event="MouseDoubleClick" Handler="OnListViewItemDoubleClick" />
+                        </Style.Setters>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </DockPanel>
     </Grid>

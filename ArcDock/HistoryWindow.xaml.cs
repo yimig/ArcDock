@@ -28,6 +28,7 @@ namespace ArcDock
         public event PropertyChangedEventHandler PropertyChanged;
         private bool isSearchFlag = false;
         private int nowPage;
+        private string maxPage;
 
 
         public List<DataResult> Results
@@ -46,17 +47,17 @@ namespace ArcDock
             set
             {
                 nowPage = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Results"));
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("NowPage"));
             }
         }
 
         public string MaxPage
         {
-            get
+            get => maxPage;
+            set
             {
-                var pageNum = 1;
-                if (!isSearchFlag) pageNum = history.MaxPage;
-                return pageNum.ToString();
+                maxPage = value;
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("MaxPage"));
             }
         }
 
@@ -66,8 +67,71 @@ namespace ArcDock
             this.nowPage = 1;
             InitializeComponent();
             Results = history.GetPage(1);
-            LvHistory.SetBinding(ListView.ItemsSourceProperty, new Binding() {Source = Results});
-            TbNowPage.SetBinding(TextBox.TextProperty, new Binding("MaxPage"));
+            ResetMaxPage();
+            LvHistory.SetBinding(ListView.ItemsSourceProperty, new Binding("Results") {Source = this});
+            TbNowPage.SetBinding(TextBlock.TextProperty, new Binding("NowPage"){Source = this});
+            TbMaxPage.SetBinding(TextBlock.TextProperty, new Binding("MaxPage"){Source = this});
+        }
+
+        private void ResetMaxPage()
+        {
+            var pageNum = 1;
+            if (!isSearchFlag) pageNum = history.MaxPage;
+            MaxPage = pageNum.ToString();
+        }
+
+        private void SearchItem()
+        {
+            if (TbSearch.Text.Equals(String.Empty))
+            {
+                isSearchFlag = false;
+                Results = history.GetPage(1);
+                ResetMaxPage();
+            }
+            else
+            {
+                isSearchFlag = true;
+                Results = history.GetQueryResult(TbSearch.Text);
+                MaxPage = "1";
+                NowPage = 1;
+            }
+        }
+
+        private void BtnForwardPage_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (NowPage - 1 >= 1)
+            {
+                NowPage--;
+                Results = history.GetPage(NowPage);
+            }
+        }
+
+        private void BtnNextPage_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (NowPage + 1 <= Convert.ToInt32(MaxPage))
+            {
+                NowPage++;
+                Results = history.GetPage(NowPage);
+                
+            }
+        }
+
+        private void BtnSearch_OnClick(object sender, RoutedEventArgs e)
+        {
+            SearchItem();
+        }
+
+        private void TbSearch_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchItem();
+            }
+        }
+
+        private void OnListViewItemDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var a = (sender as ListViewItem).Content as DataResult;
         }
     }
 }
