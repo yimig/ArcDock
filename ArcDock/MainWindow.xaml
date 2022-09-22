@@ -32,7 +32,7 @@
                 <MenuItem Header="关于">
                     <MenuItem Header="软件信息" Name="MiSoftwareInfo" Click="MiSoftwareInfo_OnClick"></MenuItem>
                     <!-- <MenuItem Header="调试信息"></MenuItem> -->
-                    <MenuItem Header="使用说明"></MenuItem>
+                    <!-- <MenuItem Header="使用说明"></MenuItem> -->
                 </MenuItem>
             </Menu>
             <Grid>
