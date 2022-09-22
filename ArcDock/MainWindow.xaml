@@ -13,16 +13,16 @@
         <DockPanel>
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
-                    <MenuItem Header="新建"></MenuItem>
+                    <MenuItem Header="新建" Click="BtnNew_OnClick"></MenuItem>
                     <!-- <MenuItem Header="批量导入"></MenuItem> -->
                     <MenuItem Header="导出为...">
-                        <MenuItem Header="HTML网页"></MenuItem>
+                        <MenuItem Header="HTML网页" Name="MiOutputHtml" Click="MiOutputHtml_OnClick"></MenuItem>
                         <!-- <MenuItem Header="PDF文档"></MenuItem> -->
-                        <MenuItem Header="JPG图片"></MenuItem>
+                        <MenuItem Header="JPG图片" Name="MiOutputImage" Click="MiOutputImage_OnClick"></MenuItem>
                     </MenuItem>
                     <MenuItem Header="打印..">
-                        <MenuItem Header="打印单份"></MenuItem>
-                        <MenuItem Header="打印多份"></MenuItem>
+                        <MenuItem Header="打印单份" Click="BtnPrint_OnClick"></MenuItem>
+                        <MenuItem Header="打印多份" Click="BtnToolMultiPrint_OnClick"></MenuItem>
                     </MenuItem>
                 </MenuItem>
                 <!-- <MenuItem Header="设置"> -->
@@ -30,8 +30,8 @@
                 <!--     <MenuItem Header="模板设置"></MenuItem> -->
                 <!-- </MenuItem> -->
                 <MenuItem Header="关于">
-                    <MenuItem Header="软件信息"></MenuItem>
-                    <MenuItem Header="调试信息"></MenuItem>
+                    <MenuItem Header="软件信息" Name="MiSoftwareInfo" Click="MiSoftwareInfo_OnClick"></MenuItem>
+                    <!-- <MenuItem Header="调试信息"></MenuItem> -->
                     <MenuItem Header="使用说明"></MenuItem>
                 </MenuItem>
             </Menu>

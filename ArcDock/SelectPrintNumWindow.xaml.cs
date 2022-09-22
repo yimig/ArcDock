@@ -32,11 +32,14 @@ namespace ArcDock
             }
         }
 
+        public bool IsPrint { get; set; }
+
         public SelectPrintNumWindow()
         {
             this.DataContext = this;
             InitializeComponent();
             this.PageNumber = 1;
+            this.IsPrint = false;
         }
 
         private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
@@ -51,12 +54,12 @@ namespace ArcDock
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            this.PageNumber = -1;
             this.Close();
         }
 
         private void BtnOk_OnClick(object sender, RoutedEventArgs e)
         {
+            this.IsPrint = true;
             this.Close();
         }
     }

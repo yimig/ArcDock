@@ -234,6 +234,26 @@ namespace ArcDock
             }
         }
 
+        private void SaveHtml()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "HTML页面 (*.html)|*.html";
+            DialogResult dresult = dialog.ShowDialog();
+            if (dresult == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                try
+                {
+                    File.Copy(@"temp.html", path, true);
+                    MessageBox.Show(path + "保存成功。");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(path + "保存失败！错误信息：" + e.Message);
+                }
+            }
+        }
+
         private void ChangeConfig(int index)
         {
             Config = configList[index];
@@ -289,6 +309,15 @@ namespace ArcDock
         private void ClearDock()
         {
             controlDock.ResetChildrenContent();
+        }
+
+
+        private void CheckAndFill(string id, string content)
+        {
+            if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
+            {
+                controlDock.SetChildrenContentValue(id, content);
+            }
         }
 
         #endregion
@@ -358,10 +387,12 @@ namespace ArcDock
         {
             history.RemoveOutDateHistory();
         }
+
         private void BtnNew_OnClick(object sender, RoutedEventArgs e)
         {
             ClearDock();
         }
+
         private void BtnToolNew_OnClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("受否新建项目？已经填入的信息将被删除！", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -369,8 +400,6 @@ namespace ArcDock
                 ClearDock();
             }
         }
-
-        #endregion
 
         private void BtnToolAnalyse_OnClick(object sender, RoutedEventArgs e)
         {
@@ -392,23 +421,35 @@ namespace ArcDock
             }
         }
 
-        private void CheckAndFill(string id, string content)
-        {
-            if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
-            {
-                controlDock.SetChildrenContentValue(id,content);
-            }
-        }
-
         private void BtnToolMultiPrint_OnClick(object sender, RoutedEventArgs e)
         {
             var spWindow = new SelectPrintNumWindow();
             spWindow.ShowDialog();
-            if (spWindow.PageNumber > 0)
+            if (spWindow.IsPrint)
             {
                 MaxPrintPage = spWindow.PageNumber;
                 PrintWeb();
+                SaveHistory("Batch");
             }
+        }
+
+        #endregion
+
+        private void MiOutputHtml_OnClick(object sender, RoutedEventArgs e)
+        {
+            SaveHtml();
+            SaveHistory("Html");
+        }
+
+        private void MiOutputImage_OnClick(object sender, RoutedEventArgs e)
+        {
+            SaveImage();
+            SaveHistory("Image");
+        }
+
+        private void MiSoftwareInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            (new AboutWindow()).Show();
         }
     }
 }

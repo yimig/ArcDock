@@ -11,8 +11,10 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.RowSpan="4">
             <TextBlock VerticalAlignment="Center" FontSize="18">打印份数：</TextBlock>
             <DockPanel Height="25" Width="100">
                 <Button Name="BtnAdd" DockPanel.Dock="Right" Click="BtnAdd_OnClick">
@@ -25,7 +27,7 @@
             </DockPanel>
         </StackPanel>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
