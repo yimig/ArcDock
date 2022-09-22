@@ -40,5 +40,32 @@ namespace ArcDock.Data.UI
             textStack.Children.Clear();
             inputStack.Children.Clear();
         }
+
+        public void ResetChildrenContent()
+        {
+            for (int i = 0; i < CustomAreas.Count; i++)
+            {
+                SetChildrenContentValue(i, CustomAreas[i].config.Default);
+            }
+        }
+
+        public void SetChildrenContentValue(int index,string newVal)
+        {
+            if (CustomAreas[index].config.Type.Equals("input")) (CustomAreas[index] as InputArea).Content = newVal;
+            else if (CustomAreas[index].config.Type.Equals("richinput")) (CustomAreas[index] as RichInputArea).Content = newVal;
+            else if (CustomAreas[index].config.Type.Equals("autoinput")) (CustomAreas[index] as AutoInputArea).Content = newVal;
+        }
+
+        public void SetChildrenContentValue(string id, string newVal)
+        {
+            for (int i = 0; i < CustomAreas.Count; i++)
+            {
+                if (CustomAreas[i].Id == id)
+                {
+                    SetChildrenContentValue(i,newVal);
+                    return;
+                }
+            }
+        }
     }
 }

@@ -281,6 +281,11 @@ namespace ArcDock
             history.AddHistory(result,DateTime.Now);
         }
 
+        private void ClearDock()
+        {
+            controlDock.ResetChildrenContent();
+        }
+
         #endregion
 
         #region 事件处理
@@ -338,7 +343,46 @@ namespace ArcDock
         {
             history.RemoveOutDateHistory();
         }
+        private void BtnNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            ClearDock();
+        }
+        private void BtnToolNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("受否新建项目？已经填入的信息将被删除！", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                ClearDock();
+            }
+        }
 
         #endregion
+
+        private void BtnToolAnalyse_OnClick(object sender, RoutedEventArgs e)
+        {
+            var analyseWindow = new AnalyseStringWindow();
+            analyseWindow.ShowDialog();
+            if (analyseWindow.IsHasContent)
+            {
+                var checkDoct = new Dictionary<string, string>()
+                {
+                    { "patient_name", analyseWindow.PatientName },
+                    { "patient_bed", analyseWindow.BedNo },
+                    { "patient_no", analyseWindow.InPatientNo },
+                    { "patient_dept", analyseWindow.PatientDept },
+                };
+                foreach (var pair in checkDoct)
+                {
+                    CheckAndFill(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        private void CheckAndFill(string id, string content)
+        {
+            if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
+            {
+                controlDock.SetChildrenContentValue(id,content);
+            }
+        }
     }
 }

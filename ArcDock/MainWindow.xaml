@@ -14,7 +14,7 @@
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
                     <MenuItem Header="新建"></MenuItem>
-                    <MenuItem Header="批量导入"></MenuItem>
+                    <!-- <MenuItem Header="批量导入"></MenuItem> -->
                     <MenuItem Header="导出为...">
                         <MenuItem Header="HTML网页"></MenuItem>
                         <MenuItem Header="PDF文档"></MenuItem>
@@ -48,19 +48,19 @@
                     <DockPanel Height="30" DockPanel.Dock="Top">
                         <ToolBar DockPanel.Dock="right">
                             <Label>切换模板：</Label>
-                            <ComboBox Name="cbTemplate" Width="150" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
+                            <ComboBox Name="cbTemplate" Width="170" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
                             </ComboBox>
                         </ToolBar>
                         <ToolBar>
-                            <Button ToolTip="新建">
+                            <Button ToolTip="新建" Name="BtnToolNew" Click="BtnToolNew_OnClick">
                                 <Image Source="Icon/addnew.ico"></Image>
                             </Button>
-                            <Button ToolTip="解析患者信息">
+                            <Button ToolTip="解析患者信息" Name="BtnToolAnalyse" Click="BtnToolAnalyse_OnClick">
                                 <Image Source="Icon/rename.ico"></Image>
                             </Button>
-                            <Button ToolTip="批量导入">
-                                <Image Source="Icon/addworkplace.ico"></Image>
-                            </Button>
+                            <!-- <Button ToolTip="批量导入"> -->
+                            <!--     <Image Source="Icon/addworkplace.ico"></Image> -->
+                            <!-- </Button> -->
                             <Button ToolTip="查看历史" Name="BtnHistory" Click="BtnHistory_OnClick">
                                 <Image Source="Icon/search.ico"></Image>
                             </Button>
@@ -77,8 +77,8 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Height="26" Margin="10 2 5 2" Name="btnPrint">新建</Button>
-                        <Button Height="26" Margin="5 2 10 2" Name="btnNew" Click="BtnPrint_OnClick" Grid.Column="1">打印</Button>
+                        <Button Height="26" Margin="10 2 5 2" Name="btnNew" Click="BtnNew_OnClick">新建</Button>
+                        <Button Height="26" Margin="5 2 10 2" Name="btnPrint" Click="BtnPrint_OnClick" Grid.Column="1">打印</Button>
                     </Grid>
                     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
                         <Grid Name="GdMain"></Grid>

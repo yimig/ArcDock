@@ -94,10 +94,11 @@ namespace ArcDock.Data.UI
                 var executeItems = config.OptionItemList.Single(option=>option.Content.Equals(e.Text)).ExecutionItemList;
                 foreach (var execItem in executeItems)
                 {
-                    var customArea = MainDock.CustomAreas.Single(area => area.Id.Equals(execItem.Key));
-                    if (customArea.config.Type.Equals("input")) (customArea as InputArea).Content = execItem.Content;
-                    else if (customArea.config.Type.Equals("richinput")) (customArea as RichInputArea).Content = execItem.Content;
-                    else if (customArea.config.Type.Equals("autoinput")) (customArea as AutoInputArea).Content = execItem.Content;
+                    MainDock.SetChildrenContentValue(execItem.Key, execItem.Content);
+                    // var customArea = MainDock.CustomAreas.Single(area => area.Id.Equals(execItem.Key));
+                    // if (customArea.config.Type.Equals("input")) (customArea as InputArea).Content = execItem.Content;
+                    // else if (customArea.config.Type.Equals("richinput")) (customArea as RichInputArea).Content = execItem.Content;
+                    // else if (customArea.config.Type.Equals("autoinput")) (customArea as AutoInputArea).Content = execItem.Content;
                 }
             }
             TextBoxOnTextChanged(sender,e);
