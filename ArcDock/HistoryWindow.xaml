@@ -11,7 +11,7 @@
             <DockPanel DockPanel.Dock="Top" Height="25">
                 <Button DockPanel.Dock="Right" Name="BtnSearch" Click="BtnSearch_OnClick">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Icon/search.ico" Margin="5 2 5 2"></Image>
+                        <Image Source="/ArcDock;component/Icon/search.ico" Margin="5 2 5 2"></Image>
                         <TextBlock VerticalAlignment="Center" Margin="0 0 5 0">搜索</TextBlock>
                     </StackPanel>
                 </Button>
@@ -20,7 +20,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Height="25">
                 <Button Margin="0 0 20 0" Name="BtnForwardPage" Click="BtnForwardPage_OnClick">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Icon/playfore.ico"></Image>
+                        <Image Source="/ArcDock;component/Icon/playfore.ico"></Image>
                         <TextBlock VerticalAlignment="Center" Margin="0 0 5 0">上一页</TextBlock>
                     </StackPanel>
                 </Button>
@@ -32,7 +32,7 @@
                 <Button Margin="20 0 0 0" Name="BtnNextPage" Click="BtnNextPage_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5 0 0 0">下一页</TextBlock>
-                        <Image Source="Icon/playnext.ico"></Image>
+                        <Image Source="/ArcDock;component/Icon/playnext.ico"></Image>
                     </StackPanel>
                 </Button>
             </StackPanel>

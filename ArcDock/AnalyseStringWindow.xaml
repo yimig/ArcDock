@@ -16,13 +16,13 @@
                 </Grid.ColumnDefinitions>
                 <Button Name="BtnCancel" Click="BtnCancel_OnClick" Margin="0 3 5 3">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="3 0 3 0">
-                        <Image Source="Icon/clearitems.ico"></Image>
+                        <Image Source="/ArcDock;component/Icon/clearitems.ico"></Image>
                         <TextBlock VerticalAlignment="Center">取消</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button Grid.Column="1" Name="BtnAnalyse" Click="BtnAnalyse_OnClick" Margin="5 3 0 3">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="3 0 3 0">
-                        <Image Source="Icon/next.ico"></Image>
+                        <Image Source="/ArcDock;component/Icon/next.ico"></Image>
                         <TextBlock VerticalAlignment="Center">分析</TextBlock>
                     </StackPanel>
                 </Button>

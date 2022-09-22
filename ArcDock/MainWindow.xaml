@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ArcDock"
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Icon="Icon/tag.ico"
+        Icon="/ArcDock;component/Icon/tag.ico"
         Title="ArcDock" Height="450" Width="1000"
         Closing="MainWindow_OnClosing">
     <Grid>
@@ -54,22 +54,22 @@
                         </ToolBar>
                         <ToolBar>
                             <Button ToolTip="新建" Name="BtnToolNew" Click="BtnToolNew_OnClick">
-                                <Image Source="Icon/addnew.ico"></Image>
+                                <Image Source="/ArcDock;component/Icon/addnew.ico"></Image>
                             </Button>
                             <Button ToolTip="解析患者信息" Name="BtnToolAnalyse" Click="BtnToolAnalyse_OnClick">
-                                <Image Source="Icon/rename.ico"></Image>
+                                <Image Source="/ArcDock;component/Icon/rename.ico"></Image>
                             </Button>
                             <!-- <Button ToolTip="批量导入"> -->
-                            <!--     <Image Source="Icon/addworkplace.ico"></Image> -->
+                            <!--     <Image Source="/ArcDock;component/Icon/addworkplace.ico"></Image> -->
                             <!-- </Button> -->
                             <Button ToolTip="查看历史" Name="BtnHistory" Click="BtnHistory_OnClick">
-                                <Image Source="Icon/search.ico"></Image>
+                                <Image Source="/ArcDock;component/Icon/search.ico"></Image>
                             </Button>
                             <Button ToolTip="打印" Click="BtnPrint_OnClick">
-                                <Image Source="Icon/printer.ico"></Image>
+                                <Image Source="/ArcDock;component/Icon/printer.ico"></Image>
                             </Button>
                             <Button ToolTip="批量打印" Name="BtnToolMultiPrint" Click="BtnToolMultiPrint_OnClick">
-                                <Image Source="Icon/mulitiprinter.ico"></Image>
+                                <Image Source="/ArcDock;component/Icon/mulitiprinter.ico"></Image>
                             </Button>
                         </ToolBar>
                     </DockPanel>
@@ -92,16 +92,16 @@
                                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
                                     <ToolBar Width="90" Height="30">
                                         <Button Name="BtnConsole" ToolTip="控制台" Click="BtnConsole_OnClick">
-                                            <Image Source="Icon/code.ico"></Image>
+                                            <Image Source="/ArcDock;component/Icon/code.ico"></Image>
                                         </Button>
                                         <!-- <Button ToolTip="缩小"> -->
-                                        <!--     <Image Source="Icon/zoom_out.ico"></Image> -->
+                                        <!--     <Image Source="/ArcDock;component/Icon/zoom_out.ico"></Image> -->
                                         <!-- </Button> -->
                                         <!-- <Button ToolTip="放大"> -->
-                                        <!--     <Image Source="Icon/zoom_in.ico"></Image> -->
+                                        <!--     <Image Source="/ArcDock;component/Icon/zoom_in.ico"></Image> -->
                                         <!-- </Button> -->
                                         <Button Name="BtnRefurbish" ToolTip="强制刷新" Click="BtnRefurbish_OnClick">
-                                            <Image Source="Icon/reflesh.ico"></Image>
+                                            <Image Source="/ArcDock;component/Icon/reflesh.ico"></Image>
                                         </Button>
                                     </ToolBar>
                                 </StackPanel>

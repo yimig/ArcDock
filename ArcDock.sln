@@ -9,14 +9,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoCompleteTextBox", "Auto
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.All|Any CPU.Build.0 = Release|Any CPU
 		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C212C1CE-A2C5-4C1A-A450-19F5259A321A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{146AD313-8F4A-48D5-AAC0-20B89076C831}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{146AD313-8F4A-48D5-AAC0-20B89076C831}.All|Any CPU.Build.0 = Release|Any CPU
 		{146AD313-8F4A-48D5-AAC0-20B89076C831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{146AD313-8F4A-48D5-AAC0-20B89076C831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{146AD313-8F4A-48D5-AAC0-20B89076C831}.Release|Any CPU.ActiveCfg = Release|Any CPU
