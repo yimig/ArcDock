@@ -17,7 +17,7 @@
                     <!-- <MenuItem Header="批量导入"></MenuItem> -->
                     <MenuItem Header="导出为...">
                         <MenuItem Header="HTML网页"></MenuItem>
-                        <MenuItem Header="PDF文档"></MenuItem>
+                        <!-- <MenuItem Header="PDF文档"></MenuItem> -->
                         <MenuItem Header="JPG图片"></MenuItem>
                     </MenuItem>
                     <MenuItem Header="打印..">
@@ -25,13 +25,14 @@
                         <MenuItem Header="打印多份"></MenuItem>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="设置">
-                    <MenuItem Header="全局设置"></MenuItem>
-                    <MenuItem Header="模板设置"></MenuItem>
-                </MenuItem>
+                <!-- <MenuItem Header="设置"> -->
+                <!--     <MenuItem Header="全局设置"></MenuItem> -->
+                <!--     <MenuItem Header="模板设置"></MenuItem> -->
+                <!-- </MenuItem> -->
                 <MenuItem Header="关于">
                     <MenuItem Header="软件信息"></MenuItem>
                     <MenuItem Header="调试信息"></MenuItem>
+                    <MenuItem Header="使用说明"></MenuItem>
                 </MenuItem>
             </Menu>
             <Grid>
@@ -67,7 +68,7 @@
                             <Button ToolTip="打印" Click="BtnPrint_OnClick">
                                 <Image Source="Icon/printer.ico"></Image>
                             </Button>
-                            <Button ToolTip="批量打印">
+                            <Button ToolTip="批量打印" Name="BtnToolMultiPrint" Click="BtnToolMultiPrint_OnClick">
                                 <Image Source="Icon/mulitiprinter.ico"></Image>
                             </Button>
                         </ToolBar>
@@ -89,16 +90,16 @@
                         <Grid Name="GdBrowser">
                             <DockPanel>
                                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-                                    <ToolBar Width="130" Height="30">
+                                    <ToolBar Width="90" Height="30">
                                         <Button Name="BtnConsole" ToolTip="控制台" Click="BtnConsole_OnClick">
                                             <Image Source="Icon/code.ico"></Image>
                                         </Button>
-                                        <Button ToolTip="缩小">
-                                            <Image Source="Icon/zoom_out.ico"></Image>
-                                        </Button>
-                                        <Button ToolTip="放大">
-                                            <Image Source="Icon/zoom_in.ico"></Image>
-                                        </Button>
+                                        <!-- <Button ToolTip="缩小"> -->
+                                        <!--     <Image Source="Icon/zoom_out.ico"></Image> -->
+                                        <!-- </Button> -->
+                                        <!-- <Button ToolTip="放大"> -->
+                                        <!--     <Image Source="Icon/zoom_in.ico"></Image> -->
+                                        <!-- </Button> -->
                                         <Button Name="BtnRefurbish" ToolTip="强制刷新" Click="BtnRefurbish_OnClick">
                                             <Image Source="Icon/reflesh.ico"></Image>
                                         </Button>

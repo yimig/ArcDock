@@ -105,6 +105,9 @@
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectPrintNumWindow.xaml.cs">
+      <DependentUpon>SelectPrintNumWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tools\PinyinHelpers.cs" />
     <Page Include="AnalyseStringWindow.xaml">
       <SubType>Designer</SubType>
@@ -152,6 +155,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SelectPrintNumWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

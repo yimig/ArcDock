@@ -94,6 +94,9 @@ namespace ArcDock
 
         private History history;
 
+        private int MaxPrintPage { get; set; }
+        private int NowPrintPage { get; set; }
+
         #endregion
 
         #region 初始化
@@ -103,6 +106,8 @@ namespace ArcDock
             configList = new List<Config>();
             templateHtmlList = new List<string>();
             history = new History();
+            MaxPrintPage = 1;
+            NowPrintPage = 1;
             InitializeComponent();
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
@@ -314,7 +319,17 @@ namespace ArcDock
             e.Graphics.PixelOffsetMode = PixelOffsetMode.None; //不偏移像素，否则模糊
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(printImage, 0, 0); //渲染打印图片
-            e.HasMorePages = false; //没有后续打印页
+            if (NowPrintPage < MaxPrintPage)
+            {
+                NowPrintPage++;
+                e.HasMorePages = true;
+            }
+            else
+            {
+                NowPrintPage = 1;
+                MaxPrintPage = 1;
+                e.HasMorePages = false; //没有后续打印页
+            }
         }
 
         private void BtnRefurbish_OnClick(object sender, RoutedEventArgs e)
@@ -363,14 +378,14 @@ namespace ArcDock
             analyseWindow.ShowDialog();
             if (analyseWindow.IsHasContent)
             {
-                var checkDoct = new Dictionary<string, string>()
+                var checkDict = new Dictionary<string, string>()
                 {
                     { "patient_name", analyseWindow.PatientName },
                     { "patient_bed", analyseWindow.BedNo },
                     { "patient_no", analyseWindow.InPatientNo },
                     { "patient_dept", analyseWindow.PatientDept },
                 };
-                foreach (var pair in checkDoct)
+                foreach (var pair in checkDict)
                 {
                     CheckAndFill(pair.Key, pair.Value);
                 }
@@ -382,6 +397,17 @@ namespace ArcDock
             if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
             {
                 controlDock.SetChildrenContentValue(id,content);
+            }
+        }
+
+        private void BtnToolMultiPrint_OnClick(object sender, RoutedEventArgs e)
+        {
+            var spWindow = new SelectPrintNumWindow();
+            spWindow.ShowDialog();
+            if (spWindow.PageNumber > 0)
+            {
+                MaxPrintPage = spWindow.PageNumber;
+                PrintWeb();
             }
         }
     }
