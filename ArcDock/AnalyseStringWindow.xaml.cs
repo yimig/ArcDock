@@ -82,8 +82,9 @@ namespace ArcDock
 
         }
 
-        private bool AnalyseString(string text)
+        private bool AnalyseString(string rawText)
         {
+            var text = rawText.Trim();
             var res = true;
             try
             {

@@ -262,7 +262,12 @@ namespace ArcDock
             SetControlDock();
         }
 
-        private async void PrintWeb()
+        private void PrintWeb()
+        {
+            PrintWebClodop();
+        }
+
+        private async void PrintWebApi()
         {
             //截图配置，触发截图操作时会强制销毁打印机视图Graphics，故不能再打印事件中进行截图，先截好存起来
             var browserHost = Browser.GetBrowserHost();
@@ -285,10 +290,39 @@ namespace ArcDock
                 ps.Margins = new Margins(0, 0, 0, 0);
                 ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
                 pd.DefaultPageSettings = ps;
+                SetPrinter(ps);
                 ps.Color = false;
                 pd.PrintPage += PdOnPrintPage;
                 pd.Print();
             }
+        }
+
+        private void SetPrinter(PageSettings ps)
+        {
+            if (!config.Settings.Printer.Equals(String.Empty))
+            {
+                if (PrinterSettings.InstalledPrinters.Cast<string>().Any(str => str == config.Settings.Printer))
+                {
+                    ps.PrinterSettings.PrinterName = config.Settings.Printer;
+                }
+            }
+        }
+
+        private void PrintWebJs()
+        {
+            Browser.GetMainFrame().ExecuteJavaScriptAsync("window.print()");
+        }
+
+        private void PrintWebClodop()
+        {
+            Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);"+
+                                                          "var oScript= document.createElement(\"script\");"+
+                                                          "oScript.type = \"text/javascript\";"+
+                                                          "oScript.src=\"http://192.168.56.1:8000/CLodopfuncs.js\";"+
+                                                          "oHead.appendChild(oScript); +" +
+                                                          "CLODOP.PRINT_INIT('ArcProject');"+
+                                                          "CLODOP.ADD_PRINT_HTM(0,0,\"100%\",\"100%\",document.getElementsByTagName('html')[0].innerHTML);"+
+                                                          "CLODOP.PRINT();");
         }
 
         private void SaveHistory(string printType)
@@ -343,11 +377,15 @@ namespace ArcDock
         private void PdOnPrintPage(object sender, PrintPageEventArgs e)
         {
             //设置打印精度，全部调为最高
+            e.Graphics.Clear(Color.White);
+            e.Graphics.PageUnit = GraphicsUnit.Millimeter;
+ 
             e.Graphics.CompositingMode = CompositingMode.SourceCopy;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.None; //不偏移像素，否则模糊
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(printImage, 0, 0); //渲染打印图片
+            e.Graphics.DrawImageUnscaled(printImage, 0, 0,Config.Settings.Width,Config.Settings.PrintHeight); //渲染打印图片
             if (NowPrintPage < MaxPrintPage)
             {
                 NowPrintPage++;
@@ -433,8 +471,6 @@ namespace ArcDock
             }
         }
 
-        #endregion
-
         private void MiOutputHtml_OnClick(object sender, RoutedEventArgs e)
         {
             SaveHtml();
@@ -451,5 +487,7 @@ namespace ArcDock
         {
             (new AboutWindow()).Show();
         }
+
+        #endregion
     }
 }

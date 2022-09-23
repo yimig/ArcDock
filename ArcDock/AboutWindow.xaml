@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
-        Title="AboutWindow" Height="500" Width="400" WindowStyle="ToolWindow">
+        Title="关于" Height="500" Width="400" WindowStyle="ToolWindow">
     <Grid>
         <TabControl>
             <TabItem Header="程序信息">

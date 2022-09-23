@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
-        Title="SelectPrintNumWindow" Height="150" Width="220" WindowStyle="ToolWindow">
+        Title="选择打印份数" Height="150" Width="220" WindowStyle="ToolWindow">
     <Grid Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>

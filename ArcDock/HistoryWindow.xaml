@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
-        Title="History" Height="450" Width="800">
+        Title="历史记录" Height="450" Width="800">
     <Grid>
         <DockPanel Margin="10">
             <DockPanel DockPanel.Dock="Top" Height="25">
