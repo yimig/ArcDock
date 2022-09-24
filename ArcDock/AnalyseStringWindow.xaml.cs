@@ -46,8 +46,13 @@ namespace ArcDock
 
         private void BtnAnalyse_OnClick(object sender, RoutedEventArgs e)
         {
+            StartAnalyse();
+        }
+
+        private void StartAnalyse()
+        {
             IsHasContent = true;
-            if(AnalyseString(TbAnalyse.Text))this.Close();
+            if (AnalyseString(TbAnalyse.Text)) this.Close();
         }
 
         private void AnalyseExecuteInfo(string text)
@@ -99,6 +104,7 @@ namespace ArcDock
             {
                 MessageBox.Show("解析失败：" + e.Message);
                 res = false;
+                TbAnalyse.Text = "";
             }
 
             return res;

@@ -32,6 +32,7 @@ namespace ArcDock
             if ((bool)RbPrintDocument.IsChecked) PrintApi = 0;
             else if ((bool)RbCefPrint.IsChecked) PrintApi = 1;
             else if ((bool)RbClodop.IsChecked) PrintApi = 2;
+            else if ((bool)RbSpire.IsChecked) PrintApi = 3;
         }
 
         private void InitPrintApi()
@@ -39,6 +40,7 @@ namespace ArcDock
             if (PrintApi == 0) RbPrintDocument.IsChecked = true;
             else if (PrintApi == 1) RbCefPrint.IsChecked = true;
             else if (PrintApi == 2) RbClodop.IsChecked = true;
+            else if (PrintApi == 3) RbSpire.IsChecked = true;
         }
 
         private void RbPrint_OnChecked(object sender, RoutedEventArgs e)

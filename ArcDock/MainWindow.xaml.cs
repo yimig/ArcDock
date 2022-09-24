@@ -31,11 +31,10 @@ using MessageBox = System.Windows.MessageBox;
 using Binding = System.Windows.Data.Binding;
 using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Windows.Interop;
 using ArcDock.Data.Database;
+using Spire.Pdf;
 using Path = System.IO.Path;
-using TextChangedEventArgs = AutoCompleteTextBox.Editors.TextChangedEventArgs;
 
 namespace ArcDock
 {
@@ -278,6 +277,7 @@ namespace ArcDock
             if(PrintApi == 0)PrintWebApi();
             else if(PrintApi == 1)PrintWebJs();
             else if(PrintApi == 2)PrintWebClodop();
+            else if(PrintApi == 3)PrintWebPdf();
         }
 
         private async void PrintWebApi()
@@ -303,20 +303,21 @@ namespace ArcDock
                 ps.Margins = new Margins(0, 0, 0, 0);
                 ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
                 pd.DefaultPageSettings = ps;
-                SetPrinter(ps);
+                SetPrinter(ps,null);
                 ps.Color = false;
                 pd.PrintPage += PdOnPrintPage;
                 pd.Print();
             }
         }
 
-        private void SetPrinter(PageSettings ps)
+        private void SetPrinter(PageSettings pageSettings,Spire.Pdf.Print.PdfPrintSettings printerSettings)
         {
             if (!config.Settings.Printer.Equals(String.Empty))
             {
                 if (PrinterSettings.InstalledPrinters.Cast<string>().Any(str => str == config.Settings.Printer))
                 {
-                    ps.PrinterSettings.PrinterName = config.Settings.Printer;
+                    if (pageSettings != null) pageSettings.PrinterSettings.PrinterName = config.Settings.Printer;
+                    else printerSettings.PrinterName = config.Settings.Printer;
                 }
             }
         }
@@ -331,11 +332,28 @@ namespace ArcDock
             Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);"+
                                                           "var oScript= document.createElement(\"script\");"+
                                                           "oScript.type = \"text/javascript\";"+
-                                                          "oScript.src=\"http://192.168.56.1:8000/CLodopfuncs.js\";"+
-                                                          "oHead.appendChild(oScript); +" +
+                                                          "oScript.src=\"http://localhost:8000/CLodopfuncs.js\";"+
+                                                          "oScript.async = \"async\""+
+                                                          "oHead.appendChild(oScript);" +
                                                           "CLODOP.PRINT_INIT('ArcProject');"+
                                                           "CLODOP.ADD_PRINT_HTM(0,0,\"100%\",\"100%\",document.getElementsByTagName('html')[0].innerHTML);"+
                                                           "CLODOP.PRINT();");
+        }
+
+        private async void PrintWebPdf()
+        {
+            await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings()
+            {
+                MarginType = CefPdfPrintMarginType.None,
+                PageHeight = Config.Settings.PrintHeight * 10000,
+                PageWidth = Config.Settings.PrintWidth * 10000
+            });
+            PdfDocument doc = new PdfDocument();
+            doc.LoadFromFile(@"temp.pdf");
+            doc.PrintSettings.SelectPageRange(1,1);
+            SetPrinter(null,doc.PrintSettings);
+            doc.PrintSettings.PrintController = new StandardPrintController();
+            doc.Print();
         }
 
         private void SaveHistory(string printType)
