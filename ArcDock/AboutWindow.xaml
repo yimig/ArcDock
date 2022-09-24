@@ -16,7 +16,7 @@
                         <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
                             <TextBlock FontSize="12" Margin="0 0 4 0">Version</TextBlock>
                             <TextBlock FontSize="12" Text="{Binding Version}"></TextBlock>
-                            <TextBlock FontSize="12" Margin="4 0 0 0">Release 2022/9/23</TextBlock>
+                            <TextBlock FontSize="12" Margin="4 0 0 0">Release 2022/9/24</TextBlock>
                         </StackPanel>
                         <TextBlock FontSize="12" Margin="0 2 0 2">如有疑问请致电3052</TextBlock>
                         <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 10 0 2"></Border>
@@ -26,6 +26,23 @@
                         <TextBlock FontSize="12" Margin="0 2 0 2">Newtonsoft.Json@13.0.1</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">WpfControls.AutoCompleteTextBox@1.0.0.7</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">SQLite@3.13.0</TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="更新日志">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5">
+                    <StackPanel Margin="5 0 5 0">
+                        <StackPanel Margin="0 5 0 5">
+                            <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.1</TextBlock>
+                            <TextBlock FontStyle="Italic" FontSize="9">Release 2022/9/24</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：CEF打印Api与C-Lodop打印Api，可在全局设置界面进行切换</TextBlock>
+                        </StackPanel>
+                        <StackPanel Margin="0 5 0 5">
+                            <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.0</TextBlock>
+                            <TextBlock FontStyle="Italic" FontSize="9">Release 2022/9/23</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">初始版本发布</TextBlock>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

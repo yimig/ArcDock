@@ -97,6 +97,16 @@ namespace ArcDock
         private int MaxPrintPage { get; set; }
         private int NowPrintPage { get; set; }
 
+        private int PrintApi
+        {
+            get => Properties.Settings.Default.UserPrintApi;
+            set
+            {
+                Properties.Settings.Default.UserPrintApi = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         #endregion
 
         #region 初始化
@@ -108,6 +118,7 @@ namespace ArcDock
             history = new History();
             MaxPrintPage = 1;
             NowPrintPage = 1;
+            PrintApi = Properties.Settings.Default.UserPrintApi;
             InitializeComponent();
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
@@ -264,7 +275,9 @@ namespace ArcDock
 
         private void PrintWeb()
         {
-            PrintWebClodop();
+            if(PrintApi == 0)PrintWebApi();
+            else if(PrintApi == 1)PrintWebJs();
+            else if(PrintApi == 2)PrintWebClodop();
         }
 
         private async void PrintWebApi()
@@ -486,6 +499,12 @@ namespace ArcDock
         private void MiSoftwareInfo_OnClick(object sender, RoutedEventArgs e)
         {
             (new AboutWindow()).Show();
+        }
+        private void MiGlobalSetting_OnClick(object sender, RoutedEventArgs e)
+        {
+            var settingWindow = new SettingWindow(PrintApi);
+            settingWindow.ShowDialog();
+            this.PrintApi = settingWindow.PrintApi;
         }
 
         #endregion
