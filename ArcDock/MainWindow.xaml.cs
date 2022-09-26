@@ -33,6 +33,7 @@ using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
 using System.Windows.Interop;
 using ArcDock.Data.Database;
+using PDFtoPrinter;
 using Spire.Pdf;
 using Path = System.IO.Path;
 
@@ -278,6 +279,7 @@ namespace ArcDock
             else if(PrintApi == 1)PrintWebJs();
             else if(PrintApi == 2)PrintWebClodop();
             else if(PrintApi == 3)PrintWebPdf();
+            else if(PrintApi == 4)PrintWebPdfSprie();
         }
 
         private async void PrintWebApi()
@@ -342,18 +344,55 @@ namespace ArcDock
 
         private async void PrintWebPdf()
         {
-            await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings()
-            {
-                MarginType = CefPdfPrintMarginType.None,
-                PageHeight = Config.Settings.PrintHeight * 10000,
-                PageWidth = Config.Settings.PrintWidth * 10000
-            });
+            await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
+                {
+                    HeaderFooterTitle = null,
+                    HeaderFooterUrl = null,
+                    MarginType = CefPdfPrintMarginType.Custom,
+                    ScaleFactor = 99,
+                    HeaderFooterEnabled = false,
+                    SelectionOnly = false,
+                    MarginTop = 0,
+                    MarginBottom = 0,
+                    MarginLeft = 0,
+                    MarginRight = 0,
+                    PageHeight = Config.Settings.PrintHeight * 10000,
+                    PageWidth = Config.Settings.PrintWidth * 10000,
+                    Landscape = false
+                }
+            );
+            var printer = new PDFtoPrinterPrinter();
+            await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
+        }
+
+        private async void PrintWebPdfSprie()
+        {
+            await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
+                {
+                    HeaderFooterTitle = null,
+                    HeaderFooterUrl = null,
+                    MarginType = CefPdfPrintMarginType.Custom,
+                    ScaleFactor = 0,
+                    HeaderFooterEnabled = false,
+                    SelectionOnly = false,
+                    MarginTop = 0,
+                    MarginBottom = 0,
+                    MarginLeft = 0,
+                    MarginRight = 0,
+                    PageHeight = Config.Settings.PrintHeight * 10000,
+                    PageWidth = Config.Settings.PrintWidth * 10000,
+                    Landscape = false
+                }
+            );
             PdfDocument doc = new PdfDocument();
+            doc.PrintSettings.Landscape = false;
+            doc.PrintSettings.SetPaperMargins(0, 0, 0, 0);
             doc.LoadFromFile(@"temp.pdf");
-            doc.PrintSettings.SelectPageRange(1,1);
-            SetPrinter(null,doc.PrintSettings);
-            doc.PrintSettings.PrintController = new StandardPrintController();
-            doc.Print();
+            doc.PrintSettings.SelectPageRange(1, 1);
+
+            // SetPrinter(null,doc.PrintSettings);
+            // doc.PrintSettings.PrintController = new StandardPrintController();
+            // doc.Print();
         }
 
         private void SaveHistory(string printType)

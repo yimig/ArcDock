@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="设置" Height="450" Width="400" WindowStyle="ToolWindow">
     <Grid>
-        <TabControl>
+        <TabControl Margin="5">
             <TabItem Header="全局设置">
                 <StackPanel>
                     <GroupBox Header="打印接口" Margin="5 10 5 5">
@@ -15,7 +15,8 @@
                             <RadioButton Margin="5 10 5 2" Name="RbPrintDocument" Checked="RbPrint_OnChecked" ToolTip="使用原生PrintDocument接口打印，从CEF生成截图，之后打印截图。排版与预览效果相同，点击打印后直接发送给打印机。打印效果一般。">PrintDocument API</RadioButton>
                             <RadioButton Margin="5 2 5 2" Name="RbCefPrint" Checked="RbPrint_OnChecked" ToolTip="使用CEF框架的打印方法进行打印。排版与预览效果相同，点击打印后需要选择打印机后才能打印。打印效果好。">CEF Print API</RadioButton>
                             <RadioButton Margin="5 2 5 2" Name="RbClodop" Checked="RbPrint_OnChecked" ToolTip="使用C-Lodop服务进行打印，必须安装C-Lodop服务。使用IE内核渲染页面，排版可能与预览效果不同。点击打印后直接发送给打印机。打印效果好。">C-Lodop API</RadioButton>
-                            <RadioButton Margin="5 2 5 10" Name="RbSpire" Checked="RbPrint_OnChecked" ToolTip="使用Spire.Pdf接口打印，页面先被CEF存储为PDF文档，后通过该接口打印。排版与预览效果相同，点击打印后直接发送给打印机。打印效果好。">Spire.Pdf API</RadioButton>
+                            <RadioButton Margin="5 2 5 2" Name="RbPdf" Checked="RbPrint_OnChecked" ToolTip="使用PDFtoPrinter接口打印，页面先被CEF存储为PDF文档，后通过该接口打印。排版与预览效果相同，点击打印后直接发送给打印机。打印效果好。">PDFtoPrinter API</RadioButton>
+                            <RadioButton Margin="5 2 5 10" Name="RbSpire" Checked="RbPrint_OnChecked" ToolTip="使用Spire.Pdf接口打印，页面先被CEF存储为PDF文档，后通过该接口打印。排版与预览效果相同，点击打印后直接发送给打印机。打印效果好。由于免费试用限制，一次最多打印10张。">Spire.Pdf API</RadioButton>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

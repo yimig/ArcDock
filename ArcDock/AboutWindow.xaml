@@ -22,6 +22,7 @@
                         <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 10 0 2"></Border>
                         <TextBlock FontWeight="Bold" FontSize="17" Margin="0 10 0 10">开源许可</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">CefSharp@105.3.330</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">PDFtoPrinter@1.4.4</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">FreeSpire.PDF@8.6.0</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">NPinYinPro@0.3.3</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">Newtonsoft.Json@13.0.1</TextBlock>

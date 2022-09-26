@@ -93,8 +93,8 @@ namespace ArcDock
             var res = true;
             try
             {
-                if (text.Any(c => c.Equals('\n'))) AnalyseExecuteInfo(text);
-                else if (text.Any(c => c.Equals('/'))) AnalyseTreatmentInfo(text);
+                if (text.Any(c => c.Equals('/'))) AnalyseTreatmentInfo(text);
+                else if (text.Any(c => c.Equals('\n'))) AnalyseExecuteInfo(text);
                 else
                 {
                     throw new Exception("仅可从执行医嘱列表或诊疗界面标题复制文本信息");
