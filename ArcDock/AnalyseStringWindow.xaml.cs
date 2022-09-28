@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace ArcDock
 {
     /// <summary>
-    /// AnalyseStringWindow.xaml 的交互逻辑
+    /// 分析患者信息窗口
     /// </summary>
     public partial class AnalyseStringWindow : Window
     {

@@ -19,18 +19,45 @@ using ArcDock.Data.Database;
 namespace ArcDock
 {
     /// <summary>
-    /// HistoryWindow.xaml 的交互逻辑
+    /// 查看历史纪录窗口
     /// </summary>
     public partial class HistoryWindow : Window, INotifyPropertyChanged
     {
+        #region 属性字段和事件
+
+        /// <summary>
+        /// 历史记录数据库连接类
+        /// </summary>
         private History history;
+
+        /// <summary>
+        /// 查询结果
+        /// </summary>
         private List<DataResult> results;
+
+        /// <summary>
+        /// 绑定事件触发
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// 是否搜索状态标志
+        /// </summary>
         private bool isSearchFlag = false;
+
+        /// <summary>
+        /// 目前页码
+        /// </summary>
         private int nowPage;
+
+        /// <summary>
+        /// 最大页码
+        /// </summary>
         private string maxPage;
 
-
+        /// <summary>
+        /// 查询结果
+        /// </summary>
         public List<DataResult> Results
         {
             get => results;
@@ -41,6 +68,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 目前页码
+        /// </summary>
         public int NowPage
         {
             get => nowPage;
@@ -51,6 +81,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 最大页码
+        /// </summary>
         public string MaxPage
         {
             get => maxPage;
@@ -61,6 +94,10 @@ namespace ArcDock
             }
         }
 
+        #endregion
+
+        #region 初始化
+
         public HistoryWindow(History history)
         {
             this.history = history;
@@ -68,11 +105,18 @@ namespace ArcDock
             InitializeComponent();
             Results = history.GetPage(1);
             ResetMaxPage();
-            LvHistory.SetBinding(ListView.ItemsSourceProperty, new Binding("Results") {Source = this});
-            TbNowPage.SetBinding(TextBlock.TextProperty, new Binding("NowPage"){Source = this});
-            TbMaxPage.SetBinding(TextBlock.TextProperty, new Binding("MaxPage"){Source = this});
+            LvHistory.SetBinding(ListView.ItemsSourceProperty, new Binding("Results") { Source = this });
+            TbNowPage.SetBinding(TextBlock.TextProperty, new Binding("NowPage") { Source = this });
+            TbMaxPage.SetBinding(TextBlock.TextProperty, new Binding("MaxPage") { Source = this });
         }
 
+        #endregion
+
+        #region 功能解耦
+
+        /// <summary>
+        /// 重置最大页码
+        /// </summary>
         private void ResetMaxPage()
         {
             var pageNum = 1;
@@ -80,6 +124,9 @@ namespace ArcDock
             MaxPage = pageNum.ToString();
         }
 
+        /// <summary>
+        /// 搜索历史
+        /// </summary>
         private void SearchItem()
         {
             if (TbSearch.Text.Equals(String.Empty))
@@ -97,6 +144,15 @@ namespace ArcDock
             }
         }
 
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 上一页按钮事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnForwardPage_OnClick(object sender, RoutedEventArgs e)
         {
             if (NowPage - 1 >= 1)
@@ -106,21 +162,36 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 下一页按钮事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnNextPage_OnClick(object sender, RoutedEventArgs e)
         {
             if (NowPage + 1 <= Convert.ToInt32(MaxPage))
             {
                 NowPage++;
                 Results = history.GetPage(NowPage);
-                
+
             }
         }
 
+        /// <summary>
+        /// 搜索按钮事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSearch_OnClick(object sender, RoutedEventArgs e)
         {
             SearchItem();
         }
 
+        /// <summary>
+        /// 搜索栏输入事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TbSearch_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -129,11 +200,19 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 双击搜索项事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnListViewItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var selectedId = ((sender as ListViewItem).Content as DataResult).ItemId;
             var results = history.GetFullItemData(selectedId);
             (new ItemDataWindow(results)).ShowDialog();
         }
+
+        #endregion
+
     }
 }

@@ -15,11 +15,21 @@ using System.Windows.Shapes;
 namespace ArcDock
 {
     /// <summary>
-    /// SettingWindow.xaml 的交互逻辑
+    /// 设置窗口
     /// </summary>
     public partial class SettingWindow : Window
     {
+        #region 属性和字段
+
+        /// <summary>
+        /// 目前选中的打印API
+        /// </summary>
         public int PrintApi { get; set; }
+
+        #endregion
+
+        #region 初始化
+
         public SettingWindow(int printApi)
         {
             PrintApi = printApi;
@@ -27,15 +37,9 @@ namespace ArcDock
             InitPrintApi();
         }
 
-        private void CheckPrintApi()
-        {
-            if ((bool)RbPrintDocument.IsChecked) PrintApi = 0;
-            else if ((bool)RbCefPrint.IsChecked) PrintApi = 1;
-            else if ((bool)RbClodop.IsChecked) PrintApi = 2;
-            else if ((bool)RbPdf.IsChecked) PrintApi = 3;
-            else if ((bool)RbSpire.IsChecked) PrintApi = 4;
-        }
-
+        /// <summary>
+        /// 初始化打印API选项
+        /// </summary>
         private void InitPrintApi()
         {
             if (PrintApi == 0) RbPrintDocument.IsChecked = true;
@@ -45,9 +49,37 @@ namespace ArcDock
             else if (PrintApi == 4) RbSpire.IsChecked = true;
         }
 
+        #endregion
+
+        #region 功能解耦
+
+        /// <summary>
+        /// 检查目前选中的打印API
+        /// </summary>
+        private void CheckPrintApi()
+        {
+            if ((bool)RbPrintDocument.IsChecked) PrintApi = 0;
+            else if ((bool)RbCefPrint.IsChecked) PrintApi = 1;
+            else if ((bool)RbClodop.IsChecked) PrintApi = 2;
+            else if ((bool)RbPdf.IsChecked) PrintApi = 3;
+            else if ((bool)RbSpire.IsChecked) PrintApi = 4;
+        }
+
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 按下任意打印API单选按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RbPrint_OnChecked(object sender, RoutedEventArgs e)
         {
             CheckPrintApi();
         }
+
+        #endregion
+
     }
 }

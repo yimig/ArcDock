@@ -16,14 +16,35 @@ using ArcDock.Data.Database;
 namespace ArcDock
 {
     /// <summary>
-    /// ItemDataWindow.xaml 的交互逻辑
+    /// 历史记录详细信息窗口
     /// </summary>
     public partial class ItemDataWindow : Window
     {
+        #region 属性和字段
+
+        /// <summary>
+        /// 查询结果集
+        /// </summary>
         private List<DataResult> dataResults;
+
+        /// <summary>
+        /// 是否为单数项
+        /// </summary>
         private bool isSingleItem = true;
+
+        /// <summary>
+        /// 单数项颜色
+        /// </summary>
         private Color color1 = Color.FromRgb(193, 215, 229);
-        private Color color2 = Color.FromRgb(159,180,206);
+
+        /// <summary>
+        /// 双数项颜色
+        /// </summary>
+        private Color color2 = Color.FromRgb(159, 180, 206);
+
+        #endregion
+
+        #region 初始化
 
         public ItemDataWindow(List<DataResult> data)
         {
@@ -32,6 +53,9 @@ namespace ArcDock
             InitControls();
         }
 
+        /// <summary>
+        /// 初始化控件
+        /// </summary>
         private void InitControls()
         {
             foreach (var result in dataResults)
@@ -44,7 +68,13 @@ namespace ArcDock
             StMain.Children.Add(GetItemStack("打印时间", dataResults[0].PrintDate));
         }
 
-        private StackPanel GetItemStack(string title,string content)
+        /// <summary>
+        /// 初始化结果项栈UI
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        private StackPanel GetItemStack(string title, string content)
         {
             var sp = new StackPanel();
             sp.Background = new SolidColorBrush(GetItemColor());
@@ -52,14 +82,14 @@ namespace ArcDock
             sp.Children.Add(new TextBlock()
             {
                 Text = title + ":",
-                Margin = new Thickness(20,5,10,5),
+                Margin = new Thickness(20, 5, 10, 5),
                 FontSize = 18,
                 FontWeight = FontWeights.Bold
             });
             sp.Children.Add(new TextBox()
             {
                 IsReadOnly = true,
-                Background = new SolidColorBrush(Color.FromArgb(0,255,255,255)),
+                Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255)),
                 BorderThickness = new Thickness(0),
                 Text = content,
                 Margin = new Thickness(5),
@@ -68,13 +98,24 @@ namespace ArcDock
             return sp;
         }
 
+        #endregion
+
+        #region 功能解耦
+
+        /// <summary>
+        /// 获取结果项北京颜色
+        /// </summary>
+        /// <returns>目前背景色</returns>
         private Color GetItemColor()
         {
-            var resColor = Color.FromRgb(0,0,0);
+            var resColor = Color.FromRgb(0, 0, 0);
             if (isSingleItem) resColor = color1;
             else resColor = color2;
             isSingleItem = !isSingleItem;
             return resColor;
         }
+
+        #endregion
+
     }
 }

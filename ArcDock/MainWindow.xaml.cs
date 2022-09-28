@@ -40,7 +40,7 @@ using Path = System.IO.Path;
 namespace ArcDock
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// 主窗口
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
