@@ -84,19 +84,45 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 根据模板动态生成的UI区域
+        /// </summary>
         private ControlDock controlDock;
 
+        /// <summary>
+        /// 配置列表，对应模板解析后的配置
+        /// </summary>
         private List<Config> configList;
 
+        /// <summary>
+        /// 模板的原文列表
+        /// </summary>
         private List<string> templateHtmlList;
 
+        /// <summary>
+        /// 模板文件路径（相对）
+        /// </summary>
         private string[] templateFiles;
 
+        /// <summary>
+        /// 历史记录
+        /// </summary>
         private History history;
 
+        /// <summary>
+        /// 最大打印页数
+        /// </summary>
         private int MaxPrintPage { get; set; }
+        
+        /// <summary>
+        /// 目前正在打印的页数
+        /// </summary>
         private int NowPrintPage { get; set; }
 
+        /// <summary>
+        /// 选择打印Api
+        /// 0=DocumentPrint，1=Cef原生print()函数，2=调用CLodop JS函数，3=调用PDFToPrinter API转印，4=调用Spire.PDF API转印
+        /// </summary>
         private int PrintApi
         {
             get => Properties.Settings.Default.UserPrintApi;
@@ -158,6 +184,9 @@ namespace ArcDock
             SetCheckBoxTemplate();
         }
 
+        /// <summary>
+        /// 初始化动态UI区域
+        /// </summary>
         private void SetControlDock()
         {
             if (controlDock != null)
@@ -176,6 +205,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 初始化模板选择下拉列表框
+        /// </summary>
         private void SetCheckBoxTemplate()
         {
             cbTemplate.ItemsSource = templateFiles.Select(file => Path.GetFileName(file));
@@ -245,6 +277,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 将目前预览保存为HTML
+        /// </summary>
         private void SaveHtml()
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -265,6 +300,10 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 切换配置文件
+        /// </summary>
+        /// <param name="index">配置文件顺序</param>
         private void ChangeConfig(int index)
         {
             Config = configList[index];
@@ -273,6 +312,9 @@ namespace ArcDock
             SetControlDock();
         }
 
+        /// <summary>
+        /// 打印预览标签
+        /// </summary>
         private void PrintWeb()
         {
             if(PrintApi == 0)PrintWebApi();
@@ -282,6 +324,9 @@ namespace ArcDock
             else if(PrintApi == 4)PrintWebPdfSprie();
         }
 
+        /// <summary>
+        /// 使用原生DocumentPrint打印
+        /// </summary>
         private async void PrintWebApi()
         {
             //截图配置，触发截图操作时会强制销毁打印机视图Graphics，故不能再打印事件中进行截图，先截好存起来
@@ -312,6 +357,11 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 设置打印机，配置文件内容为空时，使用默认打印机
+        /// </summary>
+        /// <param name="pageSettings">使用DocumentPrint模式的打印机配置，非该模式输入null</param>
+        /// <param name="printerSettings">使用Spire.PDF API的打印机配置，非该模式输入null</param>
         private void SetPrinter(PageSettings pageSettings,Spire.Pdf.Print.PdfPrintSettings printerSettings)
         {
             if (!config.Settings.Printer.Equals(String.Empty))
@@ -324,11 +374,17 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 使用CEF附带print()方法打印，无法静默打印。
+        /// </summary>
         private void PrintWebJs()
         {
             Browser.GetMainFrame().ExecuteJavaScriptAsync("window.print()");
         }
 
+        /// <summary>
+        /// 使用Clodop插件打印，必须安装插件，插件IE渲染打印效果，可能与预览效果不同
+        /// </summary>
         private void PrintWebClodop()
         {
             Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);"+
@@ -342,6 +398,9 @@ namespace ArcDock
                                                           "CLODOP.PRINT();");
         }
 
+        /// <summary>
+        /// 使用PrintToPDF API打印模板
+        /// </summary>
         private async void PrintWebPdf()
         {
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
@@ -365,6 +424,9 @@ namespace ArcDock
             await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
         }
 
+        /// <summary>
+        /// 使用Spire.PDF API打印，免费版PDF最多一次载入十页
+        /// </summary>
         private async void PrintWebPdfSprie()
         {
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
@@ -395,13 +457,17 @@ namespace ArcDock
             // doc.Print();
         }
 
+        /// <summary>
+        /// 将当前填入值保存进数据库
+        /// </summary>
+        /// <param name="printType">打印类型：Manual=手动单次打印，Batch=批量打印，Html=保存为网页文件，Image=保存为图像文件</param>
         private void SaveHistory(string printType)
         {
             var fileName = Path.GetFileName(templateFiles[cbTemplate.SelectedIndex]);
-            var result = new TemplateResult(fileName, printType);
+            var result = new HistoryResult(fileName, printType);
             foreach (var configItem in Config.ConfigItemList)
             {
-                var resItem = new TemplateResultItem();
+                var resItem = new HistoryResultItem();
                 resItem.Name = configItem.Name;
                 resItem.Id = configItem.Id;
                 resItem.Content = structuredText[configItem.Id];
@@ -410,12 +476,19 @@ namespace ArcDock
             history.AddHistory(result,DateTime.Now);
         }
 
+        /// <summary>
+        /// 清除动态UI区域
+        /// </summary>
         private void ClearDock()
         {
             controlDock.ResetChildrenContent();
         }
 
-
+        /// <summary>
+        /// 修改动态UI区域的控件值
+        /// </summary>
+        /// <param name="id">控件的预留值ID</param>
+        /// <param name="content">控件值</param>
         private void CheckAndFill(string id, string content)
         {
             if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
@@ -469,11 +542,21 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 刷新模板预览按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRefurbish_OnClick(object sender, RoutedEventArgs e)
         {
             Browser.Reload();
         }
 
+        /// <summary>
+        /// 显示模板控制台的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnConsole_OnClick(object sender, RoutedEventArgs e)
         {
             var wininfo = new WindowInfo();
@@ -481,26 +564,51 @@ namespace ArcDock
             Browser.ShowDevTools(wininfo);
         }
 
+        /// <summary>
+        /// 修改模板下拉列表的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CbTemplate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(cbTemplate.SelectedIndex != -1) ChangeConfig(cbTemplate.SelectedIndex);
         }
 
+        /// <summary>
+        /// 显示历史按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnHistory_OnClick(object sender, RoutedEventArgs e)
         {
             new HistoryWindow(history).Show();
         }
 
+        /// <summary>
+        /// 关闭主窗口的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
             history.RemoveOutDateHistory();
         }
 
+        /// <summary>
+        /// 新建项目按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnNew_OnClick(object sender, RoutedEventArgs e)
         {
             ClearDock();
         }
 
+        /// <summary>
+        /// 工具栏新建项目按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnToolNew_OnClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("受否新建项目？已经填入的信息将被删除！", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -508,7 +616,12 @@ namespace ArcDock
                 ClearDock();
             }
         }
-
+        
+        /// <summary>
+        /// 工具栏分析患者信息按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnToolAnalyse_OnClick(object sender, RoutedEventArgs e)
         {
             var analyseWindow = new AnalyseStringWindow();
@@ -529,6 +642,11 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 工具栏多页批量打印按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnToolMultiPrint_OnClick(object sender, RoutedEventArgs e)
         {
             var spWindow = new SelectPrintNumWindow();
@@ -541,22 +659,43 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 菜单导出为HTML按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiOutputHtml_OnClick(object sender, RoutedEventArgs e)
         {
             SaveHtml();
             SaveHistory("Html");
         }
 
+        /// <summary>
+        /// 菜单输出为图像按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiOutputImage_OnClick(object sender, RoutedEventArgs e)
         {
             SaveImage();
             SaveHistory("Image");
         }
 
+        /// <summary>
+        /// 菜单查看软件信息按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiSoftwareInfo_OnClick(object sender, RoutedEventArgs e)
         {
             (new AboutWindow()).Show();
         }
+
+        /// <summary>
+        /// 菜单全局设置按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiGlobalSetting_OnClick(object sender, RoutedEventArgs e)
         {
             var settingWindow = new SettingWindow(PrintApi);

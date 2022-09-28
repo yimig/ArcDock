@@ -8,14 +8,23 @@ using ArcDock.Tools;
 
 namespace ArcDock.Data
 {
-    public class SearchDataSet
+    /// <summary>
+    /// 自动补全搜索类
+    /// </summary>
+    public class SearchData
     {
-        public ConfigItem sourceConfig;
-        public List<SearchDataItem> searchItems;
+        #region 字段和属性
 
-        public SearchDataSet(ConfigItem configItem)
+        /// <summary>
+        /// 自动补全条目集合
+        /// </summary>
+        private List<SearchDataItem> searchItems;
+
+        #endregion
+
+        #region 初始化
+        public SearchData(ConfigItem configItem)
         {
-            this.sourceConfig = configItem;
             searchItems = new List<SearchDataItem>();
             if (configItem.OptionType == 1)
             {
@@ -23,15 +32,25 @@ namespace ArcDock.Data
                 {
                     searchItems.Add(new SearchDataItem(item));
                 }
-            } else if (configItem.OptionType == 2)
+            }
+            else if (configItem.OptionType == 2)
             {
                 foreach (var item in configItem.OptionItemList)
                 {
-                    searchItems.Add(new SearchDataItem(item.Content,item.ExecutionItemList));
+                    searchItems.Add(new SearchDataItem(item.Content, item.ExecutionItemList));
                 }
             }
         }
 
+        #endregion
+
+        #region 公共方法
+
+        /// <summary>
+        /// 搜索补全内容
+        /// </summary>
+        /// <param name="keyword">关键词</param>
+        /// <returns>搜索结果集</returns>
         public List<SearchDataItem> GetResult(string keyword)
         {
             List<SearchDataItem> result;
@@ -46,5 +65,8 @@ namespace ArcDock.Data
 
             return result;
         }
+
+        #endregion
+
     }
 }

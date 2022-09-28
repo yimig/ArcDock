@@ -21,7 +21,7 @@ namespace ArcDock.Data.UI
         private string content;
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
-        private SearchDataSet searchDataSet;
+        private SearchData searchDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Content
@@ -43,7 +43,7 @@ namespace ArcDock.Data.UI
             this.config = config;
             this.browser = browser;
             this.onContentChanged = onContentChanged;
-            searchDataSet = new SearchDataSet(config);
+            searchDataSet = new SearchData(config);
             SetChildren();
             SetDefaultValue();
         }

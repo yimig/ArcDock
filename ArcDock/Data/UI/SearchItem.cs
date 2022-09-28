@@ -33,7 +33,7 @@ namespace ArcDock.Data.UI
             return this.Text;
         }
 
-        public static List<SearchItem> GetSearchResult(SearchDataSet data, string keyword)
+        public static List<SearchItem> GetSearchResult(SearchData data, string keyword)
         {
             List<SearchItem> result = new List<SearchItem>();
             foreach (var item in data.GetResult(keyword))

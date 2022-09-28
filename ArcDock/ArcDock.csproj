@@ -192,15 +192,15 @@
     <Compile Include="Data\Json\Setting.cs" />
     <Compile Include="Data\SearchDataItem.cs" />
     <Compile Include="Data\StructuredText.cs" />
-    <Compile Include="Data\StructuredTextPiece.cs" />
-    <Compile Include="Data\TemplateResult.cs" />
-    <Compile Include="Data\TemplateResultItem.cs" />
+    <Compile Include="Data\StructuredTextItem.cs" />
+    <Compile Include="Data\HistoryResult.cs" />
+    <Compile Include="Data\HistoryResultItem.cs" />
     <Compile Include="Data\UI\AutoInputArea.cs" />
     <Compile Include="Data\UI\ControlDock.cs" />
     <Compile Include="Data\UI\CustomArea.cs" />
     <Compile Include="Data\UI\InputArea.cs" />
     <Compile Include="Data\UI\RichInputArea.cs" />
-    <Compile Include="Data\SearchDataSet.cs" />
+    <Compile Include="Data\SearchData.cs" />
     <Compile Include="Data\UI\SearchItem.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>

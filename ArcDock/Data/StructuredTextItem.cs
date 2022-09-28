@@ -9,7 +9,7 @@ namespace ArcDock.Data
     /// <summary>
     /// 文本块类
     /// </summary>
-    public class StructuredTextPiece
+    public class StructuredTextItem
     {
         /// <summary>
         /// 文本块内容
@@ -29,7 +29,7 @@ namespace ArcDock.Data
         /// 以文本模式初始化文本块
         /// </summary>
         /// <param name="content">文本块内容</param>
-        public StructuredTextPiece(string content)
+        public StructuredTextItem(string content)
         {
             this.Id = "";
             this.Content = content;
@@ -41,7 +41,7 @@ namespace ArcDock.Data
         /// </summary>
         /// <param name="content">文本块内容</param>
         /// <param name="type">文本块类型</param>
-        public StructuredTextPiece(string content, TextPieceType type)
+        public StructuredTextItem(string content, TextPieceType type)
         {
             this.Id = "";
             this.Content = content;

@@ -19,16 +19,36 @@ namespace ArcDock
     /// </summary>
     public partial class AnalyseStringWindow : Window
     {
+        #region 字段和属性
+
+        /// <summary>
+        /// 是否输入内容
+        /// </summary>
         public bool IsHasContent { get; set; }
 
+        /// <summary>
+        /// 患者姓名
+        /// </summary>
         public string PatientName { get; set; }
 
+        /// <summary>
+        /// 住院号
+        /// </summary>
         public string InPatientNo { get; set; }
 
+        /// <summary>
+        /// 床号
+        /// </summary>
         public string BedNo { get; set; }
 
+        /// <summary>
+        /// 患者科室
+        /// </summary>
         public string PatientDept { get; set; }
 
+        #endregion
+
+        #region 初始化
         public AnalyseStringWindow()
         {
             IsHasContent = false;
@@ -36,6 +56,9 @@ namespace ArcDock
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 初始化属性值
+        /// </summary>
         private void InitProp()
         {
             PatientName = String.Empty;
@@ -44,17 +67,24 @@ namespace ArcDock
             PatientDept = String.Empty;
         }
 
-        private void BtnAnalyse_OnClick(object sender, RoutedEventArgs e)
-        {
-            StartAnalyse();
-        }
+        #endregion
 
+        #region 功能解耦
+
+        /// <summary>
+        /// 分析字符串
+        /// </summary>
         private void StartAnalyse()
         {
             IsHasContent = true;
             if (AnalyseString(TbAnalyse.Text)) this.Close();
         }
 
+        /// <summary>
+        /// 分析执行医嘱界面复制的字符串内容
+        /// </summary>
+        /// <param name="text">患者信息</param>
+        /// <exception cref="Exception"></exception>
         private void AnalyseExecuteInfo(string text)
         {
             try
@@ -66,10 +96,16 @@ namespace ArcDock
             }
             catch (Exception e)
             {
-                throw new Exception("解析执行医嘱信息失败，字符串格式错误【"+e.Message+"】");
+                throw new Exception("解析执行医嘱信息失败，字符串格式错误【" + e.Message + "】");
             }
 
         }
+
+        /// <summary>
+        /// 分析诊疗界面复制的字符串内容
+        /// </summary>
+        /// <param name="text">患者信息</param>
+        /// <exception cref="Exception"></exception>
         private void AnalyseTreatmentInfo(string text)
         {
             try
@@ -82,11 +118,16 @@ namespace ArcDock
             }
             catch (Exception e)
             {
-                throw new Exception("解析诊疗信息失败，字符串格式错误【"+e.Message+"】");
+                throw new Exception("解析诊疗信息失败，字符串格式错误【" + e.Message + "】");
             }
 
         }
 
+        /// <summary>
+        /// 根据字符串特征分析患者信息
+        /// </summary>
+        /// <param name="rawText">患者信息</param>
+        /// <returns>分析是否成功</returns>
         private bool AnalyseString(string rawText)
         {
             var text = rawText.Trim();
@@ -110,10 +151,31 @@ namespace ArcDock
             return res;
         }
 
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 分析按钮事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnAnalyse_OnClick(object sender, RoutedEventArgs e)
+        {
+            StartAnalyse();
+        }
+
+        /// <summary>
+        /// 取消按钮事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
             IsHasContent = false;
             this.Close();
         }
+
+        #endregion
     }
 }

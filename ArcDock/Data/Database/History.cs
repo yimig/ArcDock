@@ -9,12 +9,36 @@ using System.Data;
 
 namespace ArcDock.Data.Database
 {
+    /// <summary>
+    /// 历史记录操作类
+    /// </summary>
     public class History
     {
+        #region 字段和属性
+
+        /// <summary>
+        /// 连接字符串
+        /// </summary>
         private static string connString = ConfigurationManager.ConnectionStrings["history"].ConnectionString;
+
+        /// <summary>
+        /// 数据库连接
+        /// </summary>
         private SQLiteConnection conn;
+
+        /// <summary>
+        /// 每页最大条目数
+        /// </summary>
         private const int PAGE_RANGE = 100;
+
+        /// <summary>
+        /// 根据每页最大条目数得出的最大页码
+        /// </summary>
         public int MaxPage { get; set; }
+
+        #endregion
+
+        #region 初始化
 
         public History()
         {
@@ -23,6 +47,9 @@ namespace ArcDock.Data.Database
             InitMaxPageNum();
         }
 
+        /// <summary>
+        /// 连接数据库
+        /// </summary>
         public void OpenDatabase()
         {
             conn.Open();
@@ -36,6 +63,14 @@ namespace ArcDock.Data.Database
             }
         }
 
+        #endregion
+
+        #region 数据库操作
+
+        /// <summary>
+        /// 获取条目总数
+        /// </summary>
+        /// <returns>条目总数</returns>
         private int GetMaxItemID()
         {
             var id = 0;
@@ -56,6 +91,9 @@ namespace ArcDock.Data.Database
             return id + 1;
         }
 
+        /// <summary>
+        /// 初始化最大页码
+        /// </summary>
         private void InitMaxPageNum()
         {
             var item_count = 0;
@@ -81,7 +119,17 @@ namespace ArcDock.Data.Database
             MaxPage = item_count % PAGE_RANGE == 0 ? (item_count / PAGE_RANGE) : (item_count / PAGE_RANGE) + 1;
         }
 
-        private void InsertData(int itemId,string tempFileName,string tempId,string tempName,string tempContent,string printType,DateTime printDate)
+        /// <summary>
+        /// 插入数据
+        /// </summary>
+        /// <param name="itemId">项目ID</param>
+        /// <param name="tempFileName">模板文件名</param>
+        /// <param name="tempId">预留值ID</param>
+        /// <param name="tempName">预留值友好名称</param>
+        /// <param name="tempContent">预留值填充内容</param>
+        /// <param name="printType">打印类型</param>
+        /// <param name="printDate">打印日期</param>
+        private void InsertData(int itemId, string tempFileName, string tempId, string tempName, string tempContent, string printType, DateTime printDate)
         {
             if (conn.State == ConnectionState.Open)
             {
@@ -100,15 +148,10 @@ namespace ArcDock.Data.Database
             }
         }
 
-        public void AddHistory(TemplateResult result, DateTime printDate)
-        {
-            var itemId = GetMaxItemID();
-            foreach (var res in result.ResultItems)
-            {
-                InsertData(itemId,result.TemplateFileName,res.Id,res.Name,res.Content,result.PrintType,printDate);
-            }
-        }
-
+        /// <summary>
+        /// 删除指定日期后的数据
+        /// </summary>
+        /// <param name="limitedDate">限制日期</param>
         private void DeleteData(DateTime limitedDate)
         {
             if (conn.State == ConnectionState.Open)
@@ -122,12 +165,12 @@ namespace ArcDock.Data.Database
             }
         }
 
-        public void RemoveOutDateHistory()
-        {
-            var limitedDate = DateTime.Now - TimeSpan.FromDays(365);
-            DeleteData(limitedDate);
-        }
-
+        /// <summary>
+        /// 获取全部内容
+        /// </summary>
+        /// <param name="startRow">开始行数</param>
+        /// <param name="range">获取行的数量</param>
+        /// <returns>数据库查询值</returns>
         private List<DataResult> SelectData(int startRow, int range)
         {
             var resList = new List<DataResult>();
@@ -159,6 +202,11 @@ namespace ArcDock.Data.Database
             return resList;
         }
 
+        /// <summary>
+        /// 获取查询结果
+        /// </summary>
+        /// <param name="contentQuery">查询预留值填充内容</param>
+        /// <returns>查询结果</returns>
         private List<DataResult> SelectData(string contentQuery)
         {
             var resList = new List<DataResult>();
@@ -168,7 +216,7 @@ namespace ArcDock.Data.Database
                 cmd.Connection = conn;
                 cmd.CommandText =
                     "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content order by ROWID desc;";
-                cmd.Parameters.Add("content", DbType.String).Value = "%"+contentQuery+"%";
+                cmd.Parameters.Add("content", DbType.String).Value = "%" + contentQuery + "%";
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
                 {
@@ -188,17 +236,11 @@ namespace ArcDock.Data.Database
             return resList;
         }
 
-        public List<DataResult> GetPage(int pageNo)
-        {
-            var resList = new List<DataResult>();
-            if (pageNo > 0 && pageNo <= MaxPage)
-            {
-                resList = SelectData((pageNo - 1) * PAGE_RANGE, PAGE_RANGE);
-            }
-
-            return resList;
-        }
-
+        /// <summary>
+        /// 获取一条完整的项目信息
+        /// </summary>
+        /// <param name="ItemId">项目ID</param>
+        /// <returns>项目信息集合</returns>
         public List<DataResult> GetFullItemData(int ItemId)
         {
             var resList = new List<DataResult>();
@@ -228,9 +270,60 @@ namespace ArcDock.Data.Database
             return resList;
         }
 
+        #endregion
+
+        #region 公共方法解耦
+
+        /// <summary>
+        /// 添加一条历史记录
+        /// </summary>
+        /// <param name="result">记录条目</param>
+        /// <param name="printDate">打印日期</param>
+        public void AddHistory(HistoryResult result, DateTime printDate)
+        {
+            var itemId = GetMaxItemID();
+            foreach (var res in result.ResultItems)
+            {
+                InsertData(itemId, result.TemplateFileName, res.Id, res.Name, res.Content, result.PrintType, printDate);
+            }
+        }
+
+        /// <summary>
+        /// 删除超期的历史
+        /// </summary>
+        public void RemoveOutDateHistory()
+        {
+            var limitedDate = DateTime.Now - TimeSpan.FromDays(365);
+            DeleteData(limitedDate);
+        }
+
+        /// <summary>
+        /// 获取指定页码的历史内容
+        /// </summary>
+        /// <param name="pageNo">页码</param>
+        /// <returns>历史内容集合</returns>
+        public List<DataResult> GetPage(int pageNo)
+        {
+            var resList = new List<DataResult>();
+            if (pageNo > 0 && pageNo <= MaxPage)
+            {
+                resList = SelectData((pageNo - 1) * PAGE_RANGE, PAGE_RANGE);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// 搜索历史
+        /// </summary>
+        /// <param name="contentQuery">关键字</param>
+        /// <returns>历史内容集合</returns>
         public List<DataResult> GetQueryResult(string contentQuery)
         {
             return SelectData(contentQuery);
         }
+
+        #endregion
+
     }
 }
