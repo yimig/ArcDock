@@ -105,7 +105,9 @@ namespace ArcDock
                 PatientName = strArray[0].Trim();
                 InPatientNo = strArray.Length >= 2 ? strArray[2].Trim() : String.Empty;
                 BedNo = strArray.Length >= 5 ? strArray[5].Trim() : String.Empty;
-                MedicamentName = strArray.Length >= 8 ? strArray[8].Trim() : String.Empty;
+                MedicamentName = strArray.Length >= 8 ? strArray[8].Trim().Replace('（','(').Replace('）',')') : String.Empty;
+                PatientDept = strArray.Length >= 9 ? strArray[9].Trim() : String.Empty;
+                MedicamentNum = strArray.Length >= 10 ? strArray[10].Trim() : String.Empty;
             }
             catch (Exception e)
             {

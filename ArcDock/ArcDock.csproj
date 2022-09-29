@@ -153,6 +153,9 @@
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintProgressWindow.xaml.cs">
+      <DependentUpon>PrintProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectPrintNumWindow.xaml.cs">
       <DependentUpon>SelectPrintNumWindow.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PrintProgressWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SelectPrintNumWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

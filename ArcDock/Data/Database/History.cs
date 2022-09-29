@@ -487,5 +487,26 @@ namespace ArcDock.Data.Database
 
         #endregion
 
+        /* 重排序SQL
+         * select item_id,
+           group_concat(patient_no, '') patient_no,
+           group_concat(patient_name, '') patient_name,
+           group_concat(medicament_name, '') medicament_name,
+           group_concat(medicament_num, '') medicament_num,
+           group_concat(patient_dept, '') patient_dept,
+           group_concat(patient_bed, '') patient_bed,
+           min(print_date) print_date
+           from (select item_id,
+           case template_id when 'patient_name' then template_content else '' end 'patient_name',
+           case template_id when 'patient_no' then template_content else '' end 'patient_no',
+           case template_id when 'patient_bed' then template_content else '' end 'patient_bed',
+           case template_id when 'patient_dept' then template_content else '' end 'patient_dept',
+           case template_id when 'medicament_name' then template_content else '' end 'medicament_name',
+           case template_id when 'medicament_num' then template_content else '' end 'medicament_num',
+           print_date
+           from history)
+           group by item_id;
+         */
+
     }
 }

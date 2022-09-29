@@ -10,7 +10,10 @@
         <TabControl Margin="5">
             <TabItem Header="全局设置">
                 <StackPanel>
-                    <GroupBox Header="打印接口" Margin="5 10 5 5">
+                    <GroupBox Header="常规" Margin="5 10 5 5">
+                        <CheckBox Margin="5" Name="CbEnableRules" IsChecked="{Binding IsEnableRules}">应用模板预设检查规则</CheckBox>
+                    </GroupBox>
+                    <GroupBox Header="打印接口" Margin="5 5 5 5">
                         <StackPanel>
                             <RadioButton Margin="5 10 5 2" Name="RbPrintDocument" Checked="RbPrint_OnChecked" ToolTip="使用原生PrintDocument接口打印，从CEF生成截图，之后打印截图。排版与预览效果相同，点击打印后直接发送给打印机。打印效果一般。">PrintDocument API</RadioButton>
                             <RadioButton Margin="5 2 5 2" Name="RbCefPrint" Checked="RbPrint_OnChecked" ToolTip="使用CEF框架的打印方法进行打印。排版与预览效果相同，点击打印后需要选择打印机后才能打印。打印效果好。">CEF Print API</RadioButton>

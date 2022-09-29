@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Windows.Controls;
@@ -129,6 +130,16 @@ namespace ArcDock
             set
             {
                 Properties.Settings.Default.UserPrintApi = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private bool IsEnableRules
+        {
+            get => Properties.Settings.Default.IsEnableRules;
+            set
+            {
+                Properties.Settings.Default.IsEnableRules = value;
                 Properties.Settings.Default.Save();
             }
         }
@@ -317,11 +328,14 @@ namespace ArcDock
         /// </summary>
         private void PrintWeb()
         {
-            if(PrintApi == 0)PrintWebApi();
-            else if(PrintApi == 1)PrintWebJs();
-            else if(PrintApi == 2)PrintWebClodop();
-            else if(PrintApi == 3)PrintWebPdf();
-            else if(PrintApi == 4)PrintWebPdfSprie();
+            if (!IsEnableRules || CheckRules())
+            { 
+                if (PrintApi == 0) PrintWebApi();
+                else if (PrintApi == 1) PrintWebJs();
+                else if (PrintApi == 2) PrintWebClodop();
+                else if (PrintApi == 3) PrintWebPdf();
+                else if (PrintApi == 4) PrintWebPdfSprie();
+            }
         }
 
         /// <summary>
@@ -403,6 +417,9 @@ namespace ArcDock
         /// </summary>
         private async void PrintWebPdf()
         {
+            var ppw = new PrintProgressWindow();
+            ppw.Show();
+            ppw.ChangeStatue(30, "转储PDF...");
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
                 {
                     HeaderFooterTitle = null,
@@ -420,8 +437,10 @@ namespace ArcDock
                     Landscape = false
                 }
             );
+            ppw.ChangeStatue(90, "交付打印...");
             var printer = new PDFtoPrinterPrinter();
             await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
+            ppw.Close();
         }
 
         /// <summary>
@@ -508,12 +527,42 @@ namespace ArcDock
             var temp_config = Config.ConfigItemList.Single(item => item.Id == id);
             if (temp_config.OptionType == 2)
             {
-                var executeItems = temp_config.OptionItemList.Single(option => option.Content.Equals(content)).ExecutionItemList;
-                foreach (var execItem in executeItems)
+                try
                 {
-                    controlDock.SetChildrenContentValue(execItem.Key, execItem.Content);
+                    var executeItems = temp_config.OptionItemList.Single(option => option.Content.Equals(content)).ExecutionItemList;
+                    foreach (var execItem in executeItems)
+                    {
+                        controlDock.SetChildrenContentValue(execItem.Key, execItem.Content);
+                    }
+                } catch(InvalidOperationException) {}
+
+            }
+        }
+
+        /// <summary>
+        /// 检查模板预设规则
+        /// </summary>
+        /// <returns>是否全部通过规则</returns>
+        private bool CheckRules()
+        {
+            foreach (var configItem in Config.ConfigItemList)
+            {
+                if (configItem.Rules != String.Empty)
+                {
+                    var text = structuredText[configItem.Id];
+                    var patten = configItem.Rules;
+                    var res = Regex.IsMatch(structuredText[configItem.Id], configItem.Rules, RegexOptions.IgnoreCase);
+                    if (!Regex.IsMatch(structuredText[configItem.Id], configItem.Rules,RegexOptions.Singleline))
+                    {
+                        MessageBox.Show("输入项【" + configItem.Name + "】不满足模板预设规则，请重新输入。");
+                        var ca = controlDock.CustomAreas.Single(area => area.Id == configItem.Id);
+                        ca.InputControl.Focus();
+                        return false;
+                    }
                 }
             }
+
+            return true;
         }
 
         #endregion
@@ -719,9 +768,10 @@ namespace ArcDock
         /// <param name="e"></param>
         private void MiGlobalSetting_OnClick(object sender, RoutedEventArgs e)
         {
-            var settingWindow = new SettingWindow(PrintApi);
+            var settingWindow = new SettingWindow(PrintApi, IsEnableRules);
             settingWindow.ShowDialog();
             this.PrintApi = settingWindow.PrintApi;
+            this.IsEnableRules = settingWindow.IsEnableRules;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,22 +18,41 @@ namespace ArcDock
     /// <summary>
     /// 设置窗口
     /// </summary>
-    public partial class SettingWindow : Window
+    public partial class SettingWindow : Window, INotifyPropertyChanged
     {
         #region 属性和字段
+
+        private bool isEnableRules;
 
         /// <summary>
         /// 目前选中的打印API
         /// </summary>
         public int PrintApi { get; set; }
 
+        public bool IsEnableRules
+        {
+            get => isEnableRules;
+            set
+            {
+                isEnableRules = value;
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("IsEnableRules"));
+            }
+        }
+
+        /// <summary>
+        /// 绑定事件触发
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion
 
         #region 初始化
 
-        public SettingWindow(int printApi)
+        public SettingWindow(int printApi, bool isEnableRules)
         {
             PrintApi = printApi;
+            IsEnableRules = isEnableRules;
+            DataContext = this;
             InitializeComponent();
             InitPrintApi();
         }

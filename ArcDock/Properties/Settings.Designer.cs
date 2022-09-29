@@ -34,5 +34,17 @@ namespace ArcDock.Properties {
                 this["UserPrintApi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsEnableRules {
+            get {
+                return ((bool)(this["IsEnableRules"]));
+            }
+            set {
+                this["IsEnableRules"] = value;
+            }
+        }
     }
 }
