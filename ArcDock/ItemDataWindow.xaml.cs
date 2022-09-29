@@ -103,7 +103,7 @@ namespace ArcDock
         #region 功能解耦
 
         /// <summary>
-        /// 获取结果项北京颜色
+        /// 获取结果项背景颜色
         /// </summary>
         /// <returns>目前背景色</returns>
         private Color GetItemColor()
