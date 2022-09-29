@@ -27,6 +27,16 @@ namespace ArcDock
         public bool IsHasContent { get; set; }
 
         /// <summary>
+        /// 药品名
+        /// </summary>
+        public string MedicamentName { get; set; }
+
+        /// <summary>
+        /// 药品数量
+        /// </summary>
+        public string MedicamentNum { get; set; }
+
+        /// <summary>
         /// 患者姓名
         /// </summary>
         public string PatientName { get; set; }
@@ -65,6 +75,8 @@ namespace ArcDock
             InPatientNo = String.Empty;
             BedNo = String.Empty;
             PatientDept = String.Empty;
+            MedicamentName = String.Empty;
+            MedicamentNum = String.Empty;
         }
 
         #endregion
@@ -93,6 +105,7 @@ namespace ArcDock
                 PatientName = strArray[0].Trim();
                 InPatientNo = strArray.Length >= 2 ? strArray[2].Trim() : String.Empty;
                 BedNo = strArray.Length >= 5 ? strArray[5].Trim() : String.Empty;
+                MedicamentName = strArray.Length >= 8 ? strArray[8].Trim() : String.Empty;
             }
             catch (Exception e)
             {

@@ -494,6 +494,25 @@ namespace ArcDock
             if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
             {
                 controlDock.SetChildrenContentValue(id, content);
+                AutoFillContent(id,content);
+            }
+        }
+
+        /// <summary>
+        /// 触发自动填充其他符合模板预留值的内容
+        /// </summary>
+        /// <param name="id">预留值ID</param>
+        /// <param name="content">预留值内容</param>
+        private void AutoFillContent(string id, string content)
+        {
+            var temp_config = Config.ConfigItemList.Single(item => item.Id == id);
+            if (temp_config.OptionType == 2)
+            {
+                var executeItems = temp_config.OptionItemList.Single(option => option.Content.Equals(content)).ExecutionItemList;
+                foreach (var execItem in executeItems)
+                {
+                    controlDock.SetChildrenContentValue(execItem.Key, execItem.Content);
+                }
             }
         }
 
@@ -634,6 +653,8 @@ namespace ArcDock
                     { "patient_bed", analyseWindow.BedNo },
                     { "patient_no", analyseWindow.InPatientNo },
                     { "patient_dept", analyseWindow.PatientDept },
+                    { "medicament_name", analyseWindow.MedicamentName },
+                    { "medicament_num", analyseWindow.MedicamentNum },
                 };
                 foreach (var pair in checkDict)
                 {

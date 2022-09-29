@@ -33,7 +33,7 @@ namespace ArcDock
         /// <summary>
         /// 查询结果
         /// </summary>
-        private List<DataResult> results;
+        private List<SortResult> results;
 
         /// <summary>
         /// 绑定事件触发
@@ -58,7 +58,7 @@ namespace ArcDock
         /// <summary>
         /// 查询结果
         /// </summary>
-        public List<DataResult> Results
+        public List<SortResult> Results
         {
             get => results;
             set
@@ -103,7 +103,7 @@ namespace ArcDock
             this.history = history;
             this.nowPage = 1;
             InitializeComponent();
-            Results = history.GetPage(1);
+            Results = history.GetSortPage(1);
             ResetMaxPage();
             LvHistory.SetBinding(ListView.ItemsSourceProperty, new Binding("Results") { Source = this });
             TbNowPage.SetBinding(TextBlock.TextProperty, new Binding("NowPage") { Source = this });
@@ -132,13 +132,13 @@ namespace ArcDock
             if (TbSearch.Text.Equals(String.Empty))
             {
                 isSearchFlag = false;
-                Results = history.GetPage(1);
+                Results = history.GetSortPage(1);
                 ResetMaxPage();
             }
             else
             {
                 isSearchFlag = true;
-                Results = history.GetQueryResult(TbSearch.Text);
+                Results = history.GetSortQueryResult(TbSearch.Text);
                 MaxPage = "1";
                 NowPage = 1;
             }
@@ -158,7 +158,7 @@ namespace ArcDock
             if (NowPage - 1 >= 1)
             {
                 NowPage--;
-                Results = history.GetPage(NowPage);
+                Results = history.GetSortPage(NowPage);
             }
         }
 
@@ -172,7 +172,7 @@ namespace ArcDock
             if (NowPage + 1 <= Convert.ToInt32(MaxPage))
             {
                 NowPage++;
-                Results = history.GetPage(NowPage);
+                Results = history.GetSortPage(NowPage);
 
             }
         }
@@ -207,7 +207,7 @@ namespace ArcDock
         /// <param name="e"></param>
         private void OnListViewItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedId = ((sender as ListViewItem).Content as DataResult).ItemId;
+            var selectedId = ((sender as ListViewItem).Content as SortResult).ItemId;
             var results = history.GetFullItemData(selectedId);
             (new ItemDataWindow(results)).ShowDialog();
         }

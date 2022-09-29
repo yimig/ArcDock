@@ -44,7 +44,8 @@ namespace ArcDock.Data.Database
         {
             conn = new SQLiteConnection(connString);
             OpenDatabase();
-            InitMaxPageNum();
+            //InitMaxPageNum();
+            InitSortMaxPageNum();
         }
 
         /// <summary>
@@ -102,7 +103,35 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select count(*) from history;";
+                    "select case when max(item_id) is null then 0 else max(item_id) end max_id from history;";
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    item_count = sr.GetInt32(0);
+                }
+                sr.Close();
+            }
+
+            if (item_count == 0)
+            {
+                MaxPage = 1;
+                return;
+            }
+            MaxPage = item_count % PAGE_RANGE == 0 ? (item_count / PAGE_RANGE) : (item_count / PAGE_RANGE) + 1;
+        }
+
+        /// <summary>
+        /// 初始化重排整理的最大页码
+        /// </summary>
+        private void InitSortMaxPageNum()
+        {
+            var item_count = 0;
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText =
+                    "select max(item_id) from history;";
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
                 {
@@ -237,6 +266,112 @@ namespace ArcDock.Data.Database
         }
 
         /// <summary>
+        /// 获取重排整理的内容
+        /// </summary>
+        /// <param name="startRow">开始行数</param>
+        /// <param name="range">获取行的数量</param>
+        /// <returns></returns>
+        private List<SortResult> SelectSortData(int startRow, int range)
+        {
+            var resList = new List<SortResult>();
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "select item_id," +
+                                  "       group_concat(patient_no, '') patient_no," +
+                                  "       group_concat(patient_name, '') patient_name," +
+                                  "       group_concat(medicament_name, '') medicament_name," +
+                                  "       group_concat(medicament_num, '') medicament_num," +
+                                  "       group_concat(patient_dept, '') patient_dept," +
+                                  "       group_concat(patient_bed, '') patient_bed," +
+                                  "       min(print_date) print_date " +
+                                  "from (select item_id," +
+                                  "             case template_id when 'patient_name' then template_content else '' end 'patient_name'," +
+                                  "             case template_id when 'patient_no' then template_content else '' end 'patient_no'," +
+                                  "             case template_id when 'patient_bed' then template_content else '' end 'patient_bed'," +
+                                  "             case template_id when 'patient_dept' then template_content else '' end 'patient_dept'," +
+                                  "             case template_id when 'medicament_name' then template_content else '' end 'medicament_name'," +
+                                  "             case template_id when 'medicament_num' then template_content else '' end 'medicament_num'," +
+                                  "             print_date" +
+                                  "      from history)" +
+                                  "group by item_id limit @start_row,@range;";
+                cmd.Parameters.Add("start_row", DbType.Int32).Value = startRow;
+                cmd.Parameters.Add("range", DbType.Int32).Value = range;
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    var res = new SortResult();
+                    res.ItemId = sr.GetInt32(0);
+                    res.PatientNo = sr.GetString(1);
+                    res.PatientName = sr.GetString(2);
+                    res.MedicamentName = sr.GetString(3);
+                    res.MedicamentNum = sr.GetString(4);
+                    res.PatientDept = sr.GetString(5);
+                    res.PatientBed = sr.GetString(6);
+                    res.RawPrintDate = sr.GetDateTime(7);
+                    resList.Add(res);
+                }
+
+                sr.Close();
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// 获取重排整理的查询结果
+        /// </summary>
+        /// <param name="contentQuery">查询预留值填充内容</param>
+        /// <returns>查询结果</returns>
+        private List<SortResult> SelectSortData(string contentQuery)
+        {
+            var resList = new List<SortResult>();
+            if (conn.State == ConnectionState.Open)
+            {
+                var cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "select item_id," +
+                                  "       group_concat(patient_no, '') patient_no," +
+                                  "       group_concat(patient_name, '') patient_name," +
+                                  "       group_concat(medicament_name, '') medicament_name," +
+                                  "       group_concat(medicament_num, '') medicament_num," +
+                                  "       group_concat(patient_dept, '') patient_dept," +
+                                  "       group_concat(patient_bed, '') patient_bed," +
+                                  "       min(print_date) print_date" +
+                                  "from (select item_id," +
+                                  "             case template_id when 'patient_name' then template_content else '' end 'patient_name'," +
+                                  "             case template_id when 'patient_no' then template_content else '' end 'patient_no'," +
+                                  "             case template_id when 'patient_bed' then template_content else '' end 'patient_bed'," +
+                                  "             case template_id when 'patient_dept' then template_content else '' end 'patient_dept'," +
+                                  "             case template_id when 'medicament_name' then template_content else '' end 'medicament_name'," +
+                                  "             case template_id when 'medicament_num' then template_content else '' end 'medicament_num'," +
+                                  "             print_date" +
+                                  "      from history where template_content like @content)" +
+                                  "group by item_id;";
+                cmd.Parameters.Add("content", DbType.String).Value = "%" + contentQuery + "%";
+                var sr = cmd.ExecuteReader();
+                while (sr.Read())
+                {
+                    var res = new SortResult();
+                    res.ItemId = sr.GetInt32(0);
+                    res.PatientNo = sr.GetString(1);
+                    res.PatientName = sr.GetString(2);
+                    res.MedicamentName = sr.GetString(3);
+                    res.MedicamentNum = sr.GetString(4);
+                    res.PatientDept = sr.GetString(5);
+                    res.PatientBed = sr.GetString(6);
+                    res.RawPrintDate = sr.GetDateTime(7);
+                    resList.Add(res);
+                }
+
+                sr.Close();
+            }
+
+            return resList;
+        }
+
+        /// <summary>
         /// 获取一条完整的项目信息
         /// </summary>
         /// <param name="ItemId">项目ID</param>
@@ -314,6 +449,22 @@ namespace ArcDock.Data.Database
         }
 
         /// <summary>
+        /// 获取指定页码的重排整理的历史内容
+        /// </summary>
+        /// <param name="pageNo">页码</param>
+        /// <returns>历史内容集合</returns>
+        public List<SortResult> GetSortPage(int pageNo)
+        {
+            var resList = new List<SortResult>();
+            if (pageNo > 0 && pageNo <= MaxPage)
+            {
+                resList = SelectSortData((pageNo - 1) * PAGE_RANGE, PAGE_RANGE);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
         /// 搜索历史
         /// </summary>
         /// <param name="contentQuery">关键字</param>
@@ -321,6 +472,17 @@ namespace ArcDock.Data.Database
         public List<DataResult> GetQueryResult(string contentQuery)
         {
             return SelectData(contentQuery);
+        }
+
+        /// <summary>
+        /// 搜索重排整理的历史记录
+        /// </summary>
+        /// <param name="contentQuery">关键字</param>
+        /// <returns>历史内容集合</returns>
+
+        public List<SortResult> GetSortQueryResult(string contentQuery)
+        {
+            return SelectSortData(contentQuery);
         }
 
         #endregion

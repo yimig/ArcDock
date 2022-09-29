@@ -149,6 +149,7 @@
     <Compile Include="AnalyseStringWindow.xaml.cs">
       <DependentUpon>AnalyseStringWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\Database\SortResult.cs" />
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
