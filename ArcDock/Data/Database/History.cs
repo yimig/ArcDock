@@ -338,7 +338,7 @@ namespace ArcDock.Data.Database
                                   "       group_concat(medicament_num, '') medicament_num," +
                                   "       group_concat(patient_dept, '') patient_dept," +
                                   "       group_concat(patient_bed, '') patient_bed," +
-                                  "       min(print_date) print_date" +
+                                  "       min(print_date) print_date " +
                                   "from (select item_id," +
                                   "             case template_id when 'patient_name' then template_content else '' end 'patient_name'," +
                                   "             case template_id when 'patient_no' then template_content else '' end 'patient_no'," +
