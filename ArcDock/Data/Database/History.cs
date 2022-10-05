@@ -347,7 +347,9 @@ namespace ArcDock.Data.Database
                                   "             case template_id when 'medicament_name' then template_content else '' end 'medicament_name'," +
                                   "             case template_id when 'medicament_num' then template_content else '' end 'medicament_num'," +
                                   "             print_date" +
-                                  "      from history where template_content like @content)" +
+                                  "      from (select * from history," +
+                                  "(select item_id from history where template_content like @content group by item_id) result " +
+                                  "where history.item_id = result.item_id))" +
                                   "group by item_id;";
                 cmd.Parameters.Add("content", DbType.String).Value = "%" + contentQuery + "%";
                 var sr = cmd.ExecuteReader();
