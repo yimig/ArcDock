@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
+        Icon="/ArcDock;component/Icon/aboutwindow.ico"
         Title="关于" Height="500" Width="400" WindowStyle="ToolWindow">
     <Grid>
         <TabControl>

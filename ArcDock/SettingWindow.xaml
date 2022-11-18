@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
+        Icon="/ArcDock;component/Icon/settingwindow.ico"
         Title="设置" Height="450" Width="400" WindowStyle="ToolWindow">
     <Grid>
         <TabControl Margin="5">

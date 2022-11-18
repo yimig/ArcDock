@@ -32,6 +32,11 @@ namespace ArcDock.Data.Database
         private const int PAGE_RANGE = 100;
 
         /// <summary>
+        /// 数据保存天数，超期的数据将会触发删除
+        /// </summary>
+        private const int STORE_DAYS = 365;
+
+        /// <summary>
         /// 根据每页最大条目数得出的最大页码
         /// </summary>
         public int MaxPage { get; set; }
@@ -208,7 +213,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history order by ROWID desc limit @start_row,@range;";
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history order by item_id desc limit @start_row,@range;";
                 cmd.Parameters.Add("start_row", DbType.Int32).Value = startRow;
                 cmd.Parameters.Add("range", DbType.Int32).Value = range;
                 var sr = cmd.ExecuteReader();
@@ -244,7 +249,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content order by ROWID desc;";
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where template_content like @content order by item_id desc;";
                 cmd.Parameters.Add("content", DbType.String).Value = "%" + contentQuery + "%";
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
@@ -295,7 +300,7 @@ namespace ArcDock.Data.Database
                                   "             case template_id when 'medicament_num' then template_content else '' end 'medicament_num'," +
                                   "             print_date" +
                                   "      from history)" +
-                                  "group by item_id limit @start_row,@range;";
+                                  "group by item_id order by item_id desc limit @start_row,@range;";
                 cmd.Parameters.Add("start_row", DbType.Int32).Value = startRow;
                 cmd.Parameters.Add("range", DbType.Int32).Value = range;
                 var sr = cmd.ExecuteReader();
@@ -350,7 +355,7 @@ namespace ArcDock.Data.Database
                                   "      from (select * from history," +
                                   "(select item_id from history where template_content like @content group by item_id) result " +
                                   "where history.item_id = result.item_id))" +
-                                  "group by item_id;";
+                                  "group by item_id order by item_id desc;";
                 cmd.Parameters.Add("content", DbType.String).Value = "%" + contentQuery + "%";
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
@@ -386,7 +391,7 @@ namespace ArcDock.Data.Database
                 var cmd = new SQLiteCommand();
                 cmd.Connection = conn;
                 cmd.CommandText =
-                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where item_id = @item_id";
+                    "select item_id,template,template_id,template_name,template_content,print_type,print_date from history where item_id = @item_id order by item_id desc;";
                 cmd.Parameters.Add("item_id", DbType.Int32).Value = ItemId;
                 var sr = cmd.ExecuteReader();
                 while (sr.Read())
@@ -430,7 +435,7 @@ namespace ArcDock.Data.Database
         /// </summary>
         public void RemoveOutDateHistory()
         {
-            var limitedDate = DateTime.Now - TimeSpan.FromDays(365);
+            var limitedDate = DateTime.Now - TimeSpan.FromDays(STORE_DAYS);
             DeleteData(limitedDate);
         }
 

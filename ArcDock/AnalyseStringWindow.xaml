@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
+        Icon="/ArcDock;component/Icon/rename.ico"
         Topmost="True"
         Title="解析信息" Height="200" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
     <Grid>

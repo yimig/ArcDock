@@ -16,7 +16,7 @@
       "option": [],
       "option_exc": [
         {
-          "content": "短肽（力存优太）",
+          "content": "短肽(力存优太)",
           "exec": [
             {
               "key": "medicament_unit",
@@ -55,7 +55,7 @@
           ]
         },
         {
-          "content": "蛋白质组件（浦索）",
+          "content": "蛋白质组件(浦索)",
           "exec": [
             {
               "key": "medicament_unit",
@@ -68,7 +68,7 @@
           ]
         },
         {
-          "content": "高蛋白全营养粉（唯卡能）",
+          "content": "高蛋白全营养粉(唯卡能)",
           "exec": [
             {
               "key": "medicament_unit",
@@ -82,7 +82,7 @@
         }
       ],
       "default": "",
-      "rules": ""
+      "rules": "\\S+"
     },
     {
       "id": "medicament_num",
@@ -91,8 +91,8 @@
       "opt_type": 0,
       "option": [],
       "option_exc": [],
-      "default": "1",
-      "rules": ""
+      "default": "",
+      "rules": "[0-9]"
     },
     {
       "id": "medicament_unit",
@@ -102,7 +102,7 @@
       "option": [ "桶", "盒", "袋" ],
       "option_exc": [],
       "default": "桶",
-      "rules": ""
+      "rules": "\\S+"
     },
     {
       "id": "patient_dept",
@@ -112,7 +112,7 @@
       "option": [ "放疗科", "普通外科", "肿瘤外科" ],
       "option_exc": [],
       "default": "",
-      "rules": ""
+      "rules": "\\S+"
     },
     {
       "id": "patient_bed",
@@ -122,7 +122,7 @@
       "option": [],
       "option_exc": [],
       "default": "",
-      "rules": ""
+      "rules": "^(T|X|Q)?[0-9]{1,2}$"
     },
     {
       "id": "patient_name",
@@ -132,7 +132,7 @@
       "option": [],
       "option_exc": [],
       "default": "",
-      "rules": ""
+      "rules": "\\S+"
     },
     {
       "id": "patient_no",
@@ -142,12 +142,22 @@
       "option": [],
       "option_exc": [],
       "default": "",
-      "rules": ""
+      "rules": "[0-9]"
     },
     {
       "id": "medicament_usage",
       "name": "用法",
       "type": "richinput",
+      "opt_type": 0,
+      "option": [],
+      "option_exc": [],
+      "default": "",
+      "rules": "\\S+"
+    },
+    {
+      "id": "message",
+      "name": "附加信息",
+      "type": "input",
       "opt_type": 0,
       "option": [],
       "option_exc": [],

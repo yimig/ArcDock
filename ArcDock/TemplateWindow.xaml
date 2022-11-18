@@ -1,0 +1,65 @@
+﻿<Window x:Class="ArcDock.TemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcDock"
+        mc:Ignorable="d"
+        Icon="/ArcDock;component/Icon/settingwindow.ico"
+        Title="模板设置" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TreeView></TreeView>
+        <DockPanel Grid.Column="1" Grid.ColumnSpan="3">
+            <Grid DockPanel.Dock="Bottom" Background="AliceBlue">
+                <Button Width="100">保存</Button>
+            </Grid>
+            <ScrollViewer>
+                <StackPanel>
+                    <GroupBox Header="通用预留值配置">
+                        <StackPanel Orientation="Horizontal" Margin="2 5">
+                            <StackPanel Orientation="Vertical">
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">预留值ID：</TextBlock></DockPanel>
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">友好名称：</TextBlock></DockPanel>
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">文本框类型：</TextBlock></DockPanel>
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">自动填充类型：</TextBlock></DockPanel>
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">默认值：</TextBlock></DockPanel>
+                                <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">约束条件：</TextBlock></DockPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <DockPanel Height="22" Margin="0 1">
+                                    <TextBlock Height="14">medicament_unit</TextBlock>
+                                </DockPanel>
+                                <DockPanel Height="22" Margin="0 1">
+                                    <TextBlock Height="14">药品单位</TextBlock>
+                                </DockPanel>
+                                <ComboBox Height="22" Margin="0 1">
+                                    <ComboBoxItem>普通文本框</ComboBoxItem>
+                                    <ComboBoxItem>智能文本框</ComboBoxItem>
+                                    <ComboBoxItem>多行文本框</ComboBoxItem>
+                                </ComboBox>
+                                <ComboBox Height="22" Margin="0 1">
+                                    <ComboBoxItem>无自动补全</ComboBoxItem>
+                                    <ComboBoxItem>单框文本补全</ComboBoxItem>
+                                    <ComboBoxItem>多框联动补全</ComboBoxItem>
+                                </ComboBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center"></TextBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="自动补全配置" Margin="2 5">
+                        <Grid>
+                            <ListView Height="300" Margin="2 8"></ListView>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

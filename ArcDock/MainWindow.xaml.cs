@@ -773,6 +773,11 @@ namespace ArcDock
             this.PrintApi = settingWindow.PrintApi;
             this.IsEnableRules = settingWindow.IsEnableRules;
         }
+        private void MiTemplateSetting_OnClick(object sender, RoutedEventArgs e)
+        {
+            var tsWindow = new TemplateWindow();
+            tsWindow.ShowDialog();
+        }
 
         #endregion
     }
