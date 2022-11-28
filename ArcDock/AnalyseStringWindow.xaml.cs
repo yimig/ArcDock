@@ -105,7 +105,7 @@ namespace ArcDock
                 PatientName = strArray[0].Trim();
                 InPatientNo = strArray.Length >= 2 ? strArray[2].Trim() : String.Empty;
                 BedNo = strArray.Length >= 5 ? strArray[5].Trim() : String.Empty;
-                MedicamentName = strArray.Length >= 8 ? strArray[8].Trim().Replace('（','(').Replace('）',')') : String.Empty;
+                MedicamentName = strArray.Length >= 8 ? GetMedicamentName(strArray[8].Trim()) : String.Empty;
                 PatientDept = strArray.Length >= 9 ? strArray[9].Trim() : String.Empty;
                 MedicamentNum = strArray.Length >= 10 ? strArray[10].Trim() : String.Empty;
             }
@@ -114,6 +114,23 @@ namespace ArcDock
                 throw new Exception("解析执行医嘱信息失败，字符串格式错误【" + e.Message + "】");
             }
 
+        }
+
+        /// <summary>
+        /// 统一化药品名称（括号统一为英文括号，去除末尾规格）
+        /// </summary>
+        /// <param name="text">原始药品名称</param>
+        /// <returns>统一化处理后的药品名称</returns>
+        private string GetMedicamentName(string text)
+        {
+            var engBracketStr = text.Replace('（', '(').Replace('）', ')');
+            if (engBracketStr.EndsWith(")"))
+            {
+                var removeStartPos = engBracketStr.LastIndexOf('(');
+                engBracketStr = engBracketStr.Substring(0,removeStartPos);
+            }
+
+            return engBracketStr;
         }
 
         /// <summary>
@@ -149,12 +166,13 @@ namespace ArcDock
             var res = true;
             try
             {
-                if (text.Any(c => c.Equals('/'))) AnalyseTreatmentInfo(text);
-                else if (text.Any(c => c.Equals('\n'))) AnalyseExecuteInfo(text);
-                else
-                {
-                    throw new Exception("仅可从执行医嘱列表或诊疗界面标题复制文本信息");
-                }
+                AnalyseExecuteInfo(text);
+                // if (text.Any(c => c.Equals('/'))) AnalyseTreatmentInfo(text);
+                // else if (text.Any(c => c.Equals('\n'))) AnalyseExecuteInfo(text);
+                // else
+                // {
+                //     throw new Exception("仅可从执行医嘱列表或诊疗界面标题复制文本信息");
+                // }
             }
             catch (Exception e)
             {
