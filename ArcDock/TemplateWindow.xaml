@@ -54,8 +54,21 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="自动补全配置" Margin="2 5">
-                        <Grid>
-                            <ListView Height="300" Margin="2 8"></ListView>
+                        <Grid Height="300" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <DockPanel Margin="2 8">
+                                <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">索引值</TextBlock>
+                                <ListView></ListView>
+                            </DockPanel>
+                            <DockPanel Grid.Column="1" Grid.ColumnSpan="3" Margin="2 8">
+                                <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">联动值</TextBlock>
+                                <ListView></ListView>
+                            </DockPanel>
                         </Grid>
                     </GroupBox>
                 </StackPanel>
