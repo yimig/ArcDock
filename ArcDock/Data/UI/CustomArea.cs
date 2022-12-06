@@ -26,19 +26,6 @@ namespace ArcDock.Data.UI
 
         public string Id => config.Id;
 
-        public string Content
-        {
-            get
-            {
-                return content;
-            }
-            set
-            {
-                content = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Content"));
-            }
-        }
-
         public Label Label
         {
             get => this.label;
@@ -76,7 +63,7 @@ namespace ArcDock.Data.UI
 
 
         public static CustomArea GetCustomArea(ConfigItem config, ChromiumWebBrowser browser,
-            Action<string, string> onContentChanged)
+            Action<string, string, ConfigItem> onContentChanged)
         {
             CustomArea customArea = null;
             if (config.Type.Equals("input")) customArea = new InputArea(config, browser, onContentChanged);

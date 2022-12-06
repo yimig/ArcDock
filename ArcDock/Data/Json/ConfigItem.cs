@@ -81,11 +81,5 @@ namespace ArcDock.Data.Json
         /// </summary>
         [JsonProperty("max_flow")]
         public int MaxFlow { get; set; }
-
-        /// <summary>
-        /// 是否每页都固定生成表头
-        /// </summary>
-        [JsonProperty("fixed_header")]
-        public bool FixedHeader { get; set; }
     }
 }

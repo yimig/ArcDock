@@ -45,7 +45,16 @@ namespace ArcDock.Data.Json
         [JsonProperty("print_width")]
         public int PrintWidth { get; set; }
 
+        /// <summary>
+        /// 默认显示的放大系数
+        /// </summary>
         [JsonProperty("zoom")]
         public double Zoom { get; set; }
+
+        /// <summary>
+        /// 是否每页都固定生成表头
+        /// </summary>
+        [JsonProperty("fixed_header")]
+        public bool FixedHeader { get; set; }
     }
 }

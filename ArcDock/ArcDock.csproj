@@ -124,6 +124,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -150,6 +151,7 @@
       <DependentUpon>AnalyseStringWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Database\SortResult.cs" />
+    <Compile Include="Data\Json\FlowTable.cs" />
     <Compile Include="Data\UI\FlowTableArea.cs" />
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>

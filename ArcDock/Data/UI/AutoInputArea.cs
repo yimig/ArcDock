@@ -20,7 +20,7 @@ namespace ArcDock.Data.UI
     {
         private string content;
         private ChromiumWebBrowser browser;
-        private Action<string, string> onContentChanged;
+        private Action<string, string, ConfigItem> onContentChanged;
         private SearchData searchDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,7 +38,7 @@ namespace ArcDock.Data.UI
         }
         public ControlDock MainDock { get; set; }
 
-        public AutoInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
+        public AutoInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string, ConfigItem> onContentChanged)
         {
             this.config = config;
             this.browser = browser;
@@ -103,7 +103,7 @@ namespace ArcDock.Data.UI
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = sender as AutoCompleteTextBox.Editors.AutoCompleteTextBox;
-            onContentChanged(this.Id, e.ToString());
+            onContentChanged(this.Id, e.ToString(), this.config);
             if (browser.IsBrowserInitialized && e.ToString() != null)
             {
                 browser.Reload();

@@ -17,7 +17,7 @@ namespace ArcDock.Data.UI
     {
         private string content;
         private ChromiumWebBrowser browser;
-        private Action<string, string> onContentChanged;
+        private Action<string, string, ConfigItem> onContentChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,7 +34,7 @@ namespace ArcDock.Data.UI
             }
         }
 
-        public FlowTableArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string> onContentChanged)
+        public FlowTableArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string, ConfigItem> onContentChanged)
         {
             this.config = config;
             this.browser = browser;
@@ -73,7 +73,7 @@ namespace ArcDock.Data.UI
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = sender as TextBox;
-            onContentChanged(this.Id, textbox.Text);
+            onContentChanged(this.Id, textbox.Text, this.config);
             if (browser.IsBrowserInitialized && textbox.Text != null)
             {
                 browser.Reload();
@@ -82,7 +82,7 @@ namespace ArcDock.Data.UI
 
         public override void SetDefaultValue()
         {
-            if (config.Default != String.Empty) Content = config.Default;
+            if (config.Default != String.Empty) this.Content = config.Default;
         }
     }
 }

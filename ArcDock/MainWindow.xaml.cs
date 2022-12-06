@@ -37,6 +37,7 @@ using ArcDock.Data.Database;
 using PDFtoPrinter;
 using Spire.Pdf;
 using Path = System.IO.Path;
+using System.Web;
 
 namespace ArcDock
 {
@@ -206,7 +207,14 @@ namespace ArcDock
                 controlDock.ClearChildren();
                 foreach (var configItem in Config.ConfigItemList)
                 {
-                    var area = CustomArea.GetCustomArea(configItem, Browser, ChangeHtml);
+                    CustomArea area;
+                    if (configItem.Type == "flow")
+                    {
+                        area = CustomArea.GetCustomArea(configItem, Browser, ChangeFlowTableHtml);
+                    }
+                    else {
+                        area = CustomArea.GetCustomArea(configItem, Browser, ChangeHtml);
+                    }
                     if (configItem.OptionType == 2)
                     {
                         var areaAutoFill = area as AutoInputArea;
@@ -244,12 +252,64 @@ namespace ArcDock
         /// </summary>
         /// <param name="id">预留值ID</param>
         /// <param name="content">修改预留值内容</param>
-        private void ChangeHtml(string id, string content)
+        private void ChangeHtml(string id, string content, ConfigItem configItem)
         {
             structuredText[id] = content;
             TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
             tw.Write(structuredText);
             tw.Close();
+        }
+
+        /// <summary>
+        /// 修改表格的
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="content"></param>
+        /// <param name="configItem"></param>
+        private void ChangeFlowTableHtml(string id, string content, ConfigItem configItem)
+        {
+            var defaultFlowConfig = new List<ConfigItem>() { new ConfigItem() { Id = "value" } };
+            if (content != "")
+            {
+                FlowTable flow = new FlowTable(content);
+                StructuredText sTitle = new StructuredText(defaultFlowConfig, DecodeBase64(Encoding.Default, configItem.DefaultHeaderNode));
+                StructuredText sContent = new StructuredText(defaultFlowConfig, DecodeBase64(Encoding.Default, configItem.DefaultContentNode));
+                string res = "";
+                if (config.Settings.FixedHeader)
+                {
+                    sTitle["value"] = flow.Title;
+                    res += sTitle.ToString();
+                    foreach (string flowData in flow)
+                    {
+                        sContent["value"] = flowData;
+                        res += sContent.ToString();
+                    }
+                }
+
+                content = res;
+            }
+            ChangeHtml(id, content, configItem);
+        }
+
+        /// <summary>
+        /// Base64 解码
+        /// </summary>
+        /// <param name="encode">解码方式</param>
+        /// <param name="source">要解码的字符串</param>
+        /// <returns>返回解码后的字符串</returns>
+        public static string DecodeBase64(Encoding encode, string source)
+        {
+            string result = "";
+            byte[] bytes = Convert.FromBase64String(source);
+            try
+            {
+                result = encode.GetString(bytes);
+            }
+            catch
+            {
+                result = source;
+            }
+            return result;
         }
 
         /// <summary>
