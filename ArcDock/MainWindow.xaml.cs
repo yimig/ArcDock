@@ -160,6 +160,7 @@ namespace ArcDock
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
             Browser.Address = Environment.CurrentDirectory + "\\temp.html"; //初始化浏览器导航地址
+            Browser.LoadingStateChanged += (sender, args) => SetBrowserZoom(Config.Settings.Zoom);
         }
 
         /// <summary>
@@ -565,6 +566,25 @@ namespace ArcDock
             return true;
         }
 
+        /// <summary>
+        /// 步进修改页面的放大系数
+        /// </summary>
+        /// <param name="delta">步进系数，正数放大，负数缩小</param>
+        private async void StepBrowserZoom(double delta)
+        {
+            Browser.GetBrowserHost().SetZoomLevel(await Browser.GetZoomLevelAsync() + delta);
+            Console.WriteLine("zoom:" + await Browser.GetZoomLevelAsync());
+        }
+
+        /// <summary>
+        /// 设置页面的放大系数
+        /// </summary>
+        /// <param name="value">放大系数，正数放大，负数缩小</param>
+        private void SetBrowserZoom(double value)
+        {
+            Browser.GetBrowserHost().SetZoomLevel(value);
+        }
+
         #endregion
 
         #region 事件处理
@@ -777,6 +797,26 @@ namespace ArcDock
         {
             var tsWindow = new TemplateWindow();
             tsWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// 放大按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnZoomOut_OnClick(object sender, RoutedEventArgs e)
+        {
+            StepBrowserZoom(-0.5);
+        }
+
+        /// <summary>
+        /// 缩小按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnZoomIn_OnClick(object sender, RoutedEventArgs e)
+        {
+            StepBrowserZoom(0.5);
         }
 
         #endregion

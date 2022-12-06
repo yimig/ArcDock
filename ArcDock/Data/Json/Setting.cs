@@ -44,5 +44,8 @@ namespace ArcDock.Data.Json
         /// </summary>
         [JsonProperty("print_width")]
         public int PrintWidth { get; set; }
+
+        [JsonProperty("zoom")]
+        public double Zoom { get; set; }
     }
 }

@@ -87,19 +87,19 @@
                 </DockPanel>
                 <Grid Grid.Column="3" Grid.ColumnSpan="4" Background="LightSteelBlue">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <Grid Name="GdBrowser">
+                        <Grid Name="GdBrowser" MaxWidth="480" MaxHeight="270">
                             <DockPanel>
                                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-                                    <ToolBar Width="90" Height="30">
+                                    <ToolBar Width="140" Height="30">
                                         <Button Name="BtnConsole" ToolTip="控制台" Click="BtnConsole_OnClick">
                                             <Image Source="/ArcDock;component/Icon/code.ico"></Image>
                                         </Button>
-                                        <!-- <Button ToolTip="缩小"> -->
-                                        <!--     <Image Source="/ArcDock;component/Icon/zoom_out.ico"></Image> -->
-                                        <!-- </Button> -->
-                                        <!-- <Button ToolTip="放大"> -->
-                                        <!--     <Image Source="/ArcDock;component/Icon/zoom_in.ico"></Image> -->
-                                        <!-- </Button> -->
+                                        <Button ToolTip="缩小" Name="BtnZoomOut" Click="BtnZoomOut_OnClick">
+                                            <Image Source="/ArcDock;component/Icon/zoom_out.ico"></Image>
+                                        </Button>
+                                        <Button ToolTip="放大" Name="BtnZoomIn" Click="BtnZoomIn_OnClick">
+                                            <Image Source="/ArcDock;component/Icon/zoom_in.ico"></Image>
+                                        </Button>
                                         <Button Name="BtnRefurbish" ToolTip="强制刷新" Click="BtnRefurbish_OnClick">
                                             <Image Source="/ArcDock;component/Icon/reflesh.ico"></Image>
                                         </Button>

@@ -63,5 +63,29 @@ namespace ArcDock.Data.Json
         /// </summary>
         [JsonProperty("rules")]
         public string Rules { get; set; }
+
+        /// <summary>
+        /// flowtable的默认html表头样式
+        /// </summary>
+        [JsonProperty("header_node")]
+        public string DefaultHeaderNode { get; set; }
+
+        /// <summary>
+        /// flowtable的默认html内容样式
+        /// </summary>
+        [JsonProperty("content_node")]
+        public string DefaultContentNode { get; set; }
+
+        /// <summary>
+        /// flowtable一页最多显示的数据数量
+        /// </summary>
+        [JsonProperty("max_flow")]
+        public int MaxFlow { get; set; }
+
+        /// <summary>
+        /// 是否每页都固定生成表头
+        /// </summary>
+        [JsonProperty("fixed_header")]
+        public bool FixedHeader { get; set; }
     }
 }

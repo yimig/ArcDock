@@ -150,6 +150,7 @@
       <DependentUpon>AnalyseStringWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Database\SortResult.cs" />
+    <Compile Include="Data\UI\FlowTableArea.cs" />
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
@@ -270,6 +271,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="template\bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="template\fc_template.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="template\template_dual.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

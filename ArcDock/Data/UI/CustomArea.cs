@@ -82,6 +82,7 @@ namespace ArcDock.Data.UI
             if (config.Type.Equals("input")) customArea = new InputArea(config, browser, onContentChanged);
             else if (config.Type.Equals("richinput")) customArea = new RichInputArea(config, browser, onContentChanged);
             else if (config.Type.Equals("autoinput")) customArea = new AutoInputArea(config, browser, onContentChanged);
+            else if (config.Type.Equals("flow")) customArea = new FlowTableArea(config, browser, onContentChanged);
             return customArea;
         }
     }
