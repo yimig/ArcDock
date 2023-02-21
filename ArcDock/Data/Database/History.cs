@@ -48,9 +48,12 @@ namespace ArcDock.Data.Database
         public History()
         {
             conn = new SQLiteConnection(connString);
-            OpenDatabase();
-            //InitMaxPageNum();
-            InitSortMaxPageNum();
+            try
+            {
+                OpenDatabase();
+                //InitMaxPageNum();
+                InitSortMaxPageNum();
+            } catch (Exception) { }
         }
 
         /// <summary>

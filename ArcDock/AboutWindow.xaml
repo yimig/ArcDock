@@ -36,6 +36,11 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5">
                     <StackPanel Margin="5 0 5 0">
                         <StackPanel Margin="0 5 0 5">
+                            <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.3a</TextBlock>
+                            <TextBlock FontStyle="Italic" FontSize="9">Release 2023/02/21</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：PrinterToPDF模式下指定打印机；缩放预览大小</TextBlock>
+                        </StackPanel>
+                        <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.3</TextBlock>
                             <TextBlock FontStyle="Italic" FontSize="9">Release 2022/11/28</TextBlock>
                             <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">修复：历史记录从新到旧显示；修复了东华新患者信息字符串解析错误的问题。</TextBlock>

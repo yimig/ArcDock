@@ -14,7 +14,13 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TreeView></TreeView>
+        <ListView Name="LvConfig">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <DockPanel Grid.Column="1" Grid.ColumnSpan="3">
             <Grid DockPanel.Dock="Bottom" Background="AliceBlue">
                 <Button Width="100">保存</Button>
@@ -63,11 +69,32 @@
                             </Grid.ColumnDefinitions>
                             <DockPanel Margin="2 8">
                                 <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">索引值</TextBlock>
-                                <ListView></ListView>
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
+                                    <Button Width="25" Height="25">-</Button>
+                                </StackPanel>
+                                <ListView>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="索引" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </DockPanel>
                             <DockPanel Grid.Column="1" Grid.ColumnSpan="3" Margin="2 8">
                                 <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">联动值</TextBlock>
-                                <ListView></ListView>
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
+                                    <Button Width="25" Height="25">-</Button>
+                                </StackPanel>
+                                <ListView>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
+                                            <GridViewColumn Header="填充内容" DisplayMemberBinding="{Binding Name}" Width="300"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </DockPanel>
                         </Grid>
                     </GroupBox>

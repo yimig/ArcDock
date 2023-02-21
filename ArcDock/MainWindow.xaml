@@ -25,9 +25,9 @@
                         <MenuItem Header="打印多份" Click="BtnToolMultiPrint_OnClick"></MenuItem>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="设置">
+                <MenuItem Header="设置" Click="MenuItem_Click">
                     <MenuItem Header="全局设置" Name="MiGlobalSetting" Click="MiGlobalSetting_OnClick"></MenuItem>
-                    <!-- <MenuItem Header="模板设置" Name="MiTemplateSetting" Click="MiTemplateSetting_OnClick"></MenuItem> -->
+                     <MenuItem Header="模板设置" Name="MiTemplateSetting" Click="MiTemplateSetting_OnClick" IsEnabled="False"></MenuItem> 
                 </MenuItem>
                 <MenuItem Header="关于">
                     <MenuItem Header="软件信息" Name="MiSoftwareInfo" Click="MiSoftwareInfo_OnClick"></MenuItem>
