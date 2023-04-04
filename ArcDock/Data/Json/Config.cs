@@ -20,5 +20,8 @@ namespace ArcDock.Data.Json
         /// </summary>
         [JsonProperty("data")]
         public List<ConfigItem> ConfigItemList { get; set; }
+
+        [JsonIgnore]
+        public string FilePath { get; set; }
     }
 }

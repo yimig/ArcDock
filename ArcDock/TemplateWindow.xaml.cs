@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ArcDock.Data.Json;
 
 namespace ArcDock
 {
@@ -19,9 +20,15 @@ namespace ArcDock
     /// </summary>
     public partial class TemplateWindow : Window
     {
-        public TemplateWindow()
+
+        private Config config;
+
+        public TemplateWindow(Config config)
         {
+            this.config = config;
             InitializeComponent();
+            LvConfig.SetBinding(ListView.ItemsSourceProperty,
+                new Binding("ConfigItemList") { Source = this.config });
         }
     }
 }

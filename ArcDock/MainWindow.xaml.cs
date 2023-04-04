@@ -179,7 +179,9 @@ namespace ArcDock
                 xDoc.LoadXml(templateHtml);
                 XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
                 templateHtmlList.Add(templateHtml);
-                configList.Add(JsonConvert.DeserializeObject<Config>(configNode.InnerText));
+                var conf = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
+                conf.FilePath = Environment.CurrentDirectory + '\\' + file;
+                configList.Add(conf);
             }
 
             ChangeConfig(0);
@@ -855,7 +857,7 @@ namespace ArcDock
         }
         private void MiTemplateSetting_OnClick(object sender, RoutedEventArgs e)
         {
-            var tsWindow = new TemplateWindow();
+            var tsWindow = new TemplateWindow(Config);
             tsWindow.ShowDialog();
         }
 
@@ -880,5 +882,10 @@ namespace ArcDock
         }
 
         #endregion
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
