@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
+        xmlns:converter="clr-namespace:ArcDock.Data.UI.Converter"
         mc:Ignorable="d"
         Icon="/ArcDock;component/Icon/settingwindow.ico"
         Title="模板设置" Height="450" Width="800">
+    <Window.Resources>
+        <converter:TextBoxTypeConverter x:Key="tbTypeConverter"/>
+        <converter:FillTypeConverter x:Key="fillTypeConverter"/>
+        <converter:OptionIndexConverter x:Key="optionConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -14,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView Name="LvConfig">
+        <ListView Name="LvConfig" SelectionChanged="LvConfig_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
@@ -37,25 +43,19 @@
                                 <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">默认值：</TextBlock></DockPanel>
                                 <DockPanel Height="22" Margin="0 1"><TextBlock FontWeight="Bold" Height="14">约束条件：</TextBlock></DockPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Width="100">
                                 <DockPanel Height="22" Margin="0 1">
-                                    <TextBlock Height="14">medicament_unit</TextBlock>
+                                    <TextBlock Height="14" Text="{Binding Path=CurrentConfigItem.Id}"></TextBlock>
                                 </DockPanel>
                                 <DockPanel Height="22" Margin="0 1">
-                                    <TextBlock Height="14">药品单位</TextBlock>
+                                    <TextBlock Height="14" Text="{Binding Path=CurrentConfigItem.Name}"></TextBlock>
                                 </DockPanel>
-                                <ComboBox Height="22" Margin="0 1">
-                                    <ComboBoxItem>普通文本框</ComboBoxItem>
-                                    <ComboBoxItem>智能文本框</ComboBoxItem>
-                                    <ComboBoxItem>多行文本框</ComboBoxItem>
+                                <ComboBox Name="cbTypeTextBox" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.Type, Converter={StaticResource tbTypeConverter}}">
                                 </ComboBox>
-                                <ComboBox Height="22" Margin="0 1">
-                                    <ComboBoxItem>无自动补全</ComboBoxItem>
-                                    <ComboBoxItem>单框文本补全</ComboBoxItem>
-                                    <ComboBoxItem>多框联动补全</ComboBoxItem>
+                                <ComboBox Name="cbTypeFill" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.OptionType, Converter={StaticResource fillTypeConverter}}">
                                 </ComboBox>
-                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center"></TextBox>
-                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center"></TextBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Default}"></TextBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Rules}"></TextBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -73,10 +73,10 @@
                                     <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
                                     <Button Width="25" Height="25">-</Button>
                                 </StackPanel>
-                                <ListView>
+                                <ListView x:Name="lvIndex" ItemsSource="{Binding Path=CurrentConfigItem.OptionItemList}" SelectionChanged="lvIndex_SelectionChanged">
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="索引" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
+                                            <GridViewColumn Header="索引" DisplayMemberBinding="{Binding Content}" Width="100"></GridViewColumn>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
@@ -87,11 +87,11 @@
                                     <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
                                     <Button Width="25" Height="25">-</Button>
                                 </StackPanel>
-                                <ListView>
+                                <ListView x:Name="lvLinkage" ItemsSource="{Binding Path=CurrentOptionItem.ExecutionItemList}">
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
-                                            <GridViewColumn Header="填充内容" DisplayMemberBinding="{Binding Name}" Width="300"></GridViewColumn>
+                                            <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Key, Converter={StaticResource optionConverter}, ConverterParameter={StaticResource Config}}" Width="100"></GridViewColumn>
+                                            <GridViewColumn Header="填充内容" DisplayMemberBinding="{Binding Content}" Width="300"></GridViewColumn>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>

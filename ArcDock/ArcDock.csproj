@@ -152,7 +152,10 @@
     </Compile>
     <Compile Include="Data\Database\SortResult.cs" />
     <Compile Include="Data\Json\FlowTable.cs" />
+    <Compile Include="Data\UI\Converter\FillTypeConverter.cs" />
+    <Compile Include="Data\UI\Converter\OptionIndexConverter.cs" />
     <Compile Include="Data\UI\FlowTableArea.cs" />
+    <Compile Include="Data\UI\Converter\TextBoxTypeConverter.cs" />
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
@@ -431,6 +434,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
