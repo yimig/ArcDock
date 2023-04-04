@@ -27,7 +27,7 @@
                 </MenuItem>
                 <MenuItem Header="设置">
                     <MenuItem Header="全局设置" Name="MiGlobalSetting" Click="MiGlobalSetting_OnClick"></MenuItem>
-                    <!-- <MenuItem Header="模板设置" Name="MiTemplateSetting" Click="MiTemplateSetting_OnClick"></MenuItem> -->
+                     <MenuItem Header="模板设置" Name="MiTemplateSetting" Click="MiTemplateSetting_OnClick"></MenuItem> 
                 </MenuItem>
                 <MenuItem Header="关于">
                     <MenuItem Header="软件信息" Name="MiSoftwareInfo" Click="MiSoftwareInfo_OnClick"></MenuItem>

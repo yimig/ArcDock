@@ -138,10 +138,14 @@ namespace ArcDock.Data.Database
                 cmd.CommandText =
                     "select max(item_id) from history;";
                 var sr = cmd.ExecuteReader();
-                while (sr.Read())
+                try
                 {
-                    item_count = sr.GetInt32(0);
-                }
+                    while (sr.Read())
+                    {
+                        var a = sr.GetValue(0);
+                        item_count = sr.GetInt32(0);
+                    }
+                } catch (Exception ex) { }
                 sr.Close();
             }
 
