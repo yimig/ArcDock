@@ -276,9 +276,6 @@
     <Resource Include="template\bg.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="template\fc_template.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="template\template_dual.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
