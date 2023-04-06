@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime;
 using ArcDock.Properties;
@@ -14,7 +15,7 @@ namespace ArcDock.Data.Json
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string content;
-        private List<ExecutionItem> executionItemList;
+        private ObservableCollection<ExecutionItem> executionItemList;
 
         /// <summary>
         /// 提示内容，也是联动补全条件
@@ -36,7 +37,7 @@ namespace ArcDock.Data.Json
         /// 别的框操作指示
         /// </summary>
         [JsonProperty("exec")]
-        public List<ExecutionItem> ExecutionItemList {
+        public ObservableCollection<ExecutionItem> ExecutionItemList {
             get => executionItemList;
             set
             {

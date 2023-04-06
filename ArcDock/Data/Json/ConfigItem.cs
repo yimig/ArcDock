@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime;
 using ArcDock.Properties;
@@ -15,8 +16,8 @@ namespace ArcDock.Data.Json
         public event PropertyChangedEventHandler PropertyChanged;
         private string id, name, type, @default, rules, defaultHeaderNode, defaultContentNode;
         private int optionType, maxFlow;
-        private List<string> option;
-        private List<OptionItem> optionItemList;
+        private ObservableCollection<string> option;
+        private ObservableCollection<OptionItem> optionItemList;
 
         /// <summary>
         /// 预留值Id
@@ -93,7 +94,7 @@ namespace ArcDock.Data.Json
         /// 提示文本以字符串数组存储
         /// </summary>
         [JsonProperty("option")]
-        public List<string> Option {
+        public ObservableCollection<string> Option {
             get => option;
             set
             {
@@ -110,7 +111,7 @@ namespace ArcDock.Data.Json
         /// 根据本框的Content自动选择OptionItem的内容填写其他文本框
         /// </summary>
         [JsonProperty("option_exc")]
-        public List<OptionItem> OptionItemList {
+        public ObservableCollection<OptionItem> OptionItemList {
             get => optionItemList;
             set
             {

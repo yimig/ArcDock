@@ -1,5 +1,6 @@
 ﻿using ArcDock.Properties;
 using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 
 namespace ArcDock.Data.Json
@@ -8,7 +9,7 @@ namespace ArcDock.Data.Json
     /// 操作指示类，多框联动补全时填入别的框内容
     /// </summary>
     [JsonObject]
-    public class ExecutionItem : INotifyPropertyChanged
+    public class ExecutionItem : INotifyPropertyChanged, ICloneable
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string key, content;
@@ -42,6 +43,11 @@ namespace ArcDock.Data.Json
                     PropertyChanged(this, new PropertyChangedEventArgs("Content"));
                 }
             }
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

@@ -156,6 +156,12 @@
     <Compile Include="Data\UI\Converter\OptionIndexConverter.cs" />
     <Compile Include="Data\UI\FlowTableArea.cs" />
     <Compile Include="Data\UI\Converter\TextBoxTypeConverter.cs" />
+    <Compile Include="Data\UI\SubWindow\InputWindow.xaml.cs">
+      <DependentUpon>InputWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\UI\SubWindow\LinkageWindow.xaml.cs">
+      <DependentUpon>LinkageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
@@ -177,6 +183,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AnalyseStringWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Data\UI\SubWindow\InputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Data\UI\SubWindow\LinkageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,9 +290,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="template\bg.jpg">
+    <Content Include="template\bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Icon\add.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Icon\remove.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\remove.ico" />
+    <None Include="Resources\add.ico" />
+    <Content Include="template\fc_template.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="template\template_dual.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

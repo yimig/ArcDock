@@ -1,0 +1,35 @@
+﻿<Window x:Class="ArcDock.Data.UI.SubWindow.LinkageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcDock.Data.UI.SubWindow"
+        xmlns:converter="clr-namespace:ArcDock.Data.UI.Converter"
+        mc:Ignorable="d"
+        Title="新增修改属性" Height="200" Width="300"
+        Icon="/ArcDock;component/Icon/rename.ico"
+        Topmost="True" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <converter:OptionIndexConverter x:Key="optionConverter"/>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5 5 5 0" VerticalAlignment="Center">
+                <TextBlock VerticalAlignment="Center">配置标题：</TextBlock>
+                <ComboBox Name="CbIndex" Width="100" SelectedItem="{Binding ExecutionItem.Key, Converter={StaticResource optionConverter}, ConverterParameter={StaticResource Config}}"></ComboBox>
+            </StackPanel>
+            <Grid DockPanel.Dock="Bottom">
+                <Button Name="btnCheck" Width="100" Height="25" Click="btnCheck_Click">
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <Image Source="/ArcDock;component/Icon/yes.ico" Margin="0 0 5 0"></Image>
+                        <TextBlock>确认</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <DockPanel Margin="5">
+                <TextBlock DockPanel.Dock="Top">填充内容：</TextBlock>
+                <TextBox TextWrapping="Wrap" AutoWordSelection="True" Text="{Binding ExecutionItem.Content}"></TextBox>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>

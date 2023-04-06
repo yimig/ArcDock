@@ -855,10 +855,17 @@ namespace ArcDock
             this.PrintApi = settingWindow.PrintApi;
             this.IsEnableRules = settingWindow.IsEnableRules;
         }
+
+        /// <summary>
+        /// 菜单模板设置按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiTemplateSetting_OnClick(object sender, RoutedEventArgs e)
         {
             var tsWindow = new TemplateWindow(Config);
             tsWindow.ShowDialog();
+
         }
 
         /// <summary>

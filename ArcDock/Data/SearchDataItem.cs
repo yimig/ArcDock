@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace ArcDock.Data
         /// <summary>
         /// 多框自动填充条目集合
         /// </summary>
-        public List<ExecutionItem> ExecutionItems { get; set; }
+        public ObservableCollection<ExecutionItem> ExecutionItems { get; set; }
 
         #endregion
 
@@ -54,7 +55,7 @@ namespace ArcDock.Data
         /// </summary>
         /// <param name="text">提示文本</param>
         /// <param name="executionItems">联动项目集合</param>
-        public SearchDataItem(string text,List<ExecutionItem> executionItems)
+        public SearchDataItem(string text, ObservableCollection<ExecutionItem> executionItems)
         {
             this.text = text;
             pyHead = PinyinHelpers.GetFirstSpell(text);

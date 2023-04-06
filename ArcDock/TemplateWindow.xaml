@@ -7,7 +7,8 @@
         xmlns:converter="clr-namespace:ArcDock.Data.UI.Converter"
         mc:Ignorable="d"
         Icon="/ArcDock;component/Icon/settingwindow.ico"
-        Title="模板设置" Height="450" Width="800">
+        Title="模板设置" Height="450" Width="800"
+        Closing="Window_Closing">
     <Window.Resources>
         <converter:TextBoxTypeConverter x:Key="tbTypeConverter"/>
         <converter:FillTypeConverter x:Key="fillTypeConverter"/>
@@ -23,13 +24,18 @@
         <ListView Name="LvConfig" SelectionChanged="LvConfig_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="100"></GridViewColumn>
+                    <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Name}" Width="200"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
         <DockPanel Grid.Column="1" Grid.ColumnSpan="3">
             <Grid DockPanel.Dock="Bottom" Background="AliceBlue">
-                <Button Width="100">保存</Button>
+                <Button Name="btnSave" Width="100" Height="25" Margin="251,0,249,0" Click="btnSave_Click">
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <Image Source="/ArcDock;component/Icon/saveplaylist.ico" Margin="0 0 5 0"></Image>
+                        <TextBlock>保存</TextBlock>
+                    </StackPanel>
+                </Button>
             </Grid>
             <ScrollViewer>
                 <StackPanel>
@@ -50,17 +56,74 @@
                                 <DockPanel Height="22" Margin="0 1">
                                     <TextBlock Height="14" Text="{Binding Path=CurrentConfigItem.Name}"></TextBlock>
                                 </DockPanel>
-                                <ComboBox Name="cbTypeTextBox" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.Type, Converter={StaticResource tbTypeConverter}}">
+                                <ComboBox Name="cbTypeTextBox" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.Type, Converter={StaticResource tbTypeConverter}}" SelectionChanged="cbTypeTextBox_SelectionChanged" PreviewMouseDown="Box_MouseDown">
                                 </ComboBox>
-                                <ComboBox Name="cbTypeFill" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.OptionType, Converter={StaticResource fillTypeConverter}}">
+                                <ComboBox Name="cbTypeFill" Height="22" Margin="0 1" SelectedItem="{Binding Path=CurrentConfigItem.OptionType, Converter={StaticResource fillTypeConverter}}" PreviewMouseDown="Box_MouseDown">
+                                    <ComboBox.Style>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="IsEnabled" Value="False"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=CurrentConfigItem.Type}" Value="autoinput">
+                                                    <Setter Property="IsEnabled" Value="True"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
                                 </ComboBox>
-                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Default}"></TextBox>
-                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Rules}"></TextBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Default}" PreviewMouseDown="Box_MouseDown"></TextBox>
+                                <TextBox Height="22" Margin="0 1" VerticalContentAlignment="Center" Text="{Binding Path=CurrentConfigItem.Rules}" PreviewMouseDown="Box_MouseDown"></TextBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="自动补全配置" Margin="2 5">
-                        <Grid Height="300" >
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox">
+                                <Setter Property="Height" Value="0"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CurrentConfigItem.OptionType}" Value="1">
+                                        <Setter Property="Height" Value="300"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </GroupBox.Style>
+                        <Grid>
+                            <DockPanel Margin="2 8">
+                                <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">索引值</TextBlock>
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Name="BtnAddNormalIndex" Width="25" Height="25" Margin="0 0 5 0" Click="BtnAddNormalIndex_Click">
+                                        <Image Source="/ArcDock;component/Icon/add.ico"></Image>
+                                    </Button>
+                                    <Button Name="BtnRemoveNormalIndex" Width="25" Height="25" Click="BtnRemoveNormalIndex_Click">
+                                        <Image Source="/ArcDock;component/Icon/remove.ico"></Image>
+                                    </Button>
+                                </StackPanel>
+                                <ListView x:Name="lvNormalIndex" ItemsSource="{Binding Path=CurrentConfigItem.Option}" SelectionChanged="lvIndex_SelectionChanged">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseDoubleClick" Handler="lvNormalIndex_MouseDoubleClick"></EventSetter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="索引" DisplayMemberBinding="{Binding Path=.}" Width="500"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </DockPanel>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="联动补全配置" Margin="2 5">
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox">
+                                <Setter Property="Height" Value="0"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CurrentConfigItem.OptionType}" Value="2">
+                                        <Setter Property="Height" Value="300"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </GroupBox.Style>
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
@@ -70,10 +133,19 @@
                             <DockPanel Margin="2 8">
                                 <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">索引值</TextBlock>
                                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
-                                    <Button Width="25" Height="25">-</Button>
+                                    <Button Name="BtnAddIndex" Width="25" Height="25" Margin="0 0 5 0" Click="BtnAddIndex_Click">
+                                        <Image Source="/ArcDock;component/Icon/add.ico"></Image>
+                                    </Button>
+                                    <Button Name="BtnRemoveIndex" Width="25" Height="25" Click="BtnRemoveIndex_Click">
+                                        <Image Source="/ArcDock;component/Icon/remove.ico"></Image>
+                                    </Button>
                                 </StackPanel>
                                 <ListView x:Name="lvIndex" ItemsSource="{Binding Path=CurrentConfigItem.OptionItemList}" SelectionChanged="lvIndex_SelectionChanged">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseDoubleClick" Handler="lvIndex_MouseDoubleClick"></EventSetter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="索引" DisplayMemberBinding="{Binding Content}" Width="100"></GridViewColumn>
@@ -84,10 +156,19 @@
                             <DockPanel Grid.Column="1" Grid.ColumnSpan="3" Margin="2 8">
                                 <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 2">联动值</TextBlock>
                                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Width="25" Height="25" Margin="0 0 5 0">+</Button>
-                                    <Button Width="25" Height="25">-</Button>
+                                    <Button Name="BtnAddLinkage" Width="25" Height="25" Margin="0 0 5 0" Click="BtnAddLinkage_Click">
+                                        <Image Source="/ArcDock;component/Icon/add.ico"></Image>
+                                    </Button>
+                                    <Button Name="BtnRemoveLinkage" Width="25" Height="25" Click="BtnRemoveLinkage_Click">
+                                        <Image Source="/ArcDock;component/Icon/remove.ico"></Image>
+                                    </Button>
                                 </StackPanel>
                                 <ListView x:Name="lvLinkage" ItemsSource="{Binding Path=CurrentOptionItem.ExecutionItemList}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseDoubleClick" Handler="lvLinkage_MouseDoubleClick"></EventSetter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="配置标题" DisplayMemberBinding="{Binding Key, Converter={StaticResource optionConverter}, ConverterParameter={StaticResource Config}}" Width="100"></GridViewColumn>

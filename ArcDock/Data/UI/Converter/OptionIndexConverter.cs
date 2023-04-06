@@ -14,12 +14,14 @@ namespace ArcDock.Data.UI.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)return null;
             var optionIndexDict = (parameter as Config).ConfigItemList.ToDictionary(i => i.Id, i => i.Name);
             return optionIndexDict[value.ToString()];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return null;
             var reverseDict = (parameter as Config).ConfigItemList.ToDictionary(x => x.Name, x => x.Id);
             return reverseDict[value.ToString()];
             //var reverseDict = textBoxTypeDict.ToDictionary(x => x.Value, x => x.Key);
