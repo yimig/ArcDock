@@ -123,6 +123,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.116.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -152,6 +153,7 @@
     </Compile>
     <Compile Include="Data\Database\SortResult.cs" />
     <Compile Include="Data\Json\FlowTable.cs" />
+    <Compile Include="Data\Json\NetAsync.cs" />
     <Compile Include="Data\UI\Converter\FillTypeConverter.cs" />
     <Compile Include="Data\UI\Converter\OptionIndexConverter.cs" />
     <Compile Include="Data\UI\FlowTableArea.cs" />
@@ -168,8 +170,14 @@
     <Compile Include="PrintProgressWindow.xaml.cs">
       <DependentUpon>PrintProgressWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReceiveSettingWindow.xaml.cs">
+      <DependentUpon>ReceiveSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectPrintNumWindow.xaml.cs">
       <DependentUpon>SelectPrintNumWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SendSettingWindow.xaml.cs">
+      <DependentUpon>SendSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -240,7 +248,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ReceiveSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelectPrintNumWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SendSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,6 +306,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icon\Server_push.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon\cloud_files.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon\Envelope.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon\File_synchronization.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon\Personal_opinions.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="template\bg.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

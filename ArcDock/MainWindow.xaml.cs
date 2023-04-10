@@ -889,5 +889,10 @@ namespace ArcDock
         }
 
         #endregion
+
+        private void MiSendSetting_Click(object sender, RoutedEventArgs e)
+        {
+            new SendSettingWindow().ShowDialog();
+        }
     }
 }
