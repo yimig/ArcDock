@@ -5,8 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcDock"
         mc:Ignorable="d"
-        Title="ReceiveSettingWindow" Height="450" Width="800">
+        Icon="/ArcDock;component/Icon/reflesh.ico"
+        Title="接收配置" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel>
+            <Image Source="/ArcDock;component/Icon/File_synchronization.png"></Image>
+        </DockPanel>
+        <Grid Grid.Column="1" Grid.ColumnSpan="2">
+            <StackPanel Height="120" HorizontalAlignment="Center">
+                <TextBlock FontWeight="Bold">请输入发送方提供的地址：</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBox Width="360"  Text="{Binding IP}" FontSize="50" Margin="0 5 0 0" BorderBrush="{x:Null}" BorderThickness="0"></TextBox>
+                        <Rectangle Height="3" Fill="#f9a826" Margin="0 0 0 5"></Rectangle>
+                    </StackPanel>
+                    <Button Name="BtnConnect" Width="70" Margin="10 5 5 5" Background="White" BorderBrush="White" Click="BtnConnect_Click">
+                        <Image Source="/ArcDock;component/Icon/next.ico"></Image>
+                    </Button>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="18" Source="/ArcDock;component/Icon/yes.ico">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnected}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <Image Height="18" Source="/ArcDock;component/Icon/search.ico">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnected}" Value="1">
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <Image Height="18" Source="/ArcDock;component/Icon/clearitems.ico">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnected}" Value="2">
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <TextBlock Text="{Binding Status}"></TextBlock>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

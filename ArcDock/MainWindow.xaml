@@ -30,7 +30,7 @@
                     <MenuItem Header="模板设置" Name="MiTemplateSetting" Click="MiTemplateSetting_OnClick"></MenuItem>
                     <MenuItem Header="同步配置">
                         <MenuItem Header="发送当前配置" Name="MiSendSetting" Click="MiSendSetting_Click"></MenuItem>
-                        <MenuItem Header="接收配置" Name="MiReceiveSetting"></MenuItem>
+                        <MenuItem Header="接收配置" Name="MiReceiveSetting" Click="MiReceiveSetting_Click"></MenuItem>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="关于">

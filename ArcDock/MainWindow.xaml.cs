@@ -888,11 +888,26 @@ namespace ArcDock
             StepBrowserZoom(0.5);
         }
 
-        #endregion
-
+        /// <summary>
+        /// 发送当前配置按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiSendSetting_Click(object sender, RoutedEventArgs e)
         {
-            new SendSettingWindow().ShowDialog();
+            new SendSettingWindow(Config).ShowDialog();
         }
+
+        /// <summary>
+        /// 接收配置按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MiReceiveSetting_Click(object sender, RoutedEventArgs e)
+        {
+            new ReceiveSettingWindow().ShowDialog();
+        }
+
+        #endregion
     }
 }

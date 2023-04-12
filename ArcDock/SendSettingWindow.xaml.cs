@@ -16,6 +16,10 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.ComponentModel;
 using ArcDock.Data.Json;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using System.IO;
+using Path = System.IO.Path;
 
 namespace ArcDock
 {
@@ -53,12 +57,86 @@ namespace ArcDock
             }
         }
 
-        public SendSettingWindow()
+        private string token;
+
+        private Config config;
+
+        private const int VERSION = 1;
+        private const int PORT = 3052;
+
+        public SendSettingWindow(Config config)
         {
             InitializeComponent();
             this.DataContext = this;
             SetStatus(2, "正在初始化网络传输组件");
             StartServer();
+            this.config = config;
+        }
+
+        private string GetToken()
+        {
+            byte[] rndSeries = new byte[64];
+            var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(rndSeries);
+            return BitConverter.ToInt64(rndSeries,0).ToString("X");
+        }
+
+        private string GetTokenJson()
+        {
+            token = GetToken();
+            var netJson = new NetAsync()
+            {
+                Version = VERSION,
+                Code = "200",
+                Message = Path.GetFileName(config.FilePath),
+                Token = token
+            };
+            return JsonConvert.SerializeObject(netJson);
+        }
+
+        private string CheckReceiveJson(string receiveStr)
+        {
+            NetAsync resultObj = new NetAsync()
+            {
+                Version = VERSION,
+                Code = "500",
+                Message = "封包错误",
+                Token = ""
+            };
+            if (receiveStr != null)
+            {
+                var receiveObj = JsonConvert.DeserializeObject<NetAsync>(receiveStr);
+                if(receiveObj.Code == "200")
+                {
+                    if (receiveObj.Token != token) resultObj = new NetAsync()
+                    {
+                        Version = VERSION,
+                        Code = "511",
+                        Message = "鉴权失败，无权访问",
+                        Token = ""
+                    };
+                    else if (receiveObj.Version != VERSION) resultObj = new NetAsync()
+                    {
+                        Version = VERSION,
+                        Code = "505",
+                        Message = "客户端版本不匹配，请升级客户端",
+                        Token = ""
+                    };
+                    else {
+                        TextReader tReader = new StreamReader(new FileStream(config.FilePath, FileMode.Open));
+                        var templateHtml = tReader.ReadToEnd();
+                        tReader.Close();
+                        resultObj = new NetAsync()
+                        {
+                            Version = VERSION,
+                            Code = "200",
+                            Message = templateHtml,
+                            Token = token
+                        };
+                    };
+                }
+            }
+            return JsonConvert.SerializeObject(resultObj);
         }
 
         private void SetStatus(int icon, string status)
@@ -85,7 +163,7 @@ namespace ArcDock
             try
             {
                 IP = GetLocalIP();
-                var endPoint = new IPEndPoint(IPAddress.Parse(IP), 3052);
+                var endPoint = new IPEndPoint(IPAddress.Parse(IP), PORT);
                 socket.Bind(endPoint);
                 socket.Listen(10);
                 SetStatus(1, "初始化完成，正在等待接收方访问");
@@ -101,14 +179,14 @@ namespace ArcDock
 
         private void AcceptSocket(Socket socket)
         {
-            socket.BeginAccept(asyncSocket =>
+            var Result = socket.BeginAccept(asyncSocket =>
             {
                 var client = socket.EndAccept(asyncSocket);
                 SetStatus(0, client.RemoteEndPoint.ToString() + "已连接");
-                SocketSendText(client, "Welcome");
+                SocketSendText(client, GetTokenJson());
                 var resStr = SocketReceiveText(client);
-                SetStatus(0, "Client say:" + resStr);
-                SocketSendFile(client, @"D:\Projects\VS_Projects\ArcDock\ArcDock\template\template.html");
+                var reSendStr = CheckReceiveJson(resStr);
+                SocketSendText(client,reSendStr);
                 AcceptSocket(socket);
             },null);
         }
@@ -130,6 +208,7 @@ namespace ArcDock
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                SetStatus(2, ex.Message);
             }
             return res;
         }
@@ -148,6 +227,7 @@ namespace ArcDock
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                SetStatus(2, ex.Message);
             }
         }
 
@@ -163,6 +243,7 @@ namespace ArcDock
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                SetStatus(2, ex.Message);
             }
         }
 
