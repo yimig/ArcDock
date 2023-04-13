@@ -1,0 +1,34 @@
+﻿<Window x:Class="ArcDock.CodeTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcDock"
+        Icon="/ArcDock;component/Icon/code.ico"
+        mc:Ignorable="d"
+        Title="CodeTestWindow" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Margin="5">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button x:Name="BtnRunCode" Click="BtnRunCode_Click">
+                    <StackPanel Orientation="Horizontal" Height="20">
+                        <Image Source="/ArcDock;component/Icon/play.ico"></Image>
+                        <TextBlock VerticalAlignment="Center">运行测试</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock>输入测试内容：</TextBlock>
+            </StackPanel>
+            <TextBox x:Name="TbSource" TextWrapping="Wrap" Margin="0 5 0 5"></TextBox>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Margin="5">
+            <TextBlock DockPanel.Dock="Top">运行结果：</TextBlock>
+            <TextBlock x:Name="TbResult" Background="AliceBlue"></TextBlock>
+        </DockPanel>
+    </Grid>
+</Window>

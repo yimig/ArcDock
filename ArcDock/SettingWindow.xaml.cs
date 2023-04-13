@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ArcDock.Data;
+using ArcDock.Data.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,6 +25,7 @@ namespace ArcDock
         #region 属性和字段
 
         private bool isEnableRules;
+        private Config config;
 
         /// <summary>
         /// 目前选中的打印API
@@ -48,8 +51,9 @@ namespace ArcDock
 
         #region 初始化
 
-        public SettingWindow(int printApi, bool isEnableRules)
+        public SettingWindow(Config config,int printApi, bool isEnableRules)
         {
+            this.config = config;
             PrintApi = printApi;
             IsEnableRules = isEnableRules;
             DataContext = this;
@@ -101,5 +105,14 @@ namespace ArcDock
 
         #endregion
 
+        private void BtnCodeEditer_Click(object sender, RoutedEventArgs e)
+        {
+            new CodeEditerWindow(config).ShowDialog();
+        }
+
+        private void BtnTestCode_Click(object sender, RoutedEventArgs e)
+        {
+            new CodeTestWindow(PythonEnvironment.GetPythonCode()).ShowDialog(); 
+        }
     }
 }

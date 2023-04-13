@@ -1,0 +1,17 @@
+﻿<Window x:Class="IronPythonTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IronPythonTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Name="TbInput" Background="Black" Foreground="AliceBlue" Text="{Binding Input}" PreviewKeyDown="TbInput_PreviewKeyDown"></TextBox>
+        <TextBlock Name="TbOutput" Grid.Row="1" Background="AliceBlue" Text="{Binding Output}"></TextBlock>
+    </Grid>
+</Window>

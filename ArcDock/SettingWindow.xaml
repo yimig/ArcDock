@@ -25,6 +25,34 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Python">
+                <StackPanel>
+                    <GroupBox Header="通用" Margin="5 10 5 5">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Margin="5">Python解释器:</TextBlock>
+                                <ComboBox SelectedIndex="0" Margin="5">
+                                    <ComboBoxItem>IronPython</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock FontSize="10" FontStyle="Italic">Version:</TextBlock>
+                                <TextBlock FontSize="10" FontStyle="Italic" Margin="5 0 0 0">IronPython 3.4.0.0</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="文本解析" Margin="5">
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="BtnCodeEditer" Margin="5" Click="BtnCodeEditer_Click">代码编辑器</Button>
+                            <Button x:Name="BtnTestCode" Grid.Column="1" Margin="5" Click="BtnTestCode_Click">测试</Button>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

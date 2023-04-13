@@ -158,6 +158,7 @@ namespace ArcDock
             NowPrintPage = 1;
             PrintApi = Properties.Settings.Default.UserPrintApi;
             InitializeComponent();
+            new PythonEnvironment();//初始化Python环境
             LoadConfig(); //载入配置文件
             SetChildren(); //初始化UI
             Browser.Address = Environment.CurrentDirectory + "\\temp.html"; //初始化浏览器导航地址
@@ -516,7 +517,7 @@ namespace ArcDock
                     HeaderFooterTitle = null,
                     HeaderFooterUrl = null,
                     MarginType = CefPdfPrintMarginType.Custom,
-                    ScaleFactor = 0,
+                    ScaleFactor = 99,
                     HeaderFooterEnabled = false,
                     SelectionOnly = false,
                     MarginTop = 0,
@@ -850,7 +851,7 @@ namespace ArcDock
         /// <param name="e"></param>
         private void MiGlobalSetting_OnClick(object sender, RoutedEventArgs e)
         {
-            var settingWindow = new SettingWindow(PrintApi, IsEnableRules);
+            var settingWindow = new SettingWindow(Config, PrintApi, IsEnableRules);
             settingWindow.ShowDialog();
             this.PrintApi = settingWindow.PrintApi;
             this.IsEnableRules = settingWindow.IsEnableRules;
