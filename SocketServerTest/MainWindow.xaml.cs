@@ -22,50 +22,100 @@ namespace SocketServerTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Socket socket;
         public MainWindow()
         {
             InitializeComponent();
-            StartServer();
         }
 
-        private async void StartServer()
+        private async void InitServer()
         {
             IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 3210);
             Socket listener = new Socket(
                 ipEndPoint.AddressFamily,
                 SocketType.Stream,
                 ProtocolType.Tcp);
+            socket = listener;
 
             listener.Bind(ipEndPoint);
-            listener.Listen(100);
+        }
 
-            var handler = await listener.AcceptAsync();
-            //while (true)
-            //{
-            //    // Receive message.
-            //    var buffer = new ArraySegment<byte>[1024];
-            //    var received = await handler.ReceiveAsync(buffer, SocketFlags.None);
-            //    byte[] a = buffer.ToArray();
-            //    var response = Encoding.UTF8.GetString(buffer.ToArray(), 0, received);
+        private async void StartListen()
+        {
+            socket.Listen(100);
+            TbConsole.AppendText("Socket Server Launched!" + "\t\n");
+            try
+            {
+                var handler = await socket.AcceptAsync();
+                //while (true)
+                //{
 
-            //    var eom = "<|EOM|>";
-            //    if (response.IndexOf(eom) > -1 /* is end of message */)
-            //    {
-            //        TbConsole.Text+=(
-            //            $"Socket server received message: \"{response.Replace(eom, "")}\"");
+                //}
 
-            //        var ackMessage = "<|ACK|>";
-            //        var echoBytes = Encoding.UTF8.GetBytes(ackMessage);
-            //        await handler.SendAsync(echoBytes, 0);
-            //        TbConsole.Text += (
-            //            $"Socket server sent acknowledgment: \"{ackMessage}\"");
+                // Receive message.
+                for(int i=0;i<2;i++)
+                {
+                    var num = 1024;
+                    var buffer = new ArraySegment<byte>(new byte[num]);
+                    var received = await handler.ReceiveAsync(buffer, SocketFlags.None);
+                    byte[] a = buffer.Select(x => x).ToArray();
+                    var response = Encoding.UTF8.GetString(buffer.ToArray(), 0, received);
 
-            //        break;
-            //    }
-            //    // Sample output:
-            //    //    Socket server received message: "Hi friends 👋!"
-            //    //    Socket server sent acknowledgment: "<|ACK|>"
-            //}
+                    var eom = "<|EOM|>";
+                    if (response.IndexOf(eom) > -1 /* is end of message */)
+                    {
+                        TbConsole.Text += (
+                            $"Socket server received message: \"{response.Replace(eom, "")}\"\t\n");
+
+                        var ackMessage = "<|ACK|>";
+                        var echoBytes = Encoding.UTF8.GetBytes(ackMessage);
+                        var echoBuffer = new ArraySegment<byte>(echoBytes);
+                        await handler.SendAsync(echoBuffer, 0);
+                        TbConsole.Text += (
+                            $"Socket server sent acknowledgment: \"{ackMessage}\"\t\n");
+
+                        //break;
+                    }
+                }
+                TbConsole.AppendText("======End Communication=====");
+
+                // Sample output:
+                //    Socket server received message: "Hi friends 👋!"
+                //    Socket server sent acknowledgment: "<|ACK|>"
+            } catch (SocketException ex)
+            {
+                TbConsole.AppendText(ex.Message+ "\t\n");
+            }
+        }
+
+        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        {
+            if(socket!=null)
+            {
+                try
+                {
+                    socket.Shutdown(SocketShutdown.Both);
+                }
+                catch (Exception ex)
+                {
+                    TbConsole.AppendText(ex.Message);
+                }
+                finally
+                {
+                    socket.Close();
+                    socket = null;
+                    TbConsole.AppendText("Socket Server Stoped!" + "\t\n");
+                }
+            }
+        }
+
+        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (socket==null)
+            {
+                InitServer();
+                StartListen();
+            }
         }
     }
 }

@@ -21,5 +21,11 @@ namespace ArcDock.Data.Json
 
         [JsonProperty("token")]
         public string Token { get; set; }
+
+        [JsonProperty("size")]
+        public int Size { get; set; }
+
+        [JsonProperty("global_setting")]
+        public GlobalSettingJson GlobalSetting { get; set; }
     }
 }

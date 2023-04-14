@@ -94,6 +94,24 @@ namespace ArcDock
             return JsonConvert.SerializeObject(netJson);
         }
 
+        //private string GetFileJson()
+        //{
+        //    TextReader tReader = new StreamReader(new FileStream(config.FilePath, FileMode.Open));
+        //    var templateHtml = tReader.ReadToEnd();
+        //    tReader.Close();
+        //    var globalSetting = new GlobalSettingJson()
+        //    {
+        //        IsEnableCheck = Setting
+        //    };
+        //    var resultObj = new NetAsync()
+        //    {
+        //        Version = VERSION,
+        //        Code = "200",
+        //        Message = templateHtml,
+        //        Token = token
+        //    };
+        //}
+
         private string CheckReceiveJson(string receiveStr)
         {
             NetAsync resultObj = new NetAsync()

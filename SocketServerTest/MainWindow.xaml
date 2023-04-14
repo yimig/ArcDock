@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Name="TbConsole"></TextBox>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Button x:Name="BtnStart" Click="BtnStart_Click" Margin="3">启动</Button>
+                <Button x:Name="BtnStop" Click="BtnStop_Click" Margin="3">中止</Button>
+            </StackPanel>
+            <TextBox Name="TbConsole"></TextBox>
+        </DockPanel>
     </Grid>
 </Window>

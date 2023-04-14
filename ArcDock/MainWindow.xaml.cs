@@ -38,6 +38,7 @@ using PDFtoPrinter;
 using Spire.Pdf;
 using Path = System.IO.Path;
 using System.Web;
+using log4net;
 
 namespace ArcDock
 {
@@ -145,6 +146,8 @@ namespace ArcDock
             }
         }
 
+        private static ILog log = LogManager.GetLogger("MainWindow");
+
         #endregion
 
         #region 初始化
@@ -159,7 +162,9 @@ namespace ArcDock
             PrintApi = Properties.Settings.Default.UserPrintApi;
             InitializeComponent();
             new PythonEnvironment();//初始化Python环境
+            log.Info("Python环境初始化完毕");
             LoadConfig(); //载入配置文件
+            log.Info("配置文件载入完毕");
             SetChildren(); //初始化UI
             Browser.Address = Environment.CurrentDirectory + "\\temp.html"; //初始化浏览器导航地址
             Browser.LoadingStateChanged += (sender, args) => SetBrowserZoom(Config.Settings.Zoom);
@@ -308,9 +313,10 @@ namespace ArcDock
             {
                 result = encode.GetString(bytes);
             }
-            catch
+            catch(Exception ex)
             {
                 result = source;
+                log.Error("Base64解码错误", ex);
             }
             return result;
         }
@@ -347,6 +353,7 @@ namespace ArcDock
                     catch (Exception e)
                     {
                         MessageBox.Show(path + "保存失败！错误信息：" + e.Message);
+                        log.Info("无法保存浏览器视口截图", e);
                     }
                 }
             }
@@ -371,6 +378,7 @@ namespace ArcDock
                 catch (Exception e)
                 {
                     MessageBox.Show(path + "保存失败！错误信息：" + e.Message);
+                    log.Info("无法保存html", e);
                 }
             }
         }
@@ -382,9 +390,24 @@ namespace ArcDock
         private void ChangeConfig(int index)
         {
             Config = configList[index];
+            log.Info("载入配置文件："+ configList[index].FilePath);
             templateHtml = templateHtmlList[index];
             structuredText = new StructuredText(Config.ConfigItemList, templateHtml);
             SetControlDock();
+        }
+
+        /// <summary>
+        /// 保存打印日志
+        /// </summary>
+        private void SavePrintLog()
+        {
+            var res = "开始打印： {";
+            foreach (var configItem in Config.ConfigItemList)
+            {
+                res += configItem.Id + ":" + structuredText[configItem.Id] + ", ";
+            }
+            res += "}&PrintApi=" + PrintApi;
+            log.Info(res);
         }
 
         /// <summary>
@@ -392,6 +415,7 @@ namespace ArcDock
         /// </summary>
         private void PrintWeb()
         {
+            SavePrintLog();
             if (!IsEnableRules || CheckRules())
             { 
                 if (PrintApi == 0) PrintWebApi();
@@ -598,7 +622,9 @@ namespace ArcDock
                     {
                         controlDock.SetChildrenContentValue(execItem.Key, execItem.Content);
                     }
-                } catch(InvalidOperationException) {}
+                } catch(InvalidOperationException e) {
+                    log.Error("自动填充失败",e);
+                }
 
             }
         }
@@ -779,18 +805,26 @@ namespace ArcDock
             analyseWindow.ShowDialog();
             if (analyseWindow.IsHasContent)
             {
-                var checkDict = new Dictionary<string, string>()
+                //var checkDict = new Dictionary<string, string>()
+                //{
+                //    { "patient_name", analyseWindow.PatientName },
+                //    { "patient_bed", analyseWindow.BedNo },
+                //    { "patient_no", analyseWindow.InPatientNo },
+                //    { "patient_dept", analyseWindow.PatientDept },
+                //    { "medicament_name", analyseWindow.MedicamentName },
+                //    { "medicament_num", analyseWindow.MedicamentNum },
+                //};
+                foreach (var pair in analyseWindow.AnalyzeDict)
                 {
-                    { "patient_name", analyseWindow.PatientName },
-                    { "patient_bed", analyseWindow.BedNo },
-                    { "patient_no", analyseWindow.InPatientNo },
-                    { "patient_dept", analyseWindow.PatientDept },
-                    { "medicament_name", analyseWindow.MedicamentName },
-                    { "medicament_num", analyseWindow.MedicamentNum },
-                };
-                foreach (var pair in checkDict)
-                {
-                    CheckAndFill(pair.Key, pair.Value);
+                    try
+                    {
+                        CheckAndFill(pair.Key, pair.Value);
+                    } catch (Exception ex) 
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Warn("Python脚本解析失败", ex);
+                    }
+
                 }
             }
         }
