@@ -17,18 +17,24 @@
                         <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
                             <TextBlock FontSize="12" Margin="0 0 4 0">Version</TextBlock>
                             <TextBlock FontSize="12" Text="{Binding Version}"></TextBlock>
-                            <TextBlock FontSize="12" Margin="4 0 0 0">Release 2022/11/28</TextBlock>
+                            <TextBlock FontSize="12" Margin="4 0 0 0">Release 2023/4/17</TextBlock>
                         </StackPanel>
                         <TextBlock FontSize="12" Margin="0 2 0 2">如有疑问请致电3052</TextBlock>
                         <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 10 0 2"></Border>
-                        <TextBlock FontWeight="Bold" FontSize="17" Margin="0 10 0 10">开源许可</TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="17" Margin="0 10 0 10">依赖包使用情况</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">CefSharp@105.3.330</TextBlock>
-                        <TextBlock FontSize="12" Margin="0 2 0 2">PDFtoPrinter@1.4.4</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">PDFtoPrinter@1.5.0</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">FreeSpire.PDF@8.6.0</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">NPinYinPro@0.3.3</TextBlock>
-                        <TextBlock FontSize="12" Margin="0 2 0 2">Newtonsoft.Json@13.0.1</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">Newtonsoft.Json@13.0.3</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">WpfControls.AutoCompleteTextBox@1.0.0.7</TextBlock>
                         <TextBlock FontSize="12" Margin="0 2 0 2">SQLite@3.13.0</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">AvalonEdit@6.3.0.90</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">IronPython@3.4.0</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">log4net@2.0.15</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">NPOI@2.5.6</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">SharpZipLib@1.3.3</TextBlock>
+                        <TextBlock FontSize="12" Margin="0 2 0 2">BouncyCastle@1.8.9</TextBlock>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -38,7 +44,7 @@
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 1.0.0</TextBlock>
                             <TextBlock FontStyle="Italic" FontSize="9">Release 2023/04/06</TextBlock>
-                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：模板配置功能</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：模板配置功能，文本分析引擎切换为Python解释器，同步配置功能，支持日志功能；升级依赖包</TextBlock>
                         </StackPanel>
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.3a</TextBlock>

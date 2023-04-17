@@ -1,5 +1,7 @@
 ﻿using ArcDock.Properties;
 using Newtonsoft.Json;
+using Spire.Pdf.Exporting.XPS.Schema;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace ArcDock.Data.Json
@@ -16,6 +18,7 @@ namespace ArcDock.Data.Json
         private int height, width, printHeight, printWidth;
         private double zoom;
         private bool fixedHeader;
+        private List<string> resource;
 
         /// <summary>
         /// 默认打印机名称
@@ -130,10 +133,25 @@ namespace ArcDock.Data.Json
         }
 
         /// <summary>
-        /// 是否每页都固定生成表头
+        /// 注册所用资源文件
         /// </summary>
+        [JsonProperty("resource")]
+        public List<string> Resource {
+            get => resource;
+            set
+            {
+                resource = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Resource"));
+                }
+            }
+        }
+
+
         [JsonProperty("fixed_header")]
-        public bool FixedHeader {
+        public bool FixedHeader
+        {
             get => fixedHeader;
             set
             {

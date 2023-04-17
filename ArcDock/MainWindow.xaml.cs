@@ -166,7 +166,7 @@ namespace ArcDock
             LoadConfig(); //载入配置文件
             log.Info("配置文件载入完毕");
             SetChildren(); //初始化UI
-            Browser.Address = Environment.CurrentDirectory + "\\temp.html"; //初始化浏览器导航地址
+            Browser.Address = Environment.CurrentDirectory + @".\target\temp.html"; //初始化浏览器导航地址
             Browser.LoadingStateChanged += (sender, args) => SetBrowserZoom(Config.Settings.Zoom);
         }
 
@@ -263,7 +263,7 @@ namespace ArcDock
         private void ChangeHtml(string id, string content, ConfigItem configItem)
         {
             structuredText[id] = content;
-            TextWriter tw = new StreamWriter(new FileStream(@"temp.html", FileMode.Create));
+            TextWriter tw = new StreamWriter(new FileStream(@"target\temp.html", FileMode.Create));
             tw.Write(structuredText);
             tw.Close();
         }
@@ -372,7 +372,7 @@ namespace ArcDock
                 string path = dialog.FileName;
                 try
                 {
-                    File.Copy(@"temp.html", path, true);
+                    File.Copy(@"target\temp.html", path, true);
                     MessageBox.Show(path + "保存成功。");
                 }
                 catch (Exception e)
@@ -394,6 +394,22 @@ namespace ArcDock
             templateHtml = templateHtmlList[index];
             structuredText = new StructuredText(Config.ConfigItemList, templateHtml);
             SetControlDock();
+            CopyResourceFile();
+        }
+
+        private void CopyResourceFile()
+        {
+            if(Config.Settings.Resource!=null)
+            {
+                foreach(var res in Config.Settings.Resource)
+                {
+                    if(File.Exists(Environment.CurrentDirectory + "\\template\\" + res) && !File.Exists(Environment.CurrentDirectory + "\\target\\" + res))
+                    {
+                        File.Copy(Environment.CurrentDirectory + "\\template\\" + res, Environment.CurrentDirectory + "\\target\\" + res);
+                    }
+                }
+            }
+            
         }
 
         /// <summary>
