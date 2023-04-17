@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ArcTemplate</title>
+    <meta name="viewport" content="width=340,height=265" />
+    <script type="config/json">
+                {
+          "settings": {
+            "printer": "",
+            "height": 265,
+            "width": 340,
+            "print_unit": "cm",
+            "print_height": 7,
+            "print_width": 9,
+            "zoom": 0
+          },
+          "data": [
+            {
+              "id": "obj1",
+              "name": "对象1",
+              "type": "richinput",
+              "opt_type": 0,
+              "option": [],
+              "option_exc": [],
+              "default": "",
+              "rules": ""
+            },
+            {
+              "id": "obj2",
+              "name": "对象2",
+              "type": "json",
+              "opt_type": 0,
+              "option": ["array1","array2","array3","array4"],
+              "option_exc": [],
+              "default": "",
+              "rules": "\\S+"
+            }
+
+          ]
+        }
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+    <div id="main">
+
+        <div class="content">
+            <div id="target"></div>
+            <div id="content"></div>
+        </div>
+    </div>
+    <script>
+        let val1 = {{ obj1 }}
+        let val2 = {{ obj2 }}
+        document.getElementById('target').innerText = val1.id
+        document.getElementById('content').innerText = val1.content
+
+    </script>
+</body>
+</html>

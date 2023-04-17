@@ -387,6 +387,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="template\test.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Icon\Server_push.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
