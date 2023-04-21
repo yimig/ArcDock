@@ -139,13 +139,13 @@ namespace ArcDock.Data
         /// <returns>文档文本</returns>
         private string GetFullText()
         {
-            string res = "";
+            var strBuilder = new StringBuilder();
             foreach (var piece in textList)
             {
-                res += piece.Content;
+                strBuilder.Append(piece.Content);
             }
 
-            return res;
+            return strBuilder.ToString();
         }
 
         /// <summary>

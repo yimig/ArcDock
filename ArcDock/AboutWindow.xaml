@@ -12,7 +12,7 @@
             <TabItem Header="程序信息">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10 5 10 5">
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" FontSize="20" Margin="0 10 0 10">单据生成工具</TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="0 10 0 10">单据生成工具 Preview Edition</TextBlock>
                         <TextBlock FontStyle="Italic" FontSize="12" Margin="0 2 0 2">Project ArcDock@信息中心</TextBlock>
                         <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
                             <TextBlock FontSize="12" Margin="0 0 4 0">Version</TextBlock>
@@ -42,9 +42,10 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5">
                     <StackPanel Margin="5 0 5 0">
                         <StackPanel Margin="0 5 0 5">
-                            <TextBlock FontSize="14" FontWeight="Bold">Ver 1.0.0</TextBlock>
-                            <TextBlock FontStyle="Italic" FontSize="9">Release 2023/04/06</TextBlock>
-                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：模板配置功能，文本分析引擎切换为Python解释器，同步配置功能，支持日志功能；升级依赖包</TextBlock>
+                            <TextBlock FontSize="14" FontWeight="Bold">Ver 1.0.0 Preview</TextBlock>
+                            <TextBlock FontStyle="Italic" FontSize="9">Release 2023/04/17</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：新增模板配置功能，文本分析引擎切换为Python解释器，新增同步配置功能，支持日志功能；升级依赖包</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">修复：修复了网页资源无法加载的问题</TextBlock>
                         </StackPanel>
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.3a</TextBlock>

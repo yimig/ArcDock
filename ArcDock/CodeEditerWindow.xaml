@@ -30,6 +30,9 @@
                     <Button x:Name="BtnTestCode" ToolTip="运行测试" Click="BtnTestCode_Click">
                         <Image Source="/ArcDock;component/Icon/play.ico"></Image>
                     </Button>
+                    <Button x:Name="BtnAddComment" ToolTip="添加提示性注释" Click="BtnAddComment_Click">
+                        <Image Source="/ArcDock;component/Icon/addplaylist.ico"></Image>
+                    </Button>
                 </ToolBar>
             </DockPanel>
             <avalonEdit:TextEditor

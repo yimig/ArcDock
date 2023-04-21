@@ -102,5 +102,10 @@ namespace ArcDock
         {
             Code += "result['" + OptionKey + "']";
         }
+
+        private void BtnAddComment_Click(object sender, RoutedEventArgs e)
+        {
+            Code += GetNavigateTips();
+        }
     }
 }

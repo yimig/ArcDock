@@ -1,4 +1,5 @@
 ﻿using ArcDock.Data;
+using Microsoft.Scripting.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,7 +101,8 @@ namespace ArcDock
                 this.Close();
             } catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                var debugInfo = ((InterpretedFrameInfo[])ex.Data[typeof(InterpretedFrameInfo)])[0].DebugInfo;
+                MessageBox.Show("[Line={" + debugInfo.StartLine + ":" + debugInfo.EndLine + "},Index=" + debugInfo.Index + "]:" + ex.Message, ex.Message);
             }
         }
 

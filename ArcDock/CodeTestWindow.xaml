@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ArcDock"
         Icon="/ArcDock;component/Icon/code.ico"
         mc:Ignorable="d"
-        Title="CodeTestWindow" Height="300" Width="400">
+        Title="代码测试器" Height="300" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -24,11 +24,13 @@
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock>输入测试内容：</TextBlock>
             </StackPanel>
-            <TextBox x:Name="TbSource" TextWrapping="Wrap" Margin="0 5 0 5"></TextBox>
+            <TextBox x:Name="TbSource" TextWrapping="Wrap" Margin="0 5 0 5" AcceptsReturn="True"></TextBox>
         </DockPanel>
         <DockPanel Grid.Row="1" Margin="5">
             <TextBlock DockPanel.Dock="Top">运行结果：</TextBlock>
-            <TextBlock x:Name="TbResult" Background="AliceBlue"></TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="TbResult" Background="AliceBlue"></TextBlock>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using ArcDock.Data;
+using Microsoft.Scripting.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +36,11 @@ namespace ArcDock
                 var dict = PythonEnvironment.RunPython(code, TbSource.Text);
                 foreach (var item in dict)
                 {
-                    res += item.Key + ':' + item.Value + "\r\n";
+                    res += "{"+item.Key + ":\"" + item.Value + "\"}\r\n";
                 }
             } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
+                var debugInfo = ((InterpretedFrameInfo[])ex.Data[typeof(InterpretedFrameInfo)])[0].DebugInfo;
+                MessageBox.Show("[Line=" + debugInfo.StartLine + ":" + debugInfo.EndLine + ",Index=" + debugInfo.Index + "]:"+ex.Message,ex.Message);
             }
 
             TbResult.Text = res;
