@@ -43,9 +43,10 @@
                     <StackPanel Margin="5 0 5 0">
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 1.0.0 Preview</TextBlock>
-                            <TextBlock FontStyle="Italic" FontSize="9">Release 2023/04/17</TextBlock>
-                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：新增模板配置功能，文本分析引擎切换为Python解释器，新增同步配置功能，支持日志功能；升级依赖包</TextBlock>
-                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">修复：修复了网页资源无法加载的问题</TextBlock>
+                            <TextBlock FontStyle="Italic" FontSize="9">Release 2023/04/23</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">新增：新增模板配置功能，新增同步配置功能，新增对象批量导入，文本分析引擎切换为Python解释器，支持日志，支持命令行传参</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">修复：修复了网页资源无法加载的问题，为PrintToPdf、Spire.Pdf接口实现了批量打印功能</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0 3 0 0">优化：提高了刷新性能，升级部分依赖包</TextBlock>
                         </StackPanel>
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock FontSize="14" FontWeight="Bold">Ver 0.9.3a</TextBlock>

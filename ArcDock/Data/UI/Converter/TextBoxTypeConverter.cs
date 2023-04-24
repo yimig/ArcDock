@@ -14,7 +14,8 @@ namespace ArcDock.Data.UI.Converter
         {
             {"input","普通文本框"},
             {"richinput","多行文本框" },
-            {"autoinput","智能文本框" }
+            {"autoinput","智能文本框" },
+            {"json", "JSON对象" }
         };
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

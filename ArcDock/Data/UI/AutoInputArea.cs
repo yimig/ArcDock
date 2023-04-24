@@ -84,7 +84,9 @@ namespace ArcDock.Data.UI
                 }));
                 return panels;
             });
-            this.InputControl = textBox;
+            var grid = new Grid();
+            grid.Children.Add(textBox);
+            this.InputControl = grid;
         }
 
         private void TextBox_SelectionChanged(object sender, TextChangedEventArgs e)

@@ -54,6 +54,7 @@ namespace ArcDock.Data.UI
             if (CustomAreas[index].config.Type.Equals("input")) (CustomAreas[index] as InputArea).Content = newVal;
             else if (CustomAreas[index].config.Type.Equals("richinput")) (CustomAreas[index] as RichInputArea).Content = newVal;
             else if (CustomAreas[index].config.Type.Equals("autoinput")) (CustomAreas[index] as AutoInputArea).Content = newVal;
+            else if (CustomAreas[index].config.Type.Equals("json")) (CustomAreas[index] as CodeInputArea).Content = newVal;
         }
 
         public void SetChildrenContentValue(string id, string newVal)

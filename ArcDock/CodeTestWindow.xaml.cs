@@ -40,7 +40,7 @@ namespace ArcDock
                 }
             } catch(Exception ex) {
                 var debugInfo = ((InterpretedFrameInfo[])ex.Data[typeof(InterpretedFrameInfo)])[0].DebugInfo;
-                MessageBox.Show("[Line=" + debugInfo.StartLine + ":" + debugInfo.EndLine + ",Index=" + debugInfo.Index + "]:"+ex.Message,ex.Message);
+                MessageBox.Show("[Line={" + debugInfo.StartLine + ":" + debugInfo.EndLine + "},Index=" + debugInfo.Index + "]:"+ex.Message,ex.Message);
             }
 
             TbResult.Text = res;

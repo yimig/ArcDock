@@ -40,7 +40,7 @@ namespace ArcDock
         {
             get
             {
-                return new List<string>() { "普通文本框", "多行文本框", "智能文本框" };
+                return new List<string>() { "普通文本框", "多行文本框", "智能文本框", "JSON对象" };
             }
         }
         public List<string> DisplayFillTypeList

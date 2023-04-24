@@ -219,10 +219,14 @@
       <DependentUpon>CodeTestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Database\SortResult.cs" />
+    <Compile Include="Data\ExcelReader.cs" />
     <Compile Include="Data\Json\FlowTable.cs" />
     <Compile Include="Data\Json\GlobalSettingJson.cs" />
     <Compile Include="Data\Json\NetAsync.cs" />
+    <Compile Include="Data\Json\ProcessData.cs" />
     <Compile Include="Data\PythonEnvironment.cs" />
+    <Compile Include="Data\TableTitleItem.cs" />
+    <Compile Include="Data\UI\CodeInputArea.cs" />
     <Compile Include="Data\UI\Converter\FillTypeConverter.cs" />
     <Compile Include="Data\UI\Converter\OptionIndexConverter.cs" />
     <Compile Include="Data\UI\AvalonEditBehaviour.cs" />
@@ -233,6 +237,9 @@
     </Compile>
     <Compile Include="Data\UI\SubWindow\LinkageWindow.xaml.cs">
       <DependentUpon>LinkageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
@@ -252,10 +259,14 @@
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TableMatchWindow.xaml.cs">
+      <DependentUpon>TableMatchWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TemplateWindow.xaml.cs">
       <DependentUpon>TemplateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\PinyinHelpers.cs" />
+    <Compile Include="Tools\ProcessInvoker.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -277,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Data\UI\SubWindow\LinkageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -342,6 +357,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TableMatchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -370,6 +389,7 @@
     <None Include="config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="help\index.md" />
     <None Include="log.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -387,6 +407,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="help\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="target\temp.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

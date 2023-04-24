@@ -8,13 +8,13 @@
         mc:Ignorable="d"
         Icon="/ArcDock;component/Icon/tag.ico"
         Title="ArcDock" Height="450" Width="1000"
+        Loaded="Window_Loaded"
         Closing="MainWindow_OnClosing">
     <Grid>
         <DockPanel>
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
                     <MenuItem Header="新建" Click="BtnNew_OnClick"></MenuItem>
-                    <!-- <MenuItem Header="批量导入"></MenuItem> -->
                     <MenuItem Header="导出为...">
                         <MenuItem Header="HTML网页" Name="MiOutputHtml" Click="MiOutputHtml_OnClick"></MenuItem>
                         <!-- <MenuItem Header="PDF文档"></MenuItem> -->
@@ -36,7 +36,7 @@
                 <MenuItem Header="关于">
                     <MenuItem Header="软件信息" Name="MiSoftwareInfo" Click="MiSoftwareInfo_OnClick"></MenuItem>
                     <!-- <MenuItem Header="调试信息"></MenuItem> -->
-                    <!-- <MenuItem Header="使用说明"></MenuItem> -->
+                     <MenuItem Header="使用说明" Name="MiHelp" Click="MiHelp_Click"></MenuItem> 
                 </MenuItem>
             </Menu>
             <Grid>

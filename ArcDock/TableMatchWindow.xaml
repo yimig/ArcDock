@@ -1,0 +1,35 @@
+﻿<Window x:Class="ArcDock.TableMatchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcDock"
+        mc:Ignorable="d"
+        Title="关联文件" Height="450" Width="400">
+    <Grid>
+        <DockPanel>
+            <DockPanel Height="30" Margin="5" DockPanel.Dock="Top">
+                <Button Name="tbSelectFile" Click="tbSelectFile_Click" DockPanel.Dock="Right" Margin="2" Width="100">选择文件</Button>
+                <TextBox VerticalContentAlignment="Center" Margin="2" IsReadOnly="True" Text="{Binding FilePath}"></TextBox>
+            </DockPanel>
+            <StackPanel DockPanel.Dock="Bottom" Margin="5" Orientation="Horizontal" FlowDirection="RightToLeft">
+                <Button Name="btnCheck" Click="btnCheck_Click" Width="100" DockPanel.Dock="Right" Height="25">确定</Button>
+            </StackPanel>
+            <ListView Margin="5" ItemsSource="{Binding Path=TableTitleList}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="文件列名" DisplayMemberBinding="{Binding Path=FileTitle}" Width="180"></GridViewColumn>
+                        <GridViewColumn Header="对应JSON ID" Width="180">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="160" ItemsSource="{Binding Path=DataContext.DisplayJsonIdList, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding Path=JsonId}">
+                                    </ComboBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Window>

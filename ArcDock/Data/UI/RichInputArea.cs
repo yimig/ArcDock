@@ -67,7 +67,9 @@ namespace ArcDock.Data.UI
             textBox.Height = 75;
             textBox.SetBinding(TextBox.TextProperty, new Binding("Content") { Source = this });
             textBox.TextChanged += TextBoxOnTextChanged;
-            this.InputControl = textBox;
+            var grid = new Grid();
+            grid.Children.Add(textBox);
+            this.InputControl = grid;
         }
 
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)

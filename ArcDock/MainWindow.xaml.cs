@@ -39,6 +39,12 @@ using Spire.Pdf;
 using Path = System.IO.Path;
 using System.Web;
 using log4net;
+using static ArcDock.Tools.ProcessInvoker;
+using ArcDock.Tools;
+using NPOI.SS.Formula.Functions;
+using System.Runtime.InteropServices;
+using Microsoft.Scripting.Utils;
+using System.Web.UI;
 
 namespace ArcDock
 {
@@ -160,6 +166,7 @@ namespace ArcDock
             MaxPrintPage = 1;
             NowPrintPage = 1;
             PrintApi = Properties.Settings.Default.UserPrintApi;
+            WindowState = ProcessInvoker.Data.IsSilent ? WindowState.Minimized : WindowState.Normal;
             InitializeComponent();
             new PythonEnvironment();//初始化Python环境
             log.Info("Python环境初始化完毕");
@@ -463,7 +470,7 @@ namespace ArcDock
 
                 // 初始化打印机信息
                 PrintDocument pd = new PrintDocument();
-                //pd.PrinterSettings.PrinterName = Config.Settings.Printer;
+                pd.PrinterSettings.PrinterName = Config.Settings.Printer == "" ? null : Config.Settings.Printer;
                 var ps = new PageSettings();
                 ps.Margins = new Margins(0, 0, 0, 0);
                 ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
@@ -493,7 +500,7 @@ namespace ArcDock
         }
 
         /// <summary>
-        /// 使用CEF附带print()方法打印，无法静默打印。
+        /// 使用CEF附带print()方法打印，无法打印多份，无法静默打印。
         /// </summary>
         private void PrintWebJs()
         {
@@ -501,7 +508,7 @@ namespace ArcDock
         }
 
         /// <summary>
-        /// 使用Clodop插件打印，必须安装插件，插件IE渲染打印效果，可能与预览效果不同
+        /// 使用Clodop插件打印，必须安装插件，无法打印多份，插件IE渲染打印效果，可能与预览效果不同
         /// </summary>
         private void PrintWebClodop()
         {
@@ -543,7 +550,10 @@ namespace ArcDock
             );
             ppw.ChangeStatue(90, "交付打印...");
             var printer = new PDFtoPrinterPrinter();
-            await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
+            for(var i = 0;i<MaxPrintPage;i++)
+            {
+                await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
+            }
             ppw.Close();
         }
 
@@ -575,9 +585,9 @@ namespace ArcDock
             doc.LoadFromFile(@"temp.pdf");
             doc.PrintSettings.SelectPageRange(1, 1);
 
-            // SetPrinter(null,doc.PrintSettings);
-            // doc.PrintSettings.PrintController = new StandardPrintController();
-            // doc.Print();
+            SetPrinter(null, doc.PrintSettings);
+            doc.PrintSettings.PrintController = new StandardPrintController();
+            for (var i = 0; i < MaxPrintPage; i++)doc.Print();
         }
 
         /// <summary>
@@ -857,6 +867,7 @@ namespace ArcDock
             if (spWindow.IsPrint)
             {
                 MaxPrintPage = spWindow.PageNumber;
+
                 PrintWeb();
                 SaveHistory("Batch");
             }
@@ -960,5 +971,78 @@ namespace ArcDock
         }
 
         #endregion
+
+        private void MiHelp_Click(object sender, RoutedEventArgs e)
+        {
+            new HelpWindow().Show();
+        }
+
+        private void WSInitialized()
+        {
+            var hs = PresentationSource.FromVisual(this) as HwndSource;
+            //var wptr = new WindowInteropHelper(this).Handle;
+            //HwndSource hs = HwndSource.FromHwnd(wptr);
+            hs.AddHook(new HwndSourceHook(WndProc));
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case ProcessInvoker.WM_COPYDATA:
+                    var data = (COPYDATASTRUCT)Marshal.PtrToStructure(lParam, typeof(COPYDATASTRUCT));
+                    var str = ProcessInvoker.GetDataString(data);
+                    ProcessInvoker.Data = JsonConvert.DeserializeObject<ProcessData>(str);
+                    ProcessInvoker.Data.IsHandled = false;
+                    log.Info("Data Receive:ptr="+ data.lpData +";length="+ data.cbData + ";convert="+ str);
+                    ReceiveData();
+                    break;
+                default:
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            WSInitialized();
+            ReceiveData();
+        }
+
+        private void ReceiveData()
+        {
+            if(!ProcessInvoker.Data.IsHandled)
+            {
+                var fileNameList = templateFiles.Select(i => Path.GetFileName(i)).ToArray();
+                if (!String.IsNullOrEmpty(ProcessInvoker.Data.TemplateName))
+                {
+                    bool isFind = false;
+                    for(var i = 0;i<fileNameList.Count(); i++)
+                    {
+                        if (fileNameList[i] == ProcessInvoker.Data.TemplateName)
+                        {
+                            ChangeConfig(i);
+                            cbTemplate.SelectedIndex = i;
+                            isFind = true;
+                            break;
+                        }
+                    }
+                    if (!isFind) return;
+                }
+                foreach(var pair in ProcessInvoker.Data.Arguments)
+                {
+                    CheckAndFill(pair.Key, pair.Value);
+                }
+                if (ProcessInvoker.Data.IsSilent)
+                {
+                    PrintWeb();
+                }
+                else
+                {
+                    this.WindowState = WindowState.Normal;
+                }
+                ProcessInvoker.Data.IsHandled = true;
+            }
+        }
     }
 }

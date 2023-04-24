@@ -20,7 +20,7 @@ namespace ArcDock.Data.UI
         private ChromiumWebBrowser browser;
         private Action<string, string> onContentChanged;
         private Label label;
-        private Control inputControl;
+        private Panel inputControl;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,7 +32,7 @@ namespace ArcDock.Data.UI
             set => this.label = value;
         }
 
-        public Control InputControl
+        public Panel InputControl
         {
             get => this.inputControl;
             set => this.inputControl = value;
@@ -70,6 +70,7 @@ namespace ArcDock.Data.UI
             else if (config.Type.Equals("richinput")) customArea = new RichInputArea(config, browser, onContentChanged);
             else if (config.Type.Equals("autoinput")) customArea = new AutoInputArea(config, browser, onContentChanged);
             else if (config.Type.Equals("flow")) customArea = new FlowTableArea(config, browser, onContentChanged);
+            else if (config.Type.Equals("json")) customArea = new CodeInputArea(config, browser, onContentChanged);
             return customArea;
         }
     }
