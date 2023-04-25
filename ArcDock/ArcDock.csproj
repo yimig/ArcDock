@@ -230,7 +230,6 @@
     <Compile Include="Data\UI\Converter\FillTypeConverter.cs" />
     <Compile Include="Data\UI\Converter\OptionIndexConverter.cs" />
     <Compile Include="Data\UI\AvalonEditBehaviour.cs" />
-    <Compile Include="Data\UI\FlowTableArea.cs" />
     <Compile Include="Data\UI\Converter\TextBoxTypeConverter.cs" />
     <Compile Include="Data\UI\SubWindow\InputWindow.xaml.cs">
       <DependentUpon>InputWindow.xaml</DependentUpon>
@@ -443,9 +442,6 @@
     </Resource>
     <None Include="Resources\remove.ico" />
     <None Include="Resources\add.ico" />
-    <Content Include="template\fc_template.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="template\template_dual.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

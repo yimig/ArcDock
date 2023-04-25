@@ -226,13 +226,7 @@ namespace ArcDock
                 foreach (var configItem in Config.ConfigItemList)
                 {
                     CustomArea area;
-                    if (configItem.Type == "flow")
-                    {
-                        area = CustomArea.GetCustomArea(configItem, Browser, ChangeFlowTableHtml);
-                    }
-                    else {
-                        area = CustomArea.GetCustomArea(configItem, Browser, ChangeHtml);
-                    }
+                    area = CustomArea.GetCustomArea(configItem, Browser, ChangeHtml);
                     if (configItem.OptionType == 2)
                     {
                         var areaAutoFill = area as AutoInputArea;
@@ -282,59 +276,6 @@ namespace ArcDock
             tw.Write(structuredText);
             tw.Close();
             if(Browser.IsLoaded)Browser.Reload();
-        }
-
-        /// <summary>
-        /// 修改表格的
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="content"></param>
-        /// <param name="configItem"></param>
-        private void ChangeFlowTableHtml(string id, string content, ConfigItem configItem)
-        {
-            var defaultFlowConfig = new List<ConfigItem>() { new ConfigItem() { Id = "value" } };
-            if (content != "")
-            {
-                FlowTable flow = new FlowTable(content);
-                StructuredText sTitle = new StructuredText(defaultFlowConfig, DecodeBase64(Encoding.Default, configItem.DefaultHeaderNode));
-                StructuredText sContent = new StructuredText(defaultFlowConfig, DecodeBase64(Encoding.Default, configItem.DefaultContentNode));
-                string res = "";
-                if (config.Settings.FixedHeader)
-                {
-                    sTitle["value"] = flow.Title;
-                    res += sTitle.ToString();
-                    foreach (string flowData in flow)
-                    {
-                        sContent["value"] = flowData;
-                        res += sContent.ToString();
-                    }
-                }
-
-                content = res;
-            }
-            ChangeHtml(id, content, configItem);
-        }
-
-        /// <summary>
-        /// Base64 解码
-        /// </summary>
-        /// <param name="encode">解码方式</param>
-        /// <param name="source">要解码的字符串</param>
-        /// <returns>返回解码后的字符串</returns>
-        public static string DecodeBase64(Encoding encode, string source)
-        {
-            string result = "";
-            byte[] bytes = Convert.FromBase64String(source);
-            try
-            {
-                result = encode.GetString(bytes);
-            }
-            catch(Exception ex)
-            {
-                result = source;
-                log.Error("Base64解码错误", ex);
-            }
-            return result;
         }
 
         /// <summary>

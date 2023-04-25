@@ -14,8 +14,8 @@ namespace ArcDock.Data.Json
     public class ConfigItem: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private string id, name, type, @default, rules, defaultHeaderNode, defaultContentNode;
-        private int optionType, maxFlow;
+        private string id, name, type, @default, rules;
+        private int optionType;
         private ObservableCollection<string> option;
         private ObservableCollection<OptionItem> optionItemList;
 
@@ -151,54 +151,6 @@ namespace ArcDock.Data.Json
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Rules"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// flowtable的默认html表头样式
-        /// </summary>
-        [JsonProperty("header_node")]
-        public string DefaultHeaderNode {
-            get => defaultHeaderNode;
-            set
-            {
-                defaultHeaderNode = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("DefaultHeaderNode"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// flowtable的默认html内容样式
-        /// </summary>
-        [JsonProperty("content_node")]
-        public string DefaultContentNode {
-            get => defaultHeaderNode;
-            set
-            {
-                defaultContentNode = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("DefaultContentNode"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// flowtable一页最多显示的数据数量
-        /// </summary>
-        [JsonProperty("max_flow")]
-        public int MaxFlow {
-            get => maxFlow;
-            set
-            {
-                maxFlow = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("MaxFlow"));
                 }
             }
         }
