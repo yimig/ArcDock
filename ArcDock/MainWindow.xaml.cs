@@ -831,15 +831,6 @@ namespace ArcDock
             analyseWindow.ShowDialog();
             if (analyseWindow.IsHasContent)
             {
-                //var checkDict = new Dictionary<string, string>()
-                //{
-                //    { "patient_name", analyseWindow.PatientName },
-                //    { "patient_bed", analyseWindow.BedNo },
-                //    { "patient_no", analyseWindow.InPatientNo },
-                //    { "patient_dept", analyseWindow.PatientDept },
-                //    { "medicament_name", analyseWindow.MedicamentName },
-                //    { "medicament_num", analyseWindow.MedicamentNum },
-                //};
                 foreach (var pair in analyseWindow.AnalyzeDict)
                 {
                     try
@@ -980,8 +971,6 @@ namespace ArcDock
         private void WSInitialized()
         {
             var hs = PresentationSource.FromVisual(this) as HwndSource;
-            //var wptr = new WindowInteropHelper(this).Handle;
-            //HwndSource hs = HwndSource.FromHwnd(wptr);
             hs.AddHook(new HwndSourceHook(WndProc));
         }
 
@@ -1014,6 +1003,7 @@ namespace ArcDock
             if(!ProcessInvoker.Data.IsHandled)
             {
                 var fileNameList = templateFiles.Select(i => Path.GetFileName(i)).ToArray();
+                // 切换到指定模板
                 if (!String.IsNullOrEmpty(ProcessInvoker.Data.TemplateName))
                 {
                     bool isFind = false;
@@ -1029,10 +1019,12 @@ namespace ArcDock
                     }
                     if (!isFind) return;
                 }
+                // 填充模板内容
                 foreach(var pair in ProcessInvoker.Data.Arguments)
                 {
                     CheckAndFill(pair.Key, pair.Value);
                 }
+                // 是否静默打印
                 if (ProcessInvoker.Data.IsSilent)
                 {
                     PrintWeb();

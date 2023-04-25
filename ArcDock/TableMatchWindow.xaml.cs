@@ -70,11 +70,9 @@ namespace ArcDock
         }
         public bool IsCheck { get; set; }
         public string ResultJson { get; set; }
-
+        private Dictionary<string, List<string>> FileTable { get; set; }
         private static ILog log = LogManager.GetLogger("TableMatchWindow");
 
-
-        private Dictionary<string,List<string>> FileTable { get; set; }
         public TableMatchWindow(ConfigItem configItem)
         {
             this.configItem = configItem;

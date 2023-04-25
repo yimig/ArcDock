@@ -38,13 +38,9 @@ namespace ArcDock
                 // 将窗口激活到前台
                 IntPtr hWnd = ProcessInvoker.FindWindow(null, processName);
                 ProcessInvoker.SetForegroundWindow(hWnd);
-                if (e.Args.Contains("--args"))
-                {
-                    ProcessInvoker.LoadStartupArgs(e.Args);
-                    COPYDATASTRUCT cds = GetDataStruct(JsonConvert.SerializeObject(ProcessInvoker.Data));
-                    ProcessInvoker.SendMessage(hWnd, ProcessInvoker.WM_COPYDATA, 0, ref cds);
-                }
-
+                if (e.Args.Contains("--args")) ProcessInvoker.LoadStartupArgs(e.Args);
+                COPYDATASTRUCT cds = GetDataStruct(JsonConvert.SerializeObject(ProcessInvoker.Data));
+                ProcessInvoker.SendMessage(hWnd, ProcessInvoker.WM_COPYDATA, 0, ref cds);
                 Environment.Exit(0);
             }
             else

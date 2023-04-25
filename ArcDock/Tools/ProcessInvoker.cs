@@ -26,7 +26,11 @@ namespace ArcDock.Tools
 
         public const int WM_COPYDATA = 0x004A;
 
-        public static ProcessData Data { get; set; } = new ProcessData() { IsHandled = true };
+        public static ProcessData Data { get; set; } = new ProcessData() 
+        { 
+            IsHandled = true,
+            Arguments = new Dictionary<string, string>()
+        };
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
