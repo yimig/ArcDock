@@ -11,7 +11,7 @@ namespace ArcDock.Data
     public class TableTitleItem: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private string fileTitle, jsonId;
+        private string fileTitle, id;
         public string FileTitle {
             get => fileTitle;
             set
@@ -24,22 +24,22 @@ namespace ArcDock.Data
             }
         }
 
-        public string JsonId { 
-            get => jsonId; 
+        public string Id { 
+            get => id; 
             set
             {
-                jsonId = value;
+                id = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("JsonId"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Id"));
                 }
             } 
         }
 
-        public TableTitleItem(string fileTitle, string jsonId)
+        public TableTitleItem(string fileTitle, string id)
         {
             FileTitle = fileTitle;
-            JsonId = jsonId;
+            Id = id;
         }
     }
 }

@@ -18,11 +18,11 @@
             <ListView Margin="5" ItemsSource="{Binding Path=TableTitleList}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="文件列名" DisplayMemberBinding="{Binding Path=FileTitle}" Width="180"></GridViewColumn>
-                        <GridViewColumn Header="对应JSON ID" Width="180">
+                        <GridViewColumn Header="模板ID" DisplayMemberBinding="{Binding Path=Id}" Width="180"></GridViewColumn>
+                        <GridViewColumn Header="对应文件列名" Width="180">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Width="160" ItemsSource="{Binding Path=DataContext.DisplayJsonIdList, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding Path=JsonId}">
+                                    <ComboBox Width="160" ItemsSource="{Binding Path=DataContext.DisplayFileTitleList, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding Path=FileTitle}">
                                     </ComboBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
