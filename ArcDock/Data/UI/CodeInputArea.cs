@@ -15,6 +15,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.Xaml.Behaviors;
 using System.Media;
 using System.Windows.Media;
+using Newtonsoft.Json;
 
 namespace ArcDock.Data.UI
 {
@@ -100,7 +101,7 @@ namespace ArcDock.Data.UI
             wndTable.ShowDialog();
             if(wndTable.IsCheck)
             {
-                this.Content = wndTable.ResultJson;
+                this.Content = JsonConvert.SerializeObject(wndTable.Result);
             }
         }
 

@@ -30,6 +30,8 @@ namespace ArcDock
 
         public event PropertyChangedEventHandler PropertyChanged;
         private ConfigItem configItem;
+        private Config config;
+
         private string filePath;
         private ObservableCollection<TableTitleItem> tableTitleList;
         private List<string> displayIdList;
@@ -69,19 +71,28 @@ namespace ArcDock
             } 
         }
         public bool IsCheck { get; set; }
-        public string ResultJson { get; set; }
+        public Dictionary<string,List<string>> Result { get; set; }
         private Dictionary<string, List<string>> FileTable { get; set; }
         private static ILog log = LogManager.GetLogger("TableMatchWindow");
 
-        public TableMatchWindow(ConfigItem configItem)
+        public TableMatchWindow()
         {
-            this.configItem = configItem;
             IsCheck = false;
             DisplayFileTitleList = new List<string>();
             TableTitleList = new ObservableCollection<TableTitleItem>();
             this.DataContext = this;
             InitializeComponent();
 
+        }
+
+        public TableMatchWindow(ConfigItem configItem): this()
+        {
+            this.configItem = configItem;
+        }
+
+        public TableMatchWindow(Config config): this()
+        {
+            this.config = config;
         }
 
         private void SelectFile()
@@ -107,23 +118,36 @@ namespace ArcDock
             TableTitleList.Clear();
         }
 
-        private void InitTable()
+        private void InsertTableValue(List<string> idList)
         {
             ClearTable();
             DisplayFileTitleList = FileTable.Keys.ToList();
             if(DisplayFileTitleList.Count()>0)
             {
-                for (var i = 0; i < configItem.Option.Count(); i++)
+                for (var i = 0; i < idList.Count(); i++)
                 {
                     if (i < DisplayFileTitleList.Count())
                     {
-                        TableTitleList.Add(new TableTitleItem(DisplayFileTitleList.ToArray()[i], configItem.Option[i]));
+                        TableTitleList.Add(new TableTitleItem(DisplayFileTitleList.ToArray()[i], idList[i]));
                     }
                     else
                     {
-                        TableTitleList.Add(new TableTitleItem(DisplayFileTitleList[DisplayFileTitleList.Count() - 1], configItem.Option[i]));
+                        TableTitleList.Add(new TableTitleItem(DisplayFileTitleList[DisplayFileTitleList.Count() - 1], idList[i]));
                     }
                 }
+            }
+
+        }
+
+        private void InitTable()
+        {
+            if(configItem != null)
+            {
+                InsertTableValue(configItem.Option.ToList());
+            }
+            else
+            {
+                InsertTableValue(config.ConfigItemList.Select(i => i.Id).ToList());
             }
 
         }
@@ -151,14 +175,13 @@ namespace ArcDock
 
         }
 
-        private void GenerateJson()
+        private void GetResult()
         {
-            var result = new Dictionary<string, List<string>>();
+            Result = new Dictionary<string, List<string>>();
             foreach (var item in TableTitleList)
             {
-                result.Add(item.Id, FileTable[item.FileTitle]);
+                Result.Add(item.Id, FileTable[item.FileTitle]);
             }
-            ResultJson = JsonConvert.SerializeObject(result);
         }
 
         private void btnCheck_Click(object sender, RoutedEventArgs e)
@@ -166,7 +189,7 @@ namespace ArcDock
             if(CheckResult())
             {
                 IsCheck = true;
-                GenerateJson();
+                GetResult();
                 this.Close();
             }
         }

@@ -15,6 +15,7 @@
             <Menu Height="20" Background="LightGray" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
                     <MenuItem Header="新建" Click="BtnNew_OnClick"></MenuItem>
+                    <MenuItem Header="导入文件" Name="MiInputFile" Click="MiInputFile_Click"></MenuItem>
                     <MenuItem Header="导出为...">
                         <MenuItem Header="HTML网页" Name="MiOutputHtml" Click="MiOutputHtml_OnClick"></MenuItem>
                         <!-- <MenuItem Header="PDF文档"></MenuItem> -->
@@ -53,7 +54,7 @@
                     <DockPanel Height="30" DockPanel.Dock="Top">
                         <ToolBar DockPanel.Dock="right">
                             <Label>切换模板：</Label>
-                            <ComboBox Name="cbTemplate" Width="170" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
+                            <ComboBox Name="cbTemplate" Width="150" IsEditable="False" SelectionChanged="CbTemplate_OnSelectionChanged">
                             </ComboBox>
                         </ToolBar>
                         <ToolBar>
@@ -63,9 +64,9 @@
                             <Button ToolTip="解析患者信息" Name="BtnToolAnalyse" Click="BtnToolAnalyse_OnClick">
                                 <Image Source="/ArcDock;component/Icon/rename.ico"></Image>
                             </Button>
-                            <!-- <Button ToolTip="批量导入"> -->
-                            <!--     <Image Source="/ArcDock;component/Icon/addworkplace.ico"></Image> -->
-                            <!-- </Button> -->
+                            <Button ToolTip="批量导入" Name="BtnToolInputFile" Click="MiInputFile_Click"> 
+                                 <Image Source="/ArcDock;component/Icon/addworkplace.ico"></Image> 
+                             </Button> 
                             <Button ToolTip="查看历史" Name="BtnHistory" Click="BtnHistory_OnClick">
                                 <Image Source="/ArcDock;component/Icon/search.ico"></Image>
                             </Button>

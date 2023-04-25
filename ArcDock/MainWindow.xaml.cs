@@ -45,6 +45,7 @@ using NPOI.SS.Formula.Functions;
 using System.Runtime.InteropServices;
 using Microsoft.Scripting.Utils;
 using System.Web.UI;
+using System.Diagnostics;
 
 namespace ArcDock
 {
@@ -153,6 +154,8 @@ namespace ArcDock
         }
 
         private static ILog log = LogManager.GetLogger("MainWindow");
+
+        private bool IsAwaitRefresh { get; set; }
 
         #endregion
 
@@ -270,9 +273,15 @@ namespace ArcDock
         private void ChangeHtml(string id, string content, ConfigItem configItem)
         {
             structuredText[id] = content;
+            if(!IsAwaitRefresh)RefreshContent();
+        }
+
+        private void RefreshContent()
+        {
             TextWriter tw = new StreamWriter(new FileStream(@"target\temp.html", FileMode.Create));
             tw.Write(structuredText);
             tw.Close();
+            if(Browser.IsLoaded)Browser.Reload();
         }
 
         /// <summary>
@@ -436,23 +445,23 @@ namespace ArcDock
         /// <summary>
         /// 打印预览标签
         /// </summary>
-        private void PrintWeb()
+        private async Task PrintWeb()
         {
             SavePrintLog();
             if (!IsEnableRules || CheckRules())
             { 
-                if (PrintApi == 0) PrintWebApi();
-                else if (PrintApi == 1) PrintWebJs();
-                else if (PrintApi == 2) PrintWebClodop();
-                else if (PrintApi == 3) PrintWebPdf();
-                else if (PrintApi == 4) PrintWebPdfSprie();
+                if (PrintApi == 0) await PrintWebApi();
+                else if (PrintApi == 1) await PrintWebJs();
+                else if (PrintApi == 2) await PrintWebClodop();
+                else if (PrintApi == 3) await PrintWebPdf();
+                else if (PrintApi == 4) await PrintWebPdfSprie();
             }
         }
 
         /// <summary>
         /// 使用原生DocumentPrint打印
         /// </summary>
-        private async void PrintWebApi()
+        private async Task PrintWebApi()
         {
             //截图配置，触发截图操作时会强制销毁打印机视图Graphics，故不能再打印事件中进行截图，先截好存起来
             var browserHost = Browser.GetBrowserHost();
@@ -502,7 +511,7 @@ namespace ArcDock
         /// <summary>
         /// 使用CEF附带print()方法打印，无法打印多份，无法静默打印。
         /// </summary>
-        private void PrintWebJs()
+        private async Task PrintWebJs()
         {
             Browser.GetMainFrame().ExecuteJavaScriptAsync("window.print()");
         }
@@ -510,7 +519,7 @@ namespace ArcDock
         /// <summary>
         /// 使用Clodop插件打印，必须安装插件，无法打印多份，插件IE渲染打印效果，可能与预览效果不同
         /// </summary>
-        private void PrintWebClodop()
+        private async Task PrintWebClodop()
         {
             Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);"+
                                                           "var oScript= document.createElement(\"script\");"+
@@ -526,7 +535,7 @@ namespace ArcDock
         /// <summary>
         /// 使用PrintToPDF API打印模板
         /// </summary>
-        private async void PrintWebPdf()
+        private async Task PrintWebPdf()
         {
             var ppw = new PrintProgressWindow();
             ppw.Show();
@@ -560,7 +569,7 @@ namespace ArcDock
         /// <summary>
         /// 使用Spire.PDF API打印，免费版PDF最多一次载入十页
         /// </summary>
-        private async void PrintWebPdfSprie()
+        private async Task PrintWebPdfSprie()
         {
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
                 {
@@ -831,6 +840,7 @@ namespace ArcDock
             analyseWindow.ShowDialog();
             if (analyseWindow.IsHasContent)
             {
+                IsAwaitRefresh = true;
                 foreach (var pair in analyseWindow.AnalyzeDict)
                 {
                     try
@@ -843,6 +853,8 @@ namespace ArcDock
                     }
 
                 }
+                RefreshContent();
+                IsAwaitRefresh = false;
             }
         }
 
@@ -1019,11 +1031,14 @@ namespace ArcDock
                     }
                     if (!isFind) return;
                 }
+                IsAwaitRefresh = true;
                 // 填充模板内容
-                foreach(var pair in ProcessInvoker.Data.Arguments)
+                foreach (var pair in ProcessInvoker.Data.Arguments)
                 {
                     CheckAndFill(pair.Key, pair.Value);
                 }
+                RefreshContent();
+                IsAwaitRefresh = false;
                 // 是否静默打印
                 if (ProcessInvoker.Data.IsSilent)
                 {
@@ -1034,6 +1049,34 @@ namespace ArcDock
                     this.WindowState = WindowState.Normal;
                 }
                 ProcessInvoker.Data.IsHandled = true;
+            }
+        }
+
+        private async void MiInputFile_Click(object sender, RoutedEventArgs e)
+        {
+            var wndTableMatch = new TableMatchWindow(Config);
+            wndTableMatch.ShowDialog();
+            if (wndTableMatch.IsCheck)
+            {
+                var resultDict = wndTableMatch.Result;
+                IsAwaitRefresh = true;
+                for (var i = 0;i<resultDict.First().Value.Count();i++)
+                {
+                    foreach (var pair in resultDict)
+                    {
+                        CheckAndFill(pair.Key, pair.Value[i]);
+                    }
+                    RefreshContent();
+                    if (i==0)
+                    {
+                        if(MessageBox.Show("首行数据已载入，请在预览框中确认样式，如果填充正确请点击【确认】，将开始批量打印。如样式有问题，请点击【取消】后调整样式再试。", "即将开始批量打印", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                        {
+                            break;
+                        }
+                    }
+                    await PrintWeb();
+                }
+                IsAwaitRefresh = false;
             }
         }
     }
