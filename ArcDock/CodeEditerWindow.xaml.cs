@@ -2,43 +2,42 @@
 using ArcDock.Data.Json;
 using Microsoft.Scripting.Utils;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ArcDock
 {
     /// <summary>
-    /// Interaction logic for CodeEditerWindow.xaml
+    /// 代码编辑窗口
     /// </summary>
     public partial class CodeEditerWindow : Window, INotifyPropertyChanged
     {
+        #region 字段属性和事件
+
         public event PropertyChangedEventHandler PropertyChanged;
         private string code;
         private string optionKey;
 
+        /// <summary>
+        /// 代码文本
+        /// </summary>
         public string Code
         {
             get => code;
             set
             {
                 code = value;
-                if(PropertyChanged!= null)
+                if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Code"));
                 }
             }
         }
+
+        /// <summary>
+        /// 目前选中的配置ID名称
+        /// </summary>
         public string OptionKey
         {
             get => optionKey;
@@ -52,6 +51,15 @@ namespace ArcDock
             }
         }
         private Config config;
+
+        #endregion
+
+        #region 初始化
+
+        /// <summary>
+        /// 初始化代码编辑器窗口
+        /// </summary>
+        /// <param name="config"></param>
         public CodeEditerWindow(Config config)
         {
             this.Resources.Add("Config", config);
@@ -64,6 +72,14 @@ namespace ArcDock
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
         }
 
+        #endregion
+
+        #region 功能解耦
+
+        /// <summary>
+        /// 生成注释提示
+        /// </summary>
+        /// <returns></returns>
         private string GetNavigateTips()
         {
             var res = "# 输入值：字符串类型 source\t\n" +
@@ -81,31 +97,58 @@ namespace ArcDock
             return res;
         }
 
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 保存按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 (new PythonEnvironment()).UpdateCode(Code);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
         }
 
+        /// <summary>
+        /// 测试运行按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnTestCode_Click(object sender, RoutedEventArgs e)
         {
             new CodeTestWindow(Code).ShowDialog();
         }
 
+        /// <summary>
+        /// 插入代码按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddCode_Click(object sender, RoutedEventArgs e)
         {
             Code += "result['" + OptionKey + "']";
         }
 
+        /// <summary>
+        /// 添加提示注释按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddComment_Click(object sender, RoutedEventArgs e)
         {
             Code += GetNavigateTips();
         }
+
+        #endregion
     }
 }

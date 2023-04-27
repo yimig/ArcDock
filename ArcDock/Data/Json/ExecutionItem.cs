@@ -1,5 +1,4 @@
-﻿using ArcDock.Properties;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 
@@ -18,7 +17,8 @@ namespace ArcDock.Data.Json
         /// 预留值ID
         /// </summary>
         [JsonProperty("key")]
-        public string Key {
+        public string Key
+        {
             get => key;
             set
             {
@@ -33,7 +33,8 @@ namespace ArcDock.Data.Json
         /// 对应自动填充内容
         /// </summary>
         [JsonProperty("content")]
-        public string Content {
+        public string Content
+        {
             get => content;
             set
             {
@@ -45,6 +46,10 @@ namespace ArcDock.Data.Json
             }
         }
 
+        /// <summary>
+        /// 深克隆本对象
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return this.MemberwiseClone();

@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using ArcDock.Data.Json;
+﻿using ArcDock.Data.Json;
 using AutoCompleteTextBox.Editors;
 using CefSharp;
 using CefSharp.Wpf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using TextChangedEventArgs = AutoCompleteTextBox.Editors.TextChangedEventArgs;
 
 namespace ArcDock.Data.UI
 {
-    internal class AutoInputArea :CustomArea, INotifyPropertyChanged
+    /// <summary>
+    /// 智能文本框控件
+    /// </summary>
+    internal class AutoInputArea : CustomArea, INotifyPropertyChanged
     {
         private string content;
         private ChromiumWebBrowser browser;
@@ -24,6 +24,9 @@ namespace ArcDock.Data.UI
         private SearchData searchDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 文本内容
+        /// </summary>
         public string Content
         {
             get
@@ -36,8 +39,18 @@ namespace ArcDock.Data.UI
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Content"));
             }
         }
+
+        /// <summary>
+        /// 控件流面板
+        /// </summary>
         public ControlDock MainDock { get; set; }
 
+        /// <summary>
+        /// 新建一个智能文本框
+        /// </summary>
+        /// <param name="config">配置项ConfigItem</param>
+        /// <param name="browser">CEF实例</param>
+        /// <param name="onContentChanged">内容改变时触发函数</param>
         public AutoInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string, ConfigItem> onContentChanged)
         {
             this.config = config;
@@ -48,6 +61,9 @@ namespace ArcDock.Data.UI
             SetDefaultValue();
         }
 
+        /// <summary>
+        /// 初始化控件
+        /// </summary>
         public override void SetChildren()
         {
             SetLabel();
@@ -55,6 +71,9 @@ namespace ArcDock.Data.UI
             SetGap(25);
         }
 
+        /// <summary>
+        /// 初始化标题控件
+        /// </summary>
         private void SetLabel()
         {
             Label label = new Label();
@@ -63,6 +82,9 @@ namespace ArcDock.Data.UI
             this.Label = label;
         }
 
+        /// <summary>
+        /// 初始化文本框控件
+        /// </summary>
         private void SetTextBox()
         {
             AutoCompleteTextBox.Editors.AutoCompleteTextBox textBox = new AutoCompleteTextBox.Editors.AutoCompleteTextBox();
@@ -89,19 +111,29 @@ namespace ArcDock.Data.UI
             this.InputControl = grid;
         }
 
+        /// <summary>
+        /// 自动提示内容选择时的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_SelectionChanged(object sender, TextChangedEventArgs e)
         {
             if (config.OptionType == 2)
             {
-                var executeItems = config.OptionItemList.Single(option=>option.Content.Equals(e.Text)).ExecutionItemList;
+                var executeItems = config.OptionItemList.Single(option => option.Content.Equals(e.Text)).ExecutionItemList;
                 foreach (var execItem in executeItems)
                 {
                     MainDock.SetChildrenContentValue(execItem.Key, execItem.Content);
                 }
             }
-            TextBoxOnTextChanged(sender,e);
+            TextBoxOnTextChanged(sender, e);
         }
 
+        /// <summary>
+        /// 文本内容改变时的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxOnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = sender as AutoCompleteTextBox.Editors.AutoCompleteTextBox;
@@ -112,6 +144,9 @@ namespace ArcDock.Data.UI
             }
         }
 
+        /// <summary>
+        /// 重置控件内容
+        /// </summary>
         public override void SetDefaultValue()
         {
             if (config.Default != String.Empty) Content = config.Default;

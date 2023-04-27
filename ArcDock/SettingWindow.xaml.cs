@@ -1,19 +1,7 @@
 ﻿using ArcDock.Data;
 using ArcDock.Data.Json;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ArcDock
 {
@@ -51,7 +39,7 @@ namespace ArcDock
 
         #region 初始化
 
-        public SettingWindow(Config config,int printApi, bool isEnableRules)
+        public SettingWindow(Config config, int printApi, bool isEnableRules)
         {
             this.config = config;
             PrintApi = printApi;
@@ -103,16 +91,26 @@ namespace ArcDock
             CheckPrintApi();
         }
 
-        #endregion
-
+        /// <summary>
+        /// 按下代码编辑器按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCodeEditer_Click(object sender, RoutedEventArgs e)
         {
             new CodeEditerWindow(config).ShowDialog();
         }
 
+        /// <summary>
+        /// 按下测试按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnTestCode_Click(object sender, RoutedEventArgs e)
         {
-            new CodeTestWindow(PythonEnvironment.GetPythonCode()).ShowDialog(); 
+            new CodeTestWindow(PythonEnvironment.GetPythonCode()).ShowDialog();
         }
+
+        #endregion
     }
 }

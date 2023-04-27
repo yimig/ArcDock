@@ -1,18 +1,20 @@
-﻿using ArcDock.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace ArcDock.Data
 {
-    public class TableTitleItem: INotifyPropertyChanged
+    /// <summary>
+    /// 读取文件列名与配置ID的对应关系
+    /// </summary>
+    public class TableTitleItem : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string fileTitle, id;
-        public string FileTitle {
+
+        /// <summary>
+        /// 文件列名
+        /// </summary>
+        public string FileTitle
+        {
             get => fileTitle;
             set
             {
@@ -24,8 +26,12 @@ namespace ArcDock.Data
             }
         }
 
-        public string Id { 
-            get => id; 
+        /// <summary>
+        /// 配置ID
+        /// </summary>
+        public string Id
+        {
+            get => id;
             set
             {
                 id = value;
@@ -33,7 +39,7 @@ namespace ArcDock.Data
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Id"));
                 }
-            } 
+            }
         }
 
         public TableTitleItem(string fileTitle, string id)

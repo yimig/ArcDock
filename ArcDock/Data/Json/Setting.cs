@@ -1,6 +1,4 @@
-﻿using ArcDock.Properties;
-using Newtonsoft.Json;
-using Spire.Pdf.Exporting.XPS.Schema;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -24,7 +22,8 @@ namespace ArcDock.Data.Json
         /// 默认打印机名称
         /// </summary>
         [JsonProperty("printer")]
-        public string Printer {
+        public string Printer
+        {
             get => printer;
             set
             {
@@ -40,7 +39,8 @@ namespace ArcDock.Data.Json
         /// 纵向像素数量
         /// </summary>
         [JsonProperty("height")]
-        public int Height {
+        public int Height
+        {
             get => height;
             set
             {
@@ -56,7 +56,8 @@ namespace ArcDock.Data.Json
         /// 横向像素数量
         /// </summary>
         [JsonProperty("width")]
-        public int Width {
+        public int Width
+        {
             get => width;
             set
             {
@@ -72,7 +73,8 @@ namespace ArcDock.Data.Json
         /// 打印单位
         /// </summary>
         [JsonProperty("print_unit")]
-        public string PrintUnit {
+        public string PrintUnit
+        {
             get => printUnit;
             set
             {
@@ -88,7 +90,8 @@ namespace ArcDock.Data.Json
         /// 打印高度
         /// </summary>
         [JsonProperty("print_height")]
-        public int PrintHeight {
+        public int PrintHeight
+        {
             get => printHeight;
             set
             {
@@ -104,7 +107,8 @@ namespace ArcDock.Data.Json
         /// 打印宽度
         /// </summary>
         [JsonProperty("print_width")]
-        public int PrintWidth {
+        public int PrintWidth
+        {
             get => printWidth;
             set
             {
@@ -120,7 +124,8 @@ namespace ArcDock.Data.Json
         /// 默认显示的放大系数
         /// </summary>
         [JsonProperty("zoom")]
-        public double Zoom {
+        public double Zoom
+        {
             get => zoom;
             set
             {
@@ -136,7 +141,8 @@ namespace ArcDock.Data.Json
         /// 注册所用资源文件
         /// </summary>
         [JsonProperty("resource")]
-        public List<string> Resource {
+        public List<string> Resource
+        {
             get => resource;
             set
             {
@@ -144,21 +150,6 @@ namespace ArcDock.Data.Json
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Resource"));
-                }
-            }
-        }
-
-
-        [JsonProperty("fixed_header")]
-        public bool FixedHeader
-        {
-            get => fixedHeader;
-            set
-            {
-                fixedHeader = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("FixedHeader"));
                 }
             }
         }

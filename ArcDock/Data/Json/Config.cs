@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace ArcDock.Data.Json
 {
@@ -8,7 +8,7 @@ namespace ArcDock.Data.Json
     /// 主模板配置类
     /// </summary>
     [JsonObject]
-    public class Config:INotifyPropertyChanged
+    public class Config : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Setting settings;
@@ -19,8 +19,9 @@ namespace ArcDock.Data.Json
         /// 全局配置项
         /// </summary>
         [JsonProperty("settings")]
-        public Setting Settings { 
-            get=> settings;
+        public Setting Settings
+        {
+            get => settings;
             set
             {
                 settings = value;
@@ -35,8 +36,9 @@ namespace ArcDock.Data.Json
         /// 预留值配置集合
         /// </summary>
         [JsonProperty("data")]
-        public List<ConfigItem> ConfigItemList {
-            get => configItemList; 
+        public List<ConfigItem> ConfigItemList
+        {
+            get => configItemList;
             set
             {
                 configItemList = value;
@@ -51,8 +53,9 @@ namespace ArcDock.Data.Json
         /// <summary>
         /// html模板文件地址
         /// </summary>
-        public string FilePath { 
-            get=>filePath;
+        public string FilePath
+        {
+            get => filePath;
             set
             {
                 filePath = value;

@@ -1,12 +1,12 @@
-﻿using System.Diagnostics;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace AutoCompleteTextBox.Editors
 {
     public class SelectionAdapter
     {
-        public class PreSelectionAdapterFinishArgs {
+        public class PreSelectionAdapterFinishArgs
+        {
             public EventCause cause;
             public bool is_cancel;
             public bool handled;
@@ -27,7 +27,7 @@ namespace AutoCompleteTextBox.Editors
 
         #region "Events"
 
-        public enum EventCause { Other, PopupClosed, ItemClicked, EnterPressed, EscapePressed, TabPressed, MouseDown}
+        public enum EventCause { Other, PopupClosed, ItemClicked, EnterPressed, EscapePressed, TabPressed, MouseDown }
         public delegate void CancelEventHandler(EventCause cause);
 
         public delegate void CommitEventHandler(EventCause cause);

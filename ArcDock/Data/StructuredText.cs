@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ArcDock.Data.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
-using ArcDock.Data.Json;
 
 namespace ArcDock.Data
 {

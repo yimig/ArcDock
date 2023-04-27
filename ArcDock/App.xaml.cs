@@ -1,17 +1,11 @@
 ﻿using ArcDock.Tools;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Text;
-using System.Windows;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using static ArcDock.Tools.ProcessInvoker;
 using log4net;
+using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using static ArcDock.Tools.ProcessInvoker;
 
 namespace ArcDock
 {
@@ -20,10 +14,16 @@ namespace ArcDock
     /// </summary>
     public partial class App : Application
     {
-
+        /// <summary>
+        /// 当前页面的日志控制对象
+        /// </summary>
         private static ILog log = LogManager.GetLogger("App");
 
-
+        /// <summary>
+        /// 程序初始化的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             // 获取当前进程的名称
@@ -45,7 +45,7 @@ namespace ArcDock
             }
             else
             {
-                if(e.Args.Contains("--args")) ProcessInvoker.LoadStartupArgs(e.Args);
+                if (e.Args.Contains("--args")) ProcessInvoker.LoadStartupArgs(e.Args);
             }
 
         }

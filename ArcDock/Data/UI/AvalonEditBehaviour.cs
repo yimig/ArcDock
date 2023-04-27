@@ -5,7 +5,10 @@ using System.Windows;
 
 namespace ArcDock.Data.UI
 {
-    public sealed class AvalonEditBehaviour: Behavior<TextEditor>
+    /// <summary>
+    /// AvalonEdit代码编辑器文本内容绑定专用类，可绑定其中CodeText来监听文本改变
+    /// </summary>
+    public sealed class AvalonEditBehaviour : Behavior<TextEditor>
     {
         public static readonly DependencyProperty CodeTextProperty =
         DependencyProperty.Register("CodeText", typeof(string), typeof(AvalonEditBehaviour),

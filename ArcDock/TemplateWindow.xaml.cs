@@ -1,41 +1,40 @@
-﻿using System;
+﻿using ArcDock.Data.Json;
+using ArcDock.Data.UI.SubWindow;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml;
-using ArcDock.Data;
-using ArcDock.Data.Json;
-using ArcDock.Data.UI.Converter;
-using ArcDock.Data.UI.SubWindow;
-using ArcDock.Properties;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
-using System.IO.Packaging;
 
 namespace ArcDock
 {
     /// <summary>
-    /// TemplateWindow.xaml 的交互逻辑
+    /// 模板设置窗口
     /// </summary>
     public partial class TemplateWindow : Window, INotifyPropertyChanged
     {
+        #region 字段属性和事件
+
         public event PropertyChangedEventHandler PropertyChanged;
         private Config config;
         private ConfigItem currentConfigItem;
         private OptionItem currentOptionItem;
+
+        /// <summary>
+        /// 指示是否有内容被修改
+        /// </summary>
         private bool isChanged = false;
+
+        /// <summary>
+        /// 文本框类型下拉列表框显示列表
+        /// </summary>
         public List<string> DisplayTextBoxTypeList
         {
             get
@@ -43,6 +42,10 @@ namespace ArcDock
                 return new List<string>() { "普通文本框", "多行文本框", "智能文本框", "JSON对象" };
             }
         }
+
+        /// <summary>
+        /// 智能文本框类型下拉列表框显示列表
+        /// </summary>
         public List<string> DisplayFillTypeList
         {
             get
@@ -51,6 +54,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 当前用户选中的配置项
+        /// </summary>
         public ConfigItem CurrentConfigItem
         {
             get => currentConfigItem;
@@ -64,6 +70,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 当前用户选中的选项
+        /// </summary>
         public OptionItem CurrentOptionItem
         {
             get => currentOptionItem;
@@ -77,6 +86,14 @@ namespace ArcDock
             }
         }
 
+        #endregion
+
+        #region 初始化
+
+        /// <summary>
+        /// 模板设置窗口
+        /// </summary>
+        /// <param name="config">当前配置</param>
         public TemplateWindow(Config config)
         {
             this.config = config;
@@ -90,6 +107,13 @@ namespace ArcDock
             cbTypeFill.ItemsSource = DisplayFillTypeList;
         }
 
+        #endregion
+
+        #region 功能解耦
+
+        /// <summary>
+        /// 保存修改配置
+        /// </summary>
         private void SaveConfig()
         {
             TextReader tReader = new StreamReader(new FileStream(config.FilePath, FileMode.Open));
@@ -105,9 +129,13 @@ namespace ArcDock
             tWriter.Close();
         }
 
+        #endregion
+
+        #region 事件处理
+
         private void LvConfig_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0)
             {
                 CurrentConfigItem = e.AddedItems[0] as ConfigItem;
                 CurrentOptionItem = null;
@@ -128,7 +156,7 @@ namespace ArcDock
             newItem.ExecutionItemList = new ObservableCollection<ExecutionItem>();
             var wndInput = new InputWindow(newItem.Content);
             wndInput.ShowDialog();
-            if(wndInput.IsCheck)
+            if (wndInput.IsCheck)
             {
                 newItem.Content = wndInput.Data;
                 CurrentConfigItem.OptionItemList.Add(newItem);
@@ -139,10 +167,10 @@ namespace ArcDock
 
         private void BtnRemoveIndex_Click(object sender, RoutedEventArgs e)
         {
-            if(lvIndex.SelectedItem != null)
+            if (lvIndex.SelectedItem != null)
             {
                 var target = lvIndex.SelectedItem as OptionItem;
-                if(MessageBox.Show("确定要删除【" +target.Content+"】吗？","删除确认",MessageBoxButton.OKCancel,MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("确定要删除【" + target.Content + "】吗？", "删除确认", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CurrentConfigItem.OptionItemList.Remove(target);
                     isChanged = true;
@@ -163,7 +191,9 @@ namespace ArcDock
                     CurrentOptionItem.ExecutionItemList.Add(wndLinkage.ExecutionItem);
                     isChanged = true;
                 }
-            } else {
+            }
+            else
+            {
                 MessageBox.Show("请选中一个索引再添加联动值");
             }
 
@@ -212,7 +242,7 @@ namespace ArcDock
 
         private void cbTypeTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CurrentConfigItem!= null && !e.AddedItems[0].ToString().Equals("智能文本框"))
+            if (CurrentConfigItem != null && !e.AddedItems[0].ToString().Equals("智能文本框"))
             {
                 CurrentConfigItem.OptionType = 0;
             }
@@ -264,9 +294,10 @@ namespace ArcDock
                 MessageBox.Show("配置已保存,将重启程序以应用修改。");
                 System.Windows.Forms.Application.Restart();
                 Environment.Exit(0);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("文件操作失败："+ex.Message);
+                MessageBox.Show("文件操作失败：" + ex.Message);
             }
 
         }
@@ -289,5 +320,7 @@ namespace ArcDock
                 Environment.Exit(0);
             }
         }
+
+        #endregion
     }
 }

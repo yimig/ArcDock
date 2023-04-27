@@ -1,10 +1,7 @@
-﻿using System;
+﻿using ArcDock.Data.Json;
+using ArcDock.Tools;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArcDock.Data.Json;
-using ArcDock.Tools;
 
 namespace ArcDock.Data
 {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +36,7 @@ namespace AutoCompleteTextBox.Editors
         public static readonly DependencyProperty LoadingContentProperty = DependencyProperty.Register("LoadingContent", typeof(object), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty ProviderProperty = DependencyProperty.Register("Provider", typeof(ISuggestionProvider), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty, propertyChangedCallback:null,coerceValueCallback:null, isAnimationProhibited:false, defaultUpdateSourceTrigger: UpdateSourceTrigger.LostFocus, flags: FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty, propertyChangedCallback: null, coerceValueCallback: null, isAnimationProhibited: false, defaultUpdateSourceTrigger: UpdateSourceTrigger.LostFocus, flags: FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty MaxLengthProperty = DependencyProperty.Register("MaxLength", typeof(int), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(0));
         public static readonly DependencyProperty CharacterCasingProperty = DependencyProperty.Register("CharacterCasing", typeof(CharacterCasing), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(CharacterCasing.Normal));
@@ -232,7 +231,7 @@ namespace AutoCompleteTextBox.Editors
         #region "Methods"
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        { 
+        {
             AutoCompleteTextBox act = null;
             act = d as AutoCompleteTextBox;
             if (act != null)
@@ -242,7 +241,7 @@ namespace AutoCompleteTextBox.Editors
                     act._isUpdatingText = true;
                     act.Editor.Text = act.BindingEvaluator.Evaluate(e.NewValue);
                     act._isUpdatingText = false;
-                    
+
                 }
             }
         }
@@ -253,25 +252,30 @@ namespace AutoCompleteTextBox.Editors
                 listBox.ScrollIntoView(listBox.SelectedItem);
         }
 
-        public new BindingExpressionBase SetBinding(DependencyProperty dp, BindingBase binding){
+        public new BindingExpressionBase SetBinding(DependencyProperty dp, BindingBase binding)
+        {
             var res = base.SetBinding(dp, binding);
             CheckForParentTextBindingChange();
             return res;
         }
-        public new BindingExpressionBase SetBinding(DependencyProperty dp, String  path) {
+        public new BindingExpressionBase SetBinding(DependencyProperty dp, String path)
+        {
             var res = base.SetBinding(dp, path);
             CheckForParentTextBindingChange();
             return res;
         }
-        public new void ClearValue(DependencyPropertyKey key) {
+        public new void ClearValue(DependencyPropertyKey key)
+        {
             base.ClearValue(key);
             CheckForParentTextBindingChange();
         }
-        public new void ClearValue(DependencyProperty dp) {
+        public new void ClearValue(DependencyProperty dp)
+        {
             base.ClearValue(dp);
             CheckForParentTextBindingChange();
         }
-        private void CheckForParentTextBindingChange(bool force=false) {
+        private void CheckForParentTextBindingChange(bool force = false)
+        {
             var CurrentBindingMode = BindingOperations.GetBinding(this, TextProperty)?.UpdateSourceTrigger ?? UpdateSourceTrigger.Default;
             if (CurrentBindingMode != UpdateSourceTrigger.PropertyChanged)//preventing going any less frequent than property changed
                 CurrentBindingMode = UpdateSourceTrigger.Default;
@@ -279,7 +283,8 @@ namespace AutoCompleteTextBox.Editors
 
             if (CurrentBindingMode == CurrentTextboxTextBindingUpdateMode && force == false)
                 return;
-            var binding = new Binding {
+            var binding = new Binding
+            {
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = CurrentBindingMode,
                 Path = new PropertyPath(nameof(Text)),
@@ -412,7 +417,7 @@ namespace AutoCompleteTextBox.Editors
         {
             if (this.TextChanged != null)
             {
-                this.TextChanged.Invoke(this,new TextChangedEventArgs(Text));
+                this.TextChanged.Invoke(this, new TextChangedEventArgs(Text));
             }
         }
 
@@ -469,13 +474,14 @@ namespace AutoCompleteTextBox.Editors
         }
 
         public event EventHandler<SelectionAdapter.PreSelectionAdapterFinishArgs> PreSelectionAdapterFinish;
-        private bool PreSelectionEventSomeoneHandled(SelectionAdapter.EventCause cause, bool is_cancel) {
+        private bool PreSelectionEventSomeoneHandled(SelectionAdapter.EventCause cause, bool is_cancel)
+        {
             if (PreSelectionAdapterFinish == null)
                 return false;
             var args = new SelectionAdapter.PreSelectionAdapterFinishArgs { cause = cause, is_cancel = is_cancel };
             PreSelectionAdapterFinish?.Invoke(this, args);
             return args.handled;
-            
+
         }
         private void OnSelectionAdapterCommit(SelectionAdapter.EventCause cause)
         {

@@ -1,24 +1,21 @@
-﻿using CefSharp.Wpf;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using ArcDock.Data.Json;
+﻿using ArcDock.Data.Json;
 using CefSharp;
+using CefSharp.Wpf;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.Xaml.Behaviors;
-using System.Media;
-using System.Windows.Media;
 using Newtonsoft.Json;
+using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ArcDock.Data.UI
 {
+    /// <summary>
+    /// 代码编辑文本框控件
+    /// </summary>
     internal class CodeInputArea : CustomArea, INotifyPropertyChanged
     {
         private ChromiumWebBrowser browser;
@@ -28,6 +25,9 @@ namespace ArcDock.Data.UI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 文本内容
+        /// </summary>
         public string Content
         {
             get
@@ -41,6 +41,12 @@ namespace ArcDock.Data.UI
             }
         }
 
+        /// <summary>
+        /// 新建一个代码编辑文本框
+        /// </summary>
+        /// <param name="config">配置项ConfigItem</param>
+        /// <param name="browser">CEF实例</param>
+        /// <param name="onContentChanged">内容改变时触发函数</param>
         public CodeInputArea(ConfigItem config, ChromiumWebBrowser browser, Action<string, string, ConfigItem> onContentChanged)
         {
             behaviour = new AvalonEditBehaviour();
@@ -52,6 +58,9 @@ namespace ArcDock.Data.UI
             SetDefaultValue();
         }
 
+        /// <summary>
+        /// 初始化控件
+        /// </summary>
         public override void SetChildren()
         {
             SetLabel();
@@ -60,6 +69,9 @@ namespace ArcDock.Data.UI
             SetGap(65);
         }
 
+        /// <summary>
+        /// 初始化标题控件
+        /// </summary>
         private void SetLabel()
         {
             Label label = new Label();
@@ -68,6 +80,9 @@ namespace ArcDock.Data.UI
             this.Label = label;
         }
 
+        /// <summary>
+        /// 初始化文本框控件
+        /// </summary>
         private void SetTextBox()
         {
             TextEditor textBox = new TextEditor();
@@ -85,7 +100,9 @@ namespace ArcDock.Data.UI
             this.InputControl = dockPanel;
         }
 
-
+        /// <summary>
+        /// 初始化按钮控件
+        /// </summary>
         private void SetButton()
         {
             var btn = new Button();
@@ -95,16 +112,26 @@ namespace ArcDock.Data.UI
             dockPanel.Children.Add(btn);
         }
 
+        /// <summary>
+        /// 选择文件按钮按下时的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Click(object sender, RoutedEventArgs e)
         {
             var wndTable = new TableMatchWindow(this.config);
             wndTable.ShowDialog();
-            if(wndTable.IsCheck)
+            if (wndTable.IsCheck)
             {
                 this.Content = JsonConvert.SerializeObject(wndTable.Result);
             }
         }
 
+        /// <summary>
+        /// 文本内容改变时的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxOnTextChanged(object sender, EventArgs e)
         {
             var textbox = sender as TextEditor;
@@ -115,6 +142,9 @@ namespace ArcDock.Data.UI
             }
         }
 
+        /// <summary>
+        /// 重置控件内容
+        /// </summary>
         public override void SetDefaultValue()
         {
             if (config.Default != String.Empty) Content = config.Default;

@@ -1,51 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Windows;
-using Newtonsoft.Json;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
-using ArcDock.Data;
+﻿using ArcDock.Data;
+using ArcDock.Data.Database;
 using ArcDock.Data.Json;
 using ArcDock.Data.UI;
+using ArcDock.Tools;
 using CefSharp;
 using CefSharp.DevTools.Page;
-using MessageBox = System.Windows.MessageBox;
+using log4net;
+using Microsoft.Scripting.Utils;
+using Newtonsoft.Json;
+using PDFtoPrinter;
+using Spire.Pdf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Interop;
+using System.Xml;
+using static ArcDock.Tools.ProcessInvoker;
 using Binding = System.Windows.Data.Binding;
 using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
-using System.Windows.Interop;
-using ArcDock.Data.Database;
-using PDFtoPrinter;
-using Spire.Pdf;
+using MessageBox = System.Windows.MessageBox;
 using Path = System.IO.Path;
-using System.Web;
-using log4net;
-using static ArcDock.Tools.ProcessInvoker;
-using ArcDock.Tools;
-using NPOI.SS.Formula.Functions;
-using System.Runtime.InteropServices;
-using Microsoft.Scripting.Utils;
-using System.Web.UI;
-using System.Diagnostics;
 
 namespace ArcDock
 {
@@ -123,7 +109,7 @@ namespace ArcDock
         /// 最大打印页数
         /// </summary>
         private int MaxPrintPage { get; set; }
-        
+
         /// <summary>
         /// 目前正在打印的页数
         /// </summary>
@@ -143,6 +129,9 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 指示是否启用模板检查规则
+        /// </summary>
         private bool IsEnableRules
         {
             get => Properties.Settings.Default.IsEnableRules;
@@ -153,8 +142,14 @@ namespace ArcDock
             }
         }
 
+        /// <summary>
+        /// 当前页面的日志控制对象
+        /// </summary>
         private static ILog log = LogManager.GetLogger("MainWindow");
 
+        /// <summary>
+        /// 指示是否延迟刷新
+        /// </summary>
         private bool IsAwaitRefresh { get; set; }
 
         #endregion
@@ -255,6 +250,15 @@ namespace ArcDock
             GdBrowser.SetBinding(HeightProperty, new Binding("Config.Settings.Height") { Source = this });
         }
 
+        /// <summary>
+        /// 初始化线程间数据传输钩子
+        /// </summary>
+        private void WSInitialized()
+        {
+            var hs = PresentationSource.FromVisual(this) as HwndSource;
+            hs.AddHook(new HwndSourceHook(WndProc));
+        }
+
         #endregion
 
         #region 功能解耦
@@ -267,15 +271,18 @@ namespace ArcDock
         private void ChangeHtml(string id, string content, ConfigItem configItem)
         {
             structuredText[id] = content;
-            if(!IsAwaitRefresh)RefreshContent();
+            if (!IsAwaitRefresh) RefreshContent();
         }
 
+        /// <summary>
+        /// 保存文件并刷新内容
+        /// </summary>
         private void RefreshContent()
         {
             TextWriter tw = new StreamWriter(new FileStream(@"target\temp.html", FileMode.Create));
             tw.Write(structuredText);
             tw.Close();
-            if(Browser.IsLoaded)Browser.Reload();
+            if (Browser.IsLoaded) Browser.Reload();
         }
 
         /// <summary>
@@ -347,26 +354,29 @@ namespace ArcDock
         private void ChangeConfig(int index)
         {
             Config = configList[index];
-            log.Info("载入配置文件："+ configList[index].FilePath);
+            log.Info("载入配置文件：" + configList[index].FilePath);
             templateHtml = templateHtmlList[index];
             structuredText = new StructuredText(Config.ConfigItemList, templateHtml);
             SetControlDock();
             CopyResourceFile();
         }
 
+        /// <summary>
+        /// 复制模板所需资源文件
+        /// </summary>
         private void CopyResourceFile()
         {
-            if(Config.Settings.Resource!=null)
+            if (Config.Settings.Resource != null)
             {
-                foreach(var res in Config.Settings.Resource)
+                foreach (var res in Config.Settings.Resource)
                 {
-                    if(File.Exists(Environment.CurrentDirectory + "\\template\\" + res) && !File.Exists(Environment.CurrentDirectory + "\\target\\" + res))
+                    if (File.Exists(Environment.CurrentDirectory + "\\template\\" + res) && !File.Exists(Environment.CurrentDirectory + "\\target\\" + res))
                     {
                         File.Copy(Environment.CurrentDirectory + "\\template\\" + res, Environment.CurrentDirectory + "\\target\\" + res);
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -390,7 +400,7 @@ namespace ArcDock
         {
             SavePrintLog();
             if (!IsEnableRules || CheckRules())
-            { 
+            {
                 if (PrintApi == 0) await PrintWebApi();
                 else if (PrintApi == 1) await PrintWebJs();
                 else if (PrintApi == 2) await PrintWebClodop();
@@ -425,7 +435,7 @@ namespace ArcDock
                 ps.Margins = new Margins(0, 0, 0, 0);
                 ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
                 pd.DefaultPageSettings = ps;
-                SetPrinter(ps,null);
+                SetPrinter(ps, null);
                 ps.Color = false;
                 pd.PrintPage += PdOnPrintPage;
                 pd.Print();
@@ -437,7 +447,7 @@ namespace ArcDock
         /// </summary>
         /// <param name="pageSettings">使用DocumentPrint模式的打印机配置，非该模式输入null</param>
         /// <param name="printerSettings">使用Spire.PDF API的打印机配置，非该模式输入null</param>
-        private void SetPrinter(PageSettings pageSettings,Spire.Pdf.Print.PdfPrintSettings printerSettings)
+        private void SetPrinter(PageSettings pageSettings, Spire.Pdf.Print.PdfPrintSettings printerSettings)
         {
             if (!config.Settings.Printer.Equals(String.Empty))
             {
@@ -462,14 +472,14 @@ namespace ArcDock
         /// </summary>
         private async Task PrintWebClodop()
         {
-            Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);"+
-                                                          "var oScript= document.createElement(\"script\");"+
-                                                          "oScript.type = \"text/javascript\";"+
-                                                          "oScript.src=\"http://localhost:8000/CLodopfuncs.js\";"+
-                                                          "oScript.async = \"async\""+
+            Browser.GetMainFrame().ExecuteJavaScriptAsync("var oHead = document.getElementsByTagName('HEAD').item(0);" +
+                                                          "var oScript= document.createElement(\"script\");" +
+                                                          "oScript.type = \"text/javascript\";" +
+                                                          "oScript.src=\"http://localhost:8000/CLodopfuncs.js\";" +
+                                                          "oScript.async = \"async\"" +
                                                           "oHead.appendChild(oScript);" +
-                                                          "CLODOP.PRINT_INIT('ArcProject');"+
-                                                          "CLODOP.ADD_PRINT_HTM(0,0,\"100%\",\"100%\",document.getElementsByTagName('html')[0].innerHTML);"+
+                                                          "CLODOP.PRINT_INIT('ArcProject');" +
+                                                          "CLODOP.ADD_PRINT_HTM(0,0,\"100%\",\"100%\",document.getElementsByTagName('html')[0].innerHTML);" +
                                                           "CLODOP.PRINT();");
         }
 
@@ -482,25 +492,25 @@ namespace ArcDock
             ppw.Show();
             ppw.ChangeStatue(30, "转储PDF...");
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
-                {
-                    HeaderFooterTitle = null,
-                    HeaderFooterUrl = null,
-                    MarginType = CefPdfPrintMarginType.Custom,
-                    ScaleFactor = 99,
-                    HeaderFooterEnabled = false,
-                    SelectionOnly = false,
-                    MarginTop = 0,
-                    MarginBottom = 0,
-                    MarginLeft = 0,
-                    MarginRight = 0,
-                    PageHeight = Config.Settings.PrintHeight * 10000,
-                    PageWidth = Config.Settings.PrintWidth * 10000,
-                    Landscape = false
-                }
+            {
+                HeaderFooterTitle = null,
+                HeaderFooterUrl = null,
+                MarginType = CefPdfPrintMarginType.Custom,
+                ScaleFactor = 99,
+                HeaderFooterEnabled = false,
+                SelectionOnly = false,
+                MarginTop = 0,
+                MarginBottom = 0,
+                MarginLeft = 0,
+                MarginRight = 0,
+                PageHeight = Config.Settings.PrintHeight * 10000,
+                PageWidth = Config.Settings.PrintWidth * 10000,
+                Landscape = false
+            }
             );
             ppw.ChangeStatue(90, "交付打印...");
             var printer = new PDFtoPrinterPrinter();
-            for(var i = 0;i<MaxPrintPage;i++)
+            for (var i = 0; i < MaxPrintPage; i++)
             {
                 await printer.Print(new PrintingOptions(config.Settings.Printer, @"temp.pdf"));
             }
@@ -513,21 +523,21 @@ namespace ArcDock
         private async Task PrintWebPdfSprie()
         {
             await Browser.WebBrowser.PrintToPdfAsync(@"temp.pdf", new PdfPrintSettings
-                {
-                    HeaderFooterTitle = null,
-                    HeaderFooterUrl = null,
-                    MarginType = CefPdfPrintMarginType.Custom,
-                    ScaleFactor = 99,
-                    HeaderFooterEnabled = false,
-                    SelectionOnly = false,
-                    MarginTop = 0,
-                    MarginBottom = 0,
-                    MarginLeft = 0,
-                    MarginRight = 0,
-                    PageHeight = Config.Settings.PrintHeight * 10000,
-                    PageWidth = Config.Settings.PrintWidth * 10000,
-                    Landscape = false
-                }
+            {
+                HeaderFooterTitle = null,
+                HeaderFooterUrl = null,
+                MarginType = CefPdfPrintMarginType.Custom,
+                ScaleFactor = 99,
+                HeaderFooterEnabled = false,
+                SelectionOnly = false,
+                MarginTop = 0,
+                MarginBottom = 0,
+                MarginLeft = 0,
+                MarginRight = 0,
+                PageHeight = Config.Settings.PrintHeight * 10000,
+                PageWidth = Config.Settings.PrintWidth * 10000,
+                Landscape = false
+            }
             );
             PdfDocument doc = new PdfDocument();
             doc.PrintSettings.Landscape = false;
@@ -537,7 +547,7 @@ namespace ArcDock
 
             SetPrinter(null, doc.PrintSettings);
             doc.PrintSettings.PrintController = new StandardPrintController();
-            for (var i = 0; i < MaxPrintPage; i++)doc.Print();
+            for (var i = 0; i < MaxPrintPage; i++) doc.Print();
         }
 
         /// <summary>
@@ -556,7 +566,7 @@ namespace ArcDock
                 resItem.Content = structuredText[configItem.Id];
                 result.ResultItems.Add(resItem);
             }
-            history.AddHistory(result,DateTime.Now);
+            history.AddHistory(result, DateTime.Now);
         }
 
         /// <summary>
@@ -577,7 +587,7 @@ namespace ArcDock
             if (config.ConfigItemList.Any(item => item.Id.Equals(id)) && content != String.Empty)
             {
                 controlDock.SetChildrenContentValue(id, content);
-                AutoFillContent(id,content);
+                AutoFillContent(id, content);
             }
         }
 
@@ -598,8 +608,10 @@ namespace ArcDock
                     {
                         controlDock.SetChildrenContentValue(execItem.Key, execItem.Content);
                     }
-                } catch(InvalidOperationException e) {
-                    log.Error("自动填充失败",e);
+                }
+                catch (InvalidOperationException e)
+                {
+                    log.Error("自动填充失败", e);
                 }
 
             }
@@ -618,7 +630,7 @@ namespace ArcDock
                     var text = structuredText[configItem.Id];
                     var patten = configItem.Rules;
                     var res = Regex.IsMatch(structuredText[configItem.Id], configItem.Rules, RegexOptions.IgnoreCase);
-                    if (!Regex.IsMatch(structuredText[configItem.Id], configItem.Rules,RegexOptions.Singleline))
+                    if (!Regex.IsMatch(structuredText[configItem.Id], configItem.Rules, RegexOptions.Singleline))
                     {
                         MessageBox.Show("输入项【" + configItem.Name + "】不满足模板预设规则，请重新输入。");
                         var ca = controlDock.CustomAreas.Single(area => area.Id == configItem.Id);
@@ -650,6 +662,51 @@ namespace ArcDock
             Browser.GetBrowserHost().SetZoomLevel(value);
         }
 
+        /// <summary>
+        /// 处理线程间传输的数据
+        /// </summary>
+        private void ReceiveData()
+        {
+            if (!ProcessInvoker.Data.IsHandled)
+            {
+                var fileNameList = templateFiles.Select(i => Path.GetFileName(i)).ToArray();
+                // 切换到指定模板
+                if (!String.IsNullOrEmpty(ProcessInvoker.Data.TemplateName))
+                {
+                    bool isFind = false;
+                    for (var i = 0; i < fileNameList.Count(); i++)
+                    {
+                        if (fileNameList[i] == ProcessInvoker.Data.TemplateName)
+                        {
+                            ChangeConfig(i);
+                            cbTemplate.SelectedIndex = i;
+                            isFind = true;
+                            break;
+                        }
+                    }
+                    if (!isFind) return;
+                }
+                IsAwaitRefresh = true;
+                // 填充模板内容
+                foreach (var pair in ProcessInvoker.Data.Arguments)
+                {
+                    CheckAndFill(pair.Key, pair.Value);
+                }
+                RefreshContent();
+                IsAwaitRefresh = false;
+                // 是否静默打印
+                if (ProcessInvoker.Data.IsSilent)
+                {
+                    PrintWeb();
+                }
+                else
+                {
+                    this.WindowState = WindowState.Normal;
+                }
+                ProcessInvoker.Data.IsHandled = true;
+            }
+        }
+
         #endregion
 
         #region 事件处理
@@ -675,13 +732,13 @@ namespace ArcDock
             //设置打印精度，全部调为最高
             e.Graphics.Clear(Color.White);
             e.Graphics.PageUnit = GraphicsUnit.Millimeter;
- 
+
             e.Graphics.CompositingMode = CompositingMode.SourceCopy;
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.None; //不偏移像素，否则模糊
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(printImage, 0, 0,Config.Settings.Width,Config.Settings.PrintHeight); //渲染打印图片
+            e.Graphics.DrawImageUnscaled(printImage, 0, 0, Config.Settings.Width, Config.Settings.PrintHeight); //渲染打印图片
             if (NowPrintPage < MaxPrintPage)
             {
                 NowPrintPage++;
@@ -724,7 +781,7 @@ namespace ArcDock
         /// <param name="e"></param>
         private void CbTemplate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(cbTemplate.SelectedIndex != -1) ChangeConfig(cbTemplate.SelectedIndex);
+            if (cbTemplate.SelectedIndex != -1) ChangeConfig(cbTemplate.SelectedIndex);
         }
 
         /// <summary>
@@ -769,7 +826,7 @@ namespace ArcDock
                 ClearDock();
             }
         }
-        
+
         /// <summary>
         /// 工具栏分析患者信息按钮的事件处理
         /// </summary>
@@ -787,7 +844,8 @@ namespace ArcDock
                     try
                     {
                         CheckAndFill(pair.Key, pair.Value);
-                    } catch (Exception ex) 
+                    }
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                         log.Warn("Python脚本解析失败", ex);
@@ -914,19 +972,25 @@ namespace ArcDock
             new ReceiveSettingWindow().ShowDialog();
         }
 
-        #endregion
-
+        /// <summary>
+        /// 菜单帮助按钮按下的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MiHelp_Click(object sender, RoutedEventArgs e)
         {
             new HelpWindow().Show();
         }
 
-        private void WSInitialized()
-        {
-            var hs = PresentationSource.FromVisual(this) as HwndSource;
-            hs.AddHook(new HwndSourceHook(WndProc));
-        }
-
+        /// <summary>
+        /// 当前窗口的消息事件处理
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="msg">消息ID</param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam">消息内容</param>
+        /// <param name="handled"></param>
+        /// <returns></returns>
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             switch (msg)
@@ -936,7 +1000,7 @@ namespace ArcDock
                     var str = ProcessInvoker.GetDataString(data);
                     ProcessInvoker.Data = JsonConvert.DeserializeObject<ProcessData>(str);
                     ProcessInvoker.Data.IsHandled = false;
-                    log.Info("Data Receive:ptr="+ data.lpData +";length="+ data.cbData + ";convert="+ str);
+                    log.Info("Data Receive:ptr=" + data.lpData + ";length=" + data.cbData + ";convert=" + str);
                     ReceiveData();
                     break;
                 default:
@@ -945,54 +1009,22 @@ namespace ArcDock
             return IntPtr.Zero;
         }
 
+        /// <summary>
+        /// 窗口加载完毕时的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             WSInitialized();
             ReceiveData();
         }
 
-        private void ReceiveData()
-        {
-            if(!ProcessInvoker.Data.IsHandled)
-            {
-                var fileNameList = templateFiles.Select(i => Path.GetFileName(i)).ToArray();
-                // 切换到指定模板
-                if (!String.IsNullOrEmpty(ProcessInvoker.Data.TemplateName))
-                {
-                    bool isFind = false;
-                    for(var i = 0;i<fileNameList.Count(); i++)
-                    {
-                        if (fileNameList[i] == ProcessInvoker.Data.TemplateName)
-                        {
-                            ChangeConfig(i);
-                            cbTemplate.SelectedIndex = i;
-                            isFind = true;
-                            break;
-                        }
-                    }
-                    if (!isFind) return;
-                }
-                IsAwaitRefresh = true;
-                // 填充模板内容
-                foreach (var pair in ProcessInvoker.Data.Arguments)
-                {
-                    CheckAndFill(pair.Key, pair.Value);
-                }
-                RefreshContent();
-                IsAwaitRefresh = false;
-                // 是否静默打印
-                if (ProcessInvoker.Data.IsSilent)
-                {
-                    PrintWeb();
-                }
-                else
-                {
-                    this.WindowState = WindowState.Normal;
-                }
-                ProcessInvoker.Data.IsHandled = true;
-            }
-        }
-
+        /// <summary>
+        /// 菜单导入文件的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MiInputFile_Click(object sender, RoutedEventArgs e)
         {
             var wndTableMatch = new TableMatchWindow(Config);
@@ -1001,16 +1033,16 @@ namespace ArcDock
             {
                 var resultDict = wndTableMatch.Result;
                 IsAwaitRefresh = true;
-                for (var i = 0;i<resultDict.First().Value.Count();i++)
+                for (var i = 0; i < resultDict.First().Value.Count(); i++)
                 {
                     foreach (var pair in resultDict)
                     {
                         CheckAndFill(pair.Key, pair.Value[i]);
                     }
                     RefreshContent();
-                    if (i==0)
+                    if (i == 0)
                     {
-                        if(MessageBox.Show("首行数据已载入，请在预览框中确认样式，如果填充正确请点击【确认】，将开始批量打印。如样式有问题，请点击【取消】后调整样式再试。", "即将开始批量打印", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                        if (MessageBox.Show("首行数据已载入，请在预览框中确认样式，如果填充正确请点击【确认】，将开始批量打印。如样式有问题，请点击【取消】后调整样式再试。", "即将开始批量打印", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
                         {
                             break;
                         }
@@ -1020,5 +1052,7 @@ namespace ArcDock
                 IsAwaitRefresh = false;
             }
         }
+
+        #endregion
     }
 }

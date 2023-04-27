@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ArcDock.Data.UI.SubWindow
 {
     /// <summary>
-    /// Interaction logic for InputWindow.xaml
+    /// 输入框窗口
     /// </summary>
     public partial class InputWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string data;
+
+        /// <summary>
+        /// 输入内容
+        /// </summary>
         public string Data
         {
             get => data;
@@ -35,7 +27,10 @@ namespace ArcDock.Data.UI.SubWindow
             }
         }
 
-        public bool IsCheck{ get;set; }
+        /// <summary>
+        /// 用户是否点击确认
+        /// </summary>
+        public bool IsCheck { get; set; }
 
         public InputWindow(string data)
         {
@@ -45,6 +40,11 @@ namespace ArcDock.Data.UI.SubWindow
             this.DataContext = this;
         }
 
+        /// <summary>
+        /// 用户按下确认的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCheck_Click(object sender, RoutedEventArgs e)
         {
             IsCheck = true;

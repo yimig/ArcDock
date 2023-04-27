@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SQLite;
 using System.Configuration;
 using System.Data;
+using System.Data.SQLite;
 
 namespace ArcDock.Data.Database
 {
@@ -53,7 +50,8 @@ namespace ArcDock.Data.Database
                 OpenDatabase();
                 //InitMaxPageNum();
                 InitSortMaxPageNum();
-            } catch (Exception) { }
+            }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -148,7 +146,8 @@ namespace ArcDock.Data.Database
                         var a = sr.GetValue(0);
                         item_count = sr.GetInt32(0);
                     }
-                } catch (Exception ex) { }
+                }
+                catch (Exception ex) { }
                 sr.Close();
             }
 

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime;
-using ArcDock.Properties;
-using Newtonsoft.Json;
 
 namespace ArcDock.Data.Json
 {
@@ -21,7 +18,8 @@ namespace ArcDock.Data.Json
         /// 提示内容，也是联动补全条件
         /// </summary>
         [JsonProperty("content")]
-        public string Content {
+        public string Content
+        {
             get => content;
             set
             {
@@ -37,7 +35,8 @@ namespace ArcDock.Data.Json
         /// 别的框操作指示
         /// </summary>
         [JsonProperty("exec")]
-        public ObservableCollection<ExecutionItem> ExecutionItemList {
+        public ObservableCollection<ExecutionItem> ExecutionItemList
+        {
             get => executionItemList;
             set
             {

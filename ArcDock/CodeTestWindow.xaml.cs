@@ -1,33 +1,42 @@
 ﻿using ArcDock.Data;
 using Microsoft.Scripting.Interpreter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ArcDock
 {
     /// <summary>
-    /// Interaction logic for CodeTestWindow.xaml
+    /// 代码测试运行窗口
     /// </summary>
     public partial class CodeTestWindow : Window
     {
+        #region 字段属性和事件
+
         private string code;
+
+        #endregion
+
+        #region 初始化
+
+        /// <summary>
+        /// 初始化代码测试运行窗口
+        /// </summary>
+        /// <param name="code">要运行的代码</param>
         public CodeTestWindow(string code)
         {
             this.code = code;
             InitializeComponent();
         }
 
+        #endregion
+
+        #region 事件处理
+
+        /// <summary>
+        /// 按下运行按钮的事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRunCode_Click(object sender, RoutedEventArgs e)
         {
             var res = "";
@@ -36,14 +45,18 @@ namespace ArcDock
                 var dict = PythonEnvironment.RunPython(code, TbSource.Text);
                 foreach (var item in dict)
                 {
-                    res += "{"+item.Key + ":\"" + item.Value + "\"}\r\n";
+                    res += "{" + item.Key + ":\"" + item.Value + "\"}\r\n";
                 }
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 var debugInfo = ((InterpretedFrameInfo[])ex.Data[typeof(InterpretedFrameInfo)])[0].DebugInfo;
-                MessageBox.Show("[Line={" + debugInfo.StartLine + ":" + debugInfo.EndLine + "},Index=" + debugInfo.Index + "]:"+ex.Message,ex.Message);
+                MessageBox.Show("[Line={" + debugInfo.StartLine + ":" + debugInfo.EndLine + "},Index=" + debugInfo.Index + "]:" + ex.Message, ex.Message);
             }
 
             TbResult.Text = res;
         }
+
+        #endregion
     }
 }

@@ -5,12 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using static ArcDock.App;
-using static IronPython.Modules._ast;
 
 namespace ArcDock.Tools
 {
@@ -26,8 +21,8 @@ namespace ArcDock.Tools
 
         public const int WM_COPYDATA = 0x004A;
 
-        public static ProcessData Data { get; set; } = new ProcessData() 
-        { 
+        public static ProcessData Data { get; set; } = new ProcessData()
+        {
             IsHandled = true,
             Arguments = new Dictionary<string, string>()
         };
@@ -59,7 +54,7 @@ namespace ArcDock.Tools
             // 向已有进程发送参数
             byte[] sarr = Encoding.UTF8.GetBytes(message);
             IntPtr pAgr = Marshal.AllocCoTaskMem(sarr.Length);
-            Marshal.Copy(sarr,0, pAgr, sarr.Length);
+            Marshal.Copy(sarr, 0, pAgr, sarr.Length);
             COPYDATASTRUCT cds;
             cds.dwData = IntPtr.Zero;
             cds.lpData = pAgr;

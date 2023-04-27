@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ArcDock
 {
@@ -25,14 +13,22 @@ namespace ArcDock
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 提示文本
+        /// </summary>
         public string DisplayText
         {
             get => displayText;
-            set{
+            set
+            {
                 displayText = value;
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("DisplayText"));
             }
         }
+
+        /// <summary>
+        /// 初始化打印进度窗口
+        /// </summary>
         public PrintProgressWindow()
         {
             this.DisplayText = "正在准备打印...";
@@ -40,7 +36,12 @@ namespace ArcDock
             InitializeComponent();
         }
 
-        public void ChangeStatue(int progressValue,string displayText)
+        /// <summary>
+        /// 改变进度
+        /// </summary>
+        /// <param name="progressValue">进度值0-100</param>
+        /// <param name="displayText">提示文本</param>
+        public void ChangeStatue(int progressValue, string displayText)
         {
             PbState.IsIndeterminate = false;
             PbState.Value = progressValue;

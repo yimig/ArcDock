@@ -251,25 +251,30 @@ namespace AutoCompleteTextBox.Editors
                 listBox.ScrollIntoView(listBox.SelectedItem);
         }
 
-        public new BindingExpressionBase SetBinding(DependencyProperty dp, BindingBase binding){
+        public new BindingExpressionBase SetBinding(DependencyProperty dp, BindingBase binding)
+        {
             var res = base.SetBinding(dp, binding);
             CheckForParentTextBindingChange();
             return res;
         }
-        public new BindingExpressionBase SetBinding(DependencyProperty dp, String  path) {
+        public new BindingExpressionBase SetBinding(DependencyProperty dp, String path)
+        {
             var res = base.SetBinding(dp, path);
             CheckForParentTextBindingChange();
             return res;
         }
-        public new void ClearValue(DependencyPropertyKey key) {
+        public new void ClearValue(DependencyPropertyKey key)
+        {
             base.ClearValue(key);
             CheckForParentTextBindingChange();
         }
-        public new void ClearValue(DependencyProperty dp) {
+        public new void ClearValue(DependencyProperty dp)
+        {
             base.ClearValue(dp);
             CheckForParentTextBindingChange();
         }
-        private void CheckForParentTextBindingChange(bool force=false) {
+        private void CheckForParentTextBindingChange(bool force = false)
+        {
             var CurrentBindingMode = BindingOperations.GetBinding(this, TextProperty)?.UpdateSourceTrigger ?? UpdateSourceTrigger.Default;
             if (CurrentBindingMode != UpdateSourceTrigger.PropertyChanged)//preventing going any less frequent than property changed
                 CurrentBindingMode = UpdateSourceTrigger.Default;
@@ -277,7 +282,8 @@ namespace AutoCompleteTextBox.Editors
 
             if (CurrentBindingMode == CurrentTextboxTextBindingUpdateMode && force == false)
                 return;
-            var binding = new Binding {
+            var binding = new Binding
+            {
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = CurrentBindingMode,
                 Path = new PropertyPath(nameof(Text)),
@@ -461,7 +467,8 @@ namespace AutoCompleteTextBox.Editors
         }
 
         public event EventHandler<SelectionAdapter.PreSelectionAdapterFinishArgs> PreSelectionAdapterFinish;
-        private bool PreSelectionEventSomeoneHandled(SelectionAdapter.EventCause cause, bool is_cancel) {
+        private bool PreSelectionEventSomeoneHandled(SelectionAdapter.EventCause cause, bool is_cancel)
+        {
             if (PreSelectionAdapterFinish == null)
                 return false;
             var args = new SelectionAdapter.PreSelectionAdapterFinishArgs { cause = cause, is_cancel = is_cancel };
