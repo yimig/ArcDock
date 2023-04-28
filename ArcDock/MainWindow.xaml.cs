@@ -5,9 +5,11 @@ using ArcDock.Data.UI;
 using ArcDock.Tools;
 using CefSharp;
 using CefSharp.DevTools.Page;
+using IronPython.Runtime.Exceptions;
 using log4net;
 using Microsoft.Scripting.Utils;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities.Encoders;
 using PDFtoPrinter;
 using Spire.Pdf;
 using System;
@@ -167,9 +169,9 @@ namespace ArcDock
             WindowState = ProcessInvoker.Data.IsSilent ? WindowState.Minimized : WindowState.Normal;
             InitializeComponent();
             new PythonEnvironment();//初始化Python环境
-            log.Info("Python环境初始化完毕");
             LoadConfig(); //载入配置文件
             log.Info("配置文件载入完毕");
+            log.Info("Python环境初始化完毕");
             SetChildren(); //初始化UI
             Browser.Address = Environment.CurrentDirectory + @".\target\temp.html"; //初始化浏览器导航地址
             Browser.LoadingStateChanged += (sender, args) => SetBrowserZoom(Config.Settings.Zoom);
@@ -183,16 +185,32 @@ namespace ArcDock
             templateFiles = Directory.GetFiles(@"template", "*.html");
             foreach (var file in templateFiles)
             {
-                TextReader tReader = new StreamReader(new FileStream(file, FileMode.Open));
-                templateHtml = tReader.ReadToEnd();
-                tReader.Close();
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.LoadXml(templateHtml);
-                XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
-                templateHtmlList.Add(templateHtml);
-                var conf = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
-                conf.FilePath = Environment.CurrentDirectory + '\\' + file;
-                configList.Add(conf);
+                try
+                {
+                    TextReader tReader = new StreamReader(new FileStream(file, FileMode.Open));
+                    templateHtml = tReader.ReadToEnd();
+                    tReader.Close();
+                    XmlDocument xDoc = new XmlDocument();
+                    xDoc.LoadXml(templateHtml);
+                    XmlNode configNode = xDoc.SelectSingleNode("//script[@type=\"config/json\"]");
+                    templateHtmlList.Add(templateHtml);
+                    var conf = JsonConvert.DeserializeObject<Config>(configNode.InnerText);
+                    conf.FilePath = Environment.CurrentDirectory + '\\' + file;
+                    configList.Add(conf);
+                } catch(JsonSerializationException jex)
+                {
+                    log.Error("解析模板配置失败："+file, jex);
+                    MessageBox.Show(jex.Message, "解析模板配置失败：" + file);
+                } catch(IOException ioex)
+                {
+                    log.Error("打开模板文件失败:" + file, ioex);
+                    MessageBox.Show(ioex.Message, "打开模板文件失败:" + file);
+                } catch(Exception ex)
+                {
+                    log.Error("解析模板失败：" + file+ ",未分类错误:"+ex.GetType().FullName, ex);
+                    MessageBox.Show(ex.Message, "解析模板失败：" + file + ",未分类错误:" + ex.GetType().FullName);
+                }
+
             }
 
             ChangeConfig(0);

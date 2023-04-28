@@ -22,7 +22,7 @@
                         <GridViewColumn Header="对应文件列名" Width="180">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Width="160" ItemsSource="{Binding Path=DataContext.DisplayFileTitleList, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding Path=FileTitle}">
+                                    <ComboBox Width="160" ItemsSource="{Binding Path=DataContext.DisplayIdList, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding Path=FileTitle}">
                                     </ComboBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
