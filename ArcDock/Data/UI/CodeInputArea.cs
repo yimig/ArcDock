@@ -94,7 +94,7 @@ namespace ArcDock.Data.UI
             textBox.ShowLineNumbers = true;
             textBox.LineNumbersForeground = new SolidColorBrush(Colors.Red);
             Interaction.GetBehaviors(textBox).Add(behaviour);
-            textBox.Height = 100;
+            textBox.Height = 65;
             textBox.TextChanged += TextBoxOnTextChanged;
             dockPanel.Children.Add(textBox);
             this.InputControl = dockPanel;

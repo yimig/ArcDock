@@ -81,7 +81,7 @@ namespace ArcDock.Data.UI
             textBox.AcceptsReturn = true;
             textBox.TextWrapping = TextWrapping.Wrap;
             textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            textBox.Height = 75;
+            textBox.Height = 65;
             textBox.SetBinding(TextBox.TextProperty, new Binding("Content") { Source = this });
             textBox.TextChanged += TextBoxOnTextChanged;
             var grid = new Grid();

@@ -61,7 +61,7 @@
                             <Button ToolTip="新建" Name="BtnToolNew" Click="BtnToolNew_OnClick">
                                 <Image Source="/ArcDock;component/Icon/addnew.ico"></Image>
                             </Button>
-                            <Button ToolTip="解析患者信息" Name="BtnToolAnalyse" Click="BtnToolAnalyse_OnClick">
+                            <Button ToolTip="文本分析" Name="BtnToolAnalyse" Click="BtnToolAnalyse_OnClick">
                                 <Image Source="/ArcDock;component/Icon/rename.ico"></Image>
                             </Button>
                             <Button ToolTip="批量导入" Name="BtnToolInputFile" Click="MiInputFile_Click"> 

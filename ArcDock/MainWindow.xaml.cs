@@ -183,6 +183,7 @@ namespace ArcDock
         private void LoadConfig()
         {
             templateFiles = Directory.GetFiles(@"template", "*.html");
+            var errorList = new List<string>();
             foreach (var file in templateFiles)
             {
                 try
@@ -201,16 +202,19 @@ namespace ArcDock
                 {
                     log.Error("解析模板配置失败："+file, jex);
                     MessageBox.Show(jex.Message, "解析模板配置失败：" + file);
+                    errorList.Add(file);
                 } catch(IOException ioex)
                 {
                     log.Error("打开模板文件失败:" + file, ioex);
                     MessageBox.Show(ioex.Message, "打开模板文件失败:" + file);
+                    errorList.Add(file);
                 } catch(Exception ex)
                 {
                     log.Error("解析模板失败：" + file+ ",未分类错误:"+ex.GetType().FullName, ex);
                     MessageBox.Show(ex.Message, "解析模板失败：" + file + ",未分类错误:" + ex.GetType().FullName);
+                    errorList.Add(file);
                 }
-
+                templateFiles = templateFiles.Except(errorList).ToArray();
             }
 
             ChangeConfig(0);

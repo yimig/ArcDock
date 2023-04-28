@@ -293,7 +293,7 @@ namespace ArcDock
                 SaveConfig();
                 MessageBox.Show("配置已保存,将重启程序以应用修改。");
                 System.Windows.Forms.Application.Restart();
-                //Environment.Exit(0);
+                Environment.Exit(0);
             }
             catch (Exception ex)
             {
