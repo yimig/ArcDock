@@ -35,7 +35,7 @@ namespace ArcDock.Data
                     for (var i = 0; i < headerRow.LastCellNum; i++)
                     {
                         var list = new List<string>();
-                        for (var j = 1; j < sheet.LastRowNum; j++)
+                        for (var j = 1; j < sheet.LastRowNum + 1; j++)
                         {
                             try
                             {

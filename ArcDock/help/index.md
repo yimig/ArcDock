@@ -99,7 +99,7 @@
 
 4. CLI
 
-   使用CLI界面通过命令传输数据。此方式一般用于三方系统调用。
+   使用CLI界面通过命令传输数据。此方式一般用于三方软件调用。
 
    ![image-20230428145737941](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428145737941.png)
 
@@ -176,7 +176,7 @@
 
   ![image-20230428164455876](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428164455876.png)
 
-  普通文本框的可换行版本，但是是否真正可在模板中体现为多行显示还需要看模板样式的控制。
+  普通文本框的可换行版本，但是是否真正可在模板中体现为多行显示还需要模板样式控制。
 
 - 智能文本框
 
@@ -218,19 +218,203 @@
 
 #### 工作流程
 
+以下使用“食品标签”作为示例，展示了几种典型使用场景。
+
 ##### 手动填写
+
+1. 选择正确的模板
+
+   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+
+2. 在左侧数据采集区输入数据
+
+   ![image-20230504092652063](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092652063.png)
+
+3. 在预览区中确认排版无误后，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
+
+   ![image-20230504093000681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093000681.png)
+
+4. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
+
+   注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
+
+   ![image-20230504093248936](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093248936.png)
 
 ##### 文本解析
 
-##### 数据导入
+> 注意：文本解析功能需要管理员事先进行配置，如果目前文本解析无法达到预期效果，请联系管理员重新配置。
+
+1. 选择正确的模板
+
+   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+
+2. 点击**工具栏**中的`文本分析`按钮
+
+   ![image-20230504095355377](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504095355377.png)
+
+3. 在弹出的窗口中粘贴来自其他系统的文本，之后点击按钮”分析“，即可填充模板数据
+
+   ![image-20230504095931621](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504095931621.png)
+
+4. 在预览区中确认排版无误后，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
+
+   ![image-20230504093000681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093000681.png)
+
+5. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
+
+   注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
+
+   ![image-20230504093248936](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093248936.png)
+
+##### 文件数据导入
+
+> 注意：并非所有的模板都支持文件数据导入，如需定制，请联系管理员。
+
+1. 选择正确的模板
+
+   ![image-20230504100136029](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100136029.png)
+
+2. 在支持数据导入的预留值右侧点击“导入文件”
+
+   ![image-20230504100415585](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100415585.png)
+
+3. 在弹出窗口中点击“选择文件”
+
+   ![image-20230504100520224](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100520224.png)
+
+4. 选择需要导入的文件，目前仅支持导入**xlsx**格式的文件。
+
+   ![image-20230504100649382](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100649382.png)
+
+   在该示例中，Excel文件“大麻花营养成分表.xlsx”的内容如下：
+
+   ![image-20230504105034106](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504105034106.png)
+
+   文件的第一行将作为列名存储行，其数据将被解析为列名，请不要在第一行存储需要填充的数据。
+
+5. 确定导入的参数与文件中列名的对应关系，**默认将顺序对应**，若对应不正确可以点击下拉菜单手动指定。
+
+   ![image-20230504101126681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101126681.png)
+
+   
+
+6. 确认无误后点击右下角“确定”按钮，文件数据将被转换为JSON字符串填充入数据，根据模板内置规则渲染排版。
+
+   ![image-20230504101325432](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101325432.png)
+
+7. 填充剩余内容填充完毕后，在预览区中确认排版无误，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
+
+   ![image-20230504101558171](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101558171.png)
+
+8. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
+
+   注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
+
+   ![image-20230504101710212](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101710212.png)
 
 ##### 批量打印
+
+1. 选择正确的模板
+
+   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+
+2. 在菜单栏选择`文件`→`导入文件`
+
+   ![image-20230504103326471](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103326471.png)
+
+3. 在弹出窗口中点击“选择文件”
+
+   ![image-20230504100520224](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100520224.png)
+
+4. 选择需要导入的文件，目前仅支持导入**xlsx**格式的文件。
+
+   ![image-20230504103501953](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103501953.png)
+
+   在该示例中，Excel文件“产品标签.xlsx”的内容如下：
+
+   ![image-20230504103541669](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103541669.png)
+
+   文件的第一行将作为列名存储行，其数据将被解析为列名，请不要在第一行存储需要填充的数据。
+
+5. 确定导入的参数与文件中列名的对应关系，**默认将顺序对应**，若对应不正确可以点击下拉菜单手动指定。
+
+   ![image-20230504103828769](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103828769.png)
+
+6. 点击右下角”确定“，程序将读取文件除标题行外的第一行数据填充入模板，用户在预览框预览效果无误后点击”确认“按钮，系统将按行批量填充模板并打印。
+
+   ![image-20230504103906649](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103906649.png)
+
+   
+
+   
 
 ### 配置指南
 
 #### 全局配置
 
+##### 模板预设规则
+
+模板预设规则是存储在模板中对于各预留值的控制规则，匹配方式为**正则表达式**，**只有当匹配通过时才允许进行打印**。但是，有时规则较旧并没有适配新场景，就无法进行打印，**为了处理这种情况，可以在全局配置中临时禁用模板预设规则，此时任何数据都可打印。**
+
+模板预设规则也可以通过模板配置进行修改，详情请见“模板配置”章节。
+
 ##### 打印API对比
+
+由于各打印接口对于打印功能的支持情况不同，有时需要根据情况更改打印API，以下为各打印API的对比：
+
+- PrintDocument API
+
+  原理：将目前的视口截图后直接打印
+
+  优势：排版效果与预览效果相同，支持静默打印
+
+  劣势：系统原生接口打印照片时文本不清晰，打印效果一般
+
+- CEF Print API
+
+  原理：调用CEF内置的print()函数
+
+  优势：排版效果与预览效果相同
+
+  劣势：不支持静默打印，每次点击打印都需要选择打印机
+
+- C-Lodop API
+
+  原理：在CEF中注入CLodop接口打印函数
+
+  优势：东华系统内置 了C-Lodop 打印接口，可以直接调用
+
+  劣势：没安装东华系统的电脑需要手动安装C-Lodop接口，并且接口使用IE渲染打印结果，打印效果可能与预览效果不同
+
+- PDFtoPrinter API
+
+  原理：先使用CEF内置的方法将视口保存为PDF文件，再使用PDFtoPrinter 库的方法打印PDF
+
+  优势：排版效果与预览效果相同，支持静默打印
+
+  劣势：转储PDF文件可能比较慢
+
+- Spire.Pdf API
+
+  原理：先使用CEF内置的方法将视口保存为PDF文件，再使用Spire.Pdf 库的方法打印PDF
+
+  优势：排版效果与预览效果相同，支持静默打印
+
+  劣势：转储PDF文件可能比较慢，Spire.Pdf是商业库，免费版不能解析超过10页的PDF文件
+
+##### API 支持情况一览表
+
+| API               | 打印效果 | 静默打印 | 预览效果 | 指定打印机 | 多页打印 |          打印纸张规格单位          |
+| ----------------- | :------: | :------: | :------: | :--------: | :------: | :--------------------------------: |
+| PrintDocument API |   一般   |    √     |    √     |     √      |    √     |        Pixel(Width/Height)         |
+| CEF Print API     |   最好   |    ×     |    √     |     ×      |    ×     |     Pixel(Html Meta Viewport)      |
+| C-Lodop API       |   最好   |    √     |    ×     |     ×      |    ×     |     Pixel(Html Meta Viewport)      |
+| PDFtoPrinter API  |    好    |    √     |    √     |     √      |    √     | CentiMetre(PrintWidth/PrintHeight) |
+| Spire.Pdf API     |    好    |    √     |    √     |     √      |    √     | CentiMetre(PrintWidth/PrintHeight) |
+
+##### 推荐接口顺序
+
+> PDFtoPrinter API > CEF Print API > Spire.Pdf API > C-Lodop API > PrintDocument API
 
 #### 模板配置
 
