@@ -174,57 +174,71 @@ namespace ArcDock
         /// </summary>
         private async void BeginReceive()
         {
-            var endPoint = new IPEndPoint(IPAddress.Parse(IP), PORT);
-            await globalSocket.ConnectAsync(endPoint); //尝试连接服务器
-            SetStatus(0, "服务端已连接");
-
-            var requestStr = JsonConvert.SerializeObject(CreateRequestPackage());
-            var sendBytes = Encoding.UTF8.GetBytes(requestStr);
-            await globalSocket.SendAsync(new ArraySegment<byte>(sendBytes), 0); //发送初始访问数据包
-
-            var buffer = new ArraySegment<byte>(new byte[1024]);
-            var received = await globalSocket.ReceiveAsync(buffer, SocketFlags.None); //接收服务器的回复，该回复应该包括下次报文的长度
-            var response = Encoding.UTF8.GetString(buffer.ToArray(), 0, received);
-            log.Debug("收到来自" + globalSocket.RemoteEndPoint.ToString() + "的报文：\n" + response);
-            NetAsync receiveObj = JsonConvert.DeserializeObject<NetAsync>(response);
-            if (receiveObj.Code == "200")
+            try
             {
+                var endPoint = new IPEndPoint(IPAddress.Parse(IP), PORT);
+                await globalSocket.ConnectAsync(endPoint); //尝试连接服务器
+                SetStatus(0, "服务端已连接");
 
-                SetStatus(0, "与服务端认证完毕");
-                if (MessageBox.Show("是否接收配置文件：" + receiveObj.Message + "?", "接受确认", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                var requestStr = JsonConvert.SerializeObject(CreateRequestPackage());
+                var sendBytes = Encoding.UTF8.GetBytes(requestStr);
+                await globalSocket.SendAsync(new ArraySegment<byte>(sendBytes), 0); //发送初始访问数据包
+
+                var buffer = new ArraySegment<byte>(new byte[1024]);
+                var received = await globalSocket.ReceiveAsync(buffer, SocketFlags.None); //接收服务器的回复，该回复应该包括下次报文的长度
+                var response = Encoding.UTF8.GetString(buffer.ToArray(), 0, received);
+                log.Debug("收到来自" + globalSocket.RemoteEndPoint.ToString() + "的报文：\n" + response);
+                NetAsync receiveObj = JsonConvert.DeserializeObject<NetAsync>(response);
+                if (receiveObj.Code == "200")
                 {
-                    packageSize = receiveObj.Size;
-                    fileName = receiveObj.Message;
 
-                    await globalSocket.SendAsync(buffer, 0); //将上次接收到的数据包再发送给服务器，表示确认接收
-                    var fileBuffer = new ArraySegment<byte>(new byte[packageSize]);
-                    var receivedFile = await globalSocket.ReceiveAsync(fileBuffer, SocketFlags.None); //接收配置文件
-                    var responseFile = Encoding.UTF8.GetString(fileBuffer.ToArray(), 0, receivedFile);
-                    log.Debug("收到来自" + globalSocket.RemoteEndPoint.ToString() + "的报文：\n" + responseFile);
-                    NetAsync fileObj = JsonConvert.DeserializeObject<NetAsync>(responseFile);
-                    SetStatus(0, "成功接收到配置");
-
-                    if (fileObj.GlobalSetting != null)
+                    SetStatus(0, "与服务端认证完毕");
+                    if (MessageBox.Show("是否接收配置文件：" + receiveObj.Message + "?", "接受确认", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                     {
-                        if (MessageBox.Show("目标服务同时发送了全局配置，是否覆盖本地全局配置？", "替换全局配置", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                        {
-                            Properties.Settings.Default.IsEnableRules = fileObj.GlobalSetting.IsEnableCheck;
-                            Properties.Settings.Default.UserPrintApi = fileObj.GlobalSetting.PrintApi;
-                            Properties.Settings.Default.Save();
-                            new PythonEnvironment().UpdateCode(fileObj.GlobalSetting.Code);
+                        packageSize = receiveObj.Size;
+                        fileName = receiveObj.Message;
 
+                        await globalSocket.SendAsync(buffer, 0); //将上次接收到的数据包再发送给服务器，表示确认接收
+                        var fileBuffer = new ArraySegment<byte>(new byte[packageSize]);
+                        var receivedFile = await globalSocket.ReceiveAsync(fileBuffer, SocketFlags.None); //接收配置文件
+                        var responseFile = Encoding.UTF8.GetString(fileBuffer.ToArray(), 0, receivedFile);
+                        log.Debug("收到来自" + globalSocket.RemoteEndPoint.ToString() + "的报文：\n" + responseFile);
+                        NetAsync fileObj = JsonConvert.DeserializeObject<NetAsync>(responseFile);
+                        SetStatus(0, "成功接收到配置");
+
+                        if (fileObj.GlobalSetting != null)
+                        {
+                            if (MessageBox.Show("目标服务同时发送了全局配置，是否覆盖本地全局配置？", "替换全局配置", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                            {
+                                Properties.Settings.Default.IsEnableRules = fileObj.GlobalSetting.IsEnableCheck;
+                                Properties.Settings.Default.UserPrintApi = fileObj.GlobalSetting.PrintApi;
+                                Properties.Settings.Default.Save();
+                                new PythonEnvironment().UpdateCode(fileObj.GlobalSetting.Code);
+
+                            }
                         }
+                        SaveConfig(fileObj.Message);
                     }
-                    SaveConfig(fileObj.Message);
-                }
-                else
-                {
-                    var refuseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(CreateRefusePackage()));
-                    await globalSocket.SendAsync(new ArraySegment<byte>(refuseBytes), 0); //用户拒绝接收配置，发送拒绝报文
-                    SetStatus(2, "用户选择了拒绝接收配置");
-                    return;
+                    else
+                    {
+                        var refuseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(CreateRefusePackage()));
+                        await globalSocket.SendAsync(new ArraySegment<byte>(refuseBytes), 0); //用户拒绝接收配置，发送拒绝报文
+                        SetStatus(2, "用户选择了拒绝接收配置");
+                        return;
+                    }
                 }
             }
+            catch (FormatException fex)
+            {
+                MessageBox.Show("IP格式错误，请重新输入");
+                log.Error("IP格式错误，请重新输入", fex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Error("Socket服务异常：", ex);
+            }
+
         }
 
         /// <summary>
