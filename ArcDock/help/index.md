@@ -93,31 +93,31 @@
 
    数据通过用户手动填写获取，可以使用`智能文本框`来联想填写内容，增加填写效率。
 
-   ![使用智能补全增加手动填写效率](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428144611943.png)
+   ![使用智能补全增加手动填写效率](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428144611943.png)
 
 2. 文本解析
 
    数据由文本解析获取，数据源通常来自其他软件，需要其文本可被复制。
 
-   ![文本解析，具体提取方式可与管理员讨论后添加](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428144811316.png)
+   ![文本解析，具体提取方式可与管理员讨论后添加](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428144811316.png)
 
 3. 来自文件
 
    可选择将文件数据导入为对象（JSON）或文件数据导入为文本（批量打印）
 
-   ![使用Excel文件内容添加到媒体](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428145055408.png)
+   ![使用Excel文件内容添加到媒体](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428145055408.png)
 
 4. CLI
 
    使用CLI界面通过命令传输数据。此方式一般用于三方软件调用。
 
-   ![image-20230428145737941](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428145737941.png)
+   ![image-20230428145737941](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428145737941.png)
 
 ### 使用方法
 
 #### 主页构成
 
-![image-20230428151100970](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428151100970.png)
+![image-20230428151100970](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428151100970.png)
 
 #####  ① 菜单栏
 
@@ -159,7 +159,7 @@
 
 目前提供的工具从左到右依次为`新建`、`文本分析`、`批量导入`、`查看历史`、`打印`、`批量打印`
 
-![image-20230428161640047](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428161640047.png)
+![image-20230428161640047](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428161640047.png)
 
 - 新建：（同`文件`→`新建`）新建一个图文媒体，旧媒体不会保存。
 - 文本分析：调出文本分析输入窗口。
@@ -178,19 +178,19 @@
 
 - 普通文本框：
 
-  ![image-20230428162635414](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428162635414.png)
+  ![image-20230428162635414](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428162635414.png)
 
   由标题和内容组成的普通文本框，不可手动换行。
 
 - 多行文本框
 
-  ![image-20230428164455876](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428164455876.png)
+  ![image-20230428164455876](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428164455876.png)
 
   普通文本框的可换行版本，但是是否真正可在模板中体现为多行显示还需要模板样式控制。
 
 - 智能文本框
 
-  ![image-20230428163128770](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428163128770.png)
+  ![image-20230428163128770](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428163128770.png)
 
   智能文本框可在用户输入内容拼音头或者一部分内容时给出备选项，提高输入效率。有两种版本：
 
@@ -201,7 +201,7 @@
 
 - JSON对象
 
-  ![image-20230428164532459](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428164532459.png)
+  ![image-20230428164532459](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428164532459.png)
 
   由标题、内容、导入文件按钮组成，用户可以选择点击`导入文件`按钮选择Excel文件生成JSON对象，也可以手动编写JSON对象。
 
@@ -219,7 +219,7 @@
 
 预览区工具栏从左到右依次为`强制刷新`、`放大`、`缩小`、`控制台`。
 
-![image-20230428165318964](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230428165318964.png)
+![image-20230428165318964](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230428165318964.png)
 
 - 强制刷新：强制刷新预览区的页面。
 - 放大：放大当前预览区页面，**仅放大预览效果，打印时使用模板配置**。
@@ -234,21 +234,21 @@
 
 1. 选择正确的模板
 
-   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+   ![image-20230504092433042](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504092433042.png)
 
 2. 在左侧数据采集区输入数据
 
-   ![image-20230504092652063](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092652063.png)
+   ![image-20230504092652063](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504092652063.png)
 
 3. 在预览区中确认排版无误后，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
 
-   ![image-20230504093000681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093000681.png)
+   ![image-20230504093000681](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504093000681.png)
 
 4. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
 
    注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
 
-   ![image-20230504093248936](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093248936.png)
+   ![image-20230504093248936](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504093248936.png)
 
 ##### 文本解析
 
@@ -256,25 +256,25 @@
 
 1. 选择正确的模板
 
-   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+   ![image-20230504092433042](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504092433042.png)
 
 2. 点击**工具栏**中的`文本分析`按钮
 
-   ![image-20230504095355377](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504095355377.png)
+   ![image-20230504095355377](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504095355377.png)
 
 3. 在弹出的窗口中粘贴来自其他系统的文本，之后点击按钮”分析“，即可填充模板数据
 
-   ![image-20230504095931621](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504095931621.png)
+   ![image-20230504095931621](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504095931621.png)
 
 4. 在预览区中确认排版无误后，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
 
-   ![image-20230504093000681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093000681.png)
+   ![image-20230504093000681](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504093000681.png)
 
 5. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
 
    注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
 
-   ![image-20230504093248936](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504093248936.png)
+   ![image-20230504093248936](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504093248936.png)
 
 ##### 文件数据导入
 
@@ -282,77 +282,77 @@
 
 1. 选择正确的模板
 
-   ![image-20230504100136029](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100136029.png)
+   ![image-20230504100136029](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504100136029.png)
 
 2. 在支持数据导入的预留值右侧点击“导入文件”
 
-   ![image-20230504100415585](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100415585.png)
+   ![image-20230504100415585](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504100415585.png)
 
 3. 在弹出窗口中点击“选择文件”
 
-   ![image-20230504100520224](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100520224.png)
+   ![image-20230504100520224](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504100520224.png)
 
 4. 选择需要导入的文件，目前仅支持导入**xlsx**格式的文件。
 
-   ![image-20230504100649382](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100649382.png)
+   ![image-20230504100649382](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504100649382.png)
 
    在该示例中，Excel文件“大麻花营养成分表.xlsx”的内容如下：
 
-   ![image-20230504105034106](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504105034106.png)
+   ![image-20230504105034106](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504105034106.png)
 
    文件的第一行将作为列名存储行，其数据将被解析为列名，请不要在第一行存储需要填充的数据。
 
 5. 确定导入的参数与文件中列名的对应关系，**默认将顺序对应**，若对应不正确可以点击下拉菜单手动指定。
 
-   ![image-20230504101126681](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101126681.png)
+   ![image-20230504101126681](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504101126681.png)
 
    
 
 6. 确认无误后点击右下角“确定”按钮，文件数据将被转换为JSON字符串填充入数据，根据模板内置规则渲染排版。
 
-   ![image-20230504101325432](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101325432.png)
+   ![image-20230504101325432](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504101325432.png)
 
 7. 填充剩余内容填充完毕后，在预览区中确认排版无误，点击**工具栏**中的`打印`按钮或**快捷动作区**的`打印`按钮即可打印当前图文媒体。
 
-   ![image-20230504101558171](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101558171.png)
+   ![image-20230504101558171](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504101558171.png)
 
 8. 打印完毕后，点击**工具栏**中的`新建`或者**快捷动作区**的`新建`即可清空填入数据。
 
    注意：因为工具栏中的按钮较为密集，容易误操作清空内容，故工具栏中的新建功能会请求用户确认后才清空内容。
 
-   ![image-20230504101710212](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504101710212.png)
+   ![image-20230504101710212](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504101710212.png)
 
 ##### 批量打印
 
 1. 选择正确的模板
 
-   ![image-20230504092433042](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504092433042.png)
+   ![image-20230504092433042](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504092433042.png)
 
 2. 在菜单栏选择`文件`→`导入文件`
 
-   ![image-20230504103326471](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103326471.png)
+   ![image-20230504103326471](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504103326471.png)
 
 3. 在弹出窗口中点击“选择文件”
 
-   ![image-20230504100520224](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504100520224.png)
+   ![image-20230504100520224](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504100520224.png)
 
 4. 选择需要导入的文件，目前仅支持导入**xlsx**格式的文件。
 
-   ![image-20230504103501953](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103501953.png)
+   ![image-20230504103501953](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504103501953.png)
 
    在该示例中，Excel文件“产品标签.xlsx”的内容如下：
 
-   ![image-20230504103541669](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103541669.png)
+   ![image-20230504103541669](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504103541669.png)
 
    文件的第一行将作为列名存储行，其数据将被解析为列名，请不要在第一行存储需要填充的数据。
 
 5. 确定导入的参数与文件中列名的对应关系，**默认将顺序对应**，若对应不正确可以点击下拉菜单手动指定。
 
-   ![image-20230504103828769](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103828769.png)
+   ![image-20230504103828769](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504103828769.png)
 
 6. 点击右下角”确定“，程序将读取文件除标题行外的第一行数据填充入模板，用户在预览框预览效果无误后点击”确认“按钮，系统将按行批量填充模板并打印。
 
-   ![image-20230504103906649](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230504103906649.png)
+   ![image-20230504103906649](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230504103906649.png)
 
    
 
@@ -476,7 +476,7 @@
 - 删除：点击右下角`-`删除当前选中的预留项
 - 修改：双击修改现有预留项
 
-![image-20230505103459350](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505103459350.png)
+![image-20230505103459350](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505103459350.png)
 
 **示例：智能提示贮存条件**
 
@@ -486,47 +486,47 @@
 
    选择菜单栏`设置`→`模板设置`即可进入模板设置
 
-   ![image-20230505093247243](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505093247243.png)
+   ![image-20230505093247243](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505093247243.png)
 
 2. 在模板配置界面中左侧“配置标题”选中“贮存条件”预留值
 
-   ![image-20230505104405766](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505104405766.png)
+   ![image-20230505104405766](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505104405766.png)
 
 3. 将文本框类型修改为`智能文本框`
 
-   ![image-20230505104509047](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505104509047.png)
+   ![image-20230505104509047](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505104509047.png)
 
 4. 将自动填充类型修改为`单框文本补全`
 
-   ![image-20230505104605886](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505104605886.png)
+   ![image-20230505104605886](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505104605886.png)
 
 5. 在自动补全配置列表右下方点击`+`新增预留值
 
-   ![image-20230505104743014](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505104743014.png)
+   ![image-20230505104743014](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505104743014.png)
 
 6. 在弹出输入框中输入“常温保存”，然后点击`确认`
 
-   ![image-20230505104935641](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505104935641.png)
+   ![image-20230505104935641](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505104935641.png)
 
 7. 此时“常温保存”备选项已经添加
 
-   ![image-20230505105023283](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505105023283.png)
+   ![image-20230505105023283](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505105023283.png)
 
 8. 使用同样的方式添加“避光保存”
 
-   ![image-20230505105108359](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505105108359.png)
+   ![image-20230505105108359](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505105108359.png)
 
 9. 添加完毕后，点击下方`保存`
 
-   ![image-20230505105212133](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505105212133.png)
+   ![image-20230505105212133](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505105212133.png)
 
 10. 提示重启应用，点击确定重启，若未唤起应用可以手动再打开
 
-    ![image-20230505105319510](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505105319510.png)
+    ![image-20230505105319510](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505105319510.png)
 
 11. 程序启动后，在`贮存条件`中输入“保存”的拼音头“bc”，看到联想内容已成功添加。
 
-    ![image-20230505105543848](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505105543848.png)
+    ![image-20230505105543848](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505105543848.png)
 
 ##### 联动补全设置
 
@@ -542,7 +542,7 @@
 
 与单框补全相似，在对应列表右下方点击`+`、`-`可以添加、删除选中内容，**双击内容可以编辑**。
 
-![image-20230505110357704](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505110357704.png)
+![image-20230505110357704](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505110357704.png)
 
 **示例：添加产品“辣海带”**
 
@@ -552,61 +552,61 @@
 
    选择菜单栏`设置`→`模板设置`即可进入模板设置
 
-   ![image-20230505093247243](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505093247243.png)
+   ![image-20230505093247243](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505093247243.png)
 
    
 
 2. 在模板配置界面中左侧“配置标题”选中“产品名称”预留值
 
-   ![image-20230505111303383](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111303383.png)
+   ![image-20230505111303383](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111303383.png)
 
 3. 点击索引值列表下方的`+`新增一个备选项
 
-   ![image-20230505111354908](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111354908.png)
+   ![image-20230505111354908](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111354908.png)
 
 4. 在弹出的输入框中输入“辣海带”，然后点击`确认`
 
-   ![image-20230505111505263](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111505263.png)
+   ![image-20230505111505263](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111505263.png)
 
 5. **在索引值列表选中刚刚添加的“辣海带”**
 
-   ![image-20230505111556627](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111556627.png)
+   ![image-20230505111556627](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111556627.png)
 
 6. 在联动值右下角点击`+`新增联动值
 
-   ![image-20230505111641920](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111641920.png)
+   ![image-20230505111641920](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111641920.png)
 
 7. 在弹出窗口的`配置标题`下拉菜单中选择“规格”
 
-   ![image-20230505111748551](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111748551.png)
+   ![image-20230505111748551](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111748551.png)
 
 8. 输入`填充内容`“120”后，点击确认保存
 
-   ![image-20230505111949710](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505111949710.png)
+   ![image-20230505111949710](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505111949710.png)
 
 9. 至此，`规格`联动值添加完毕
 
-   ![image-20230505112038953](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112038953.png)
+   ![image-20230505112038953](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112038953.png)
 
 10. 使用同样的方法添加`保质期`、`贮存条件`、`产地`、`生产商`的联动值
 
-    ![image-20230505112223361](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112223361.png)
+    ![image-20230505112223361](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112223361.png)
 
 11. 确认完毕后，点击下方`保存`按钮
 
-    ![image-20230505112258656](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112258656.png)
+    ![image-20230505112258656](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112258656.png)
 
 12. 提示重启应用，点击确定重启，若未唤起应用可以手动再打开
 
-    ![image-20230505112340561](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112340561.png)
+    ![image-20230505112340561](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112340561.png)
 
 13. 程序启动后，在`产品名称`中输入“辣海带”的拼音头“l”，看到联想内容已成功添加。
 
-    ![image-20230505112515790](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112515790.png)
+    ![image-20230505112515790](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112515790.png)
 
 14. 选中备选项”辣海带“，可以看到联动内容成功填充
 
-    ![image-20230505112558047](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505112558047.png)
+    ![image-20230505112558047](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505112558047.png)
 
     
 
@@ -636,29 +636,29 @@
 
   点击菜单栏`设置`→`同步配置`→`发送当前配置`
 
-  ![image-20230505175726032](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505175726032.png)
+  ![image-20230505175726032](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505175726032.png)
 
   如需发送全局配置，请在发送界面勾选`发送全局配置`
 
-  ![image-20230505175957913](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505175957913.png)
+  ![image-20230505175957913](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505175957913.png)
 
 - 客户端B启动接收服务
 
   点击菜单栏`设置`→`同步配置`→`接收配置`
 
-  ![image-20230505180145475](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505180145475.png)
+  ![image-20230505180145475](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505180145475.png)
 
   输入客户端A显示的地址，之后点击右侧`>`
 
-  ![image-20230505180502639](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505180502639.png)
+  ![image-20230505180502639](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505180502639.png)
 
   成功建立连接后，会提示是否接收文件，点击“确定”接收并替换本地文件
 
-  ![image-20230505180621218](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505180621218.png)
+  ![image-20230505180621218](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505180621218.png)
 
   若客户端A同时勾选了“发送全局配置”，还会提示是否覆盖本地全局配置：
 
-  ![image-20230505180708896](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230505180708896.png)
+  ![image-20230505180708896](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230505180708896.png)
 
 ### 常见问题
 
@@ -1045,17 +1045,17 @@ result['val2'] = source.split(',')[1] #将输入值按照","进行拆分，将�
 
 **切换到相应模板**，点击程序菜单栏的`设置`→`全局设置`
 
-![image-20230508092832910](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508092832910.png)
+![image-20230508092832910](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508092832910.png)
 
 在弹出窗口中切换到`Python`选项卡，点击`文本解析`区域内的`代码编辑器`
 
-![image-20230508091943387](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508091943387.png)
+![image-20230508091943387](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508091943387.png)
 
 
 
 代码编辑器打开后界面如下：
 
-![image-20230508093301608](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093301608.png)
+![image-20230508093301608](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508093301608.png)
 
 首先将输入值source按照“|”进行分割，如下：
 
@@ -1073,35 +1073,35 @@ result['production_name'] = array[0] #给产品名赋值
 
 在代码编辑器界面右上角找到`插入当前配置ID`下拉列表框，选择产品名称：
 
-![image-20230508093824368](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093824368.png)
+![image-20230508093824368](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508093824368.png)
 
 点击旁边的`将所选项目插入代码`按钮：
 
-![image-20230508093920052](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093920052.png)
+![image-20230508093920052](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508093920052.png)
 
 即可快速插入预留值ID字典
 
-![image-20230508094010983](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094010983.png)
+![image-20230508094010983](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094010983.png)
 
 然后将代码补全即可
 
-![image-20230508094130678](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094130678.png)
+![image-20230508094130678](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094130678.png)
 
 使用相同的方式给所有预留值赋值：
 
-![image-20230508094329832](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094329832.png)
+![image-20230508094329832](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094329832.png)
 
 编写完毕，下面我们可以测试一下代码运行效果，点击代码编辑器窗口工具栏的`运行测试`按钮
 
-![image-20230508094605680](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094605680.png)
+![image-20230508094605680](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094605680.png)
 
 在弹出的代码测试器窗口中输入测试内容，点击`运行测试`按钮，即可预览预留值ID与测试文本的对应测试结果。
 
-![image-20230508094514315](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094514315.png)
+![image-20230508094514315](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094514315.png)
 
 如果测试结果符合预期，即可在代码编辑器窗口中保存代码。
 
-![image-20230508094826230](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094826230.png)
+![image-20230508094826230](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508094826230.png)
 
 保存后，即可使用文本分析填充预留值。
 
@@ -1111,11 +1111,11 @@ result['production_name'] = array[0] #给产品名赋值
 
 - 初次进入代码编辑器会根据当前模板文件自动添加提示性注释，注释可以删除，不影响代码运行结果。
 
-  ![image-20230508095426754](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508095426754.png)
+  ![image-20230508095426754](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508095426754.png)
 
   如果需要手动添加提示性注释，可以点击工具栏的`添加提示性注释`按钮
 
-  ![image-20230508095527912](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508095527912.png)
+  ![image-20230508095527912](https://raw.githubusercontent.com/yimig/ArcDock/master/ArcDock/help/assets/image-20230508095527912.png)
 
 - 无需保存脚本即可使用`运行测试`，最好在运行测试通过后再保存脚本。
 
