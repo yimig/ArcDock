@@ -1,0 +1,18 @@
+<!DOCTYPE html[]><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=440,height=265" /><title>Production Label</title><script type="config/json">{"settings":{"printer":"","height":265,"width":440,"print_unit":"cm","print_height":7,"print_width":11,"zoom":0.0,"resource":null},"data":[{"id":"production_name","name":"产品名称","type":"autoinput","opt_type":2,"option":[],"option_exc":[{"content":"天津大麻花","exec":[{"key":"specs","content":"500"},{"key":"shelf_life","content":"6"},{"key":"store_method","content":"常温避光保存"},{"key":"from","content":"天津市宁河区芦台街道光明路107号"},{"key":"factory","content":"天津市国营食品生产厂"}]},{"content":"黄桃罐头","exec":[{"key":"specs","content":"200"},{"key":"shelf_life","content":"12"},{"key":"store_method","content":"常温避光保存"},{"key":"from","content":"山东省寿光市胡集村"},{"key":"factory","content":"寿光罐头食品生产厂"}]}],"default":"","rules":"\\S+"},{"id":"specs","name":"规格","type":"input","opt_type":0,"option":[],"option_exc":[],"default":"","rules":"[0-9]"},{"id":"shelf_life","name":"保质期","type":"input","opt_type":1,"option":[],"option_exc":[],"default":"6","rules":"[0-9]"},{"id":"store_method","name":"贮存条件","type":"input","opt_type":0,"option":[],"option_exc":[],"default":"","rules":"\\S+"},{"id":"from","name":"产地","type":"input","opt_type":0,"option":[],"option_exc":[],"default":"","rules":"\\S+"},{"id":"factory","name":"生产商","type":"richinput","opt_type":0,"option":[],"option_exc":[],"default":"","rules":"\\S+"}]}</script><style>
+        .main{
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .item{
+            display: flex;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            justify-content: center;
+        }
+    </style></head><body><div class="main"><div class="item title">{{production_name}}</div><div class="item"><div class="header">规格：</div><div class="value">{{specs}} 克</div></div><div class="item"><div class="header">生产日期：</div><div class="value" id="date"></div></div><div class="item"><div class="header">保质期：</div><div class="value">{{shelf_life}} 个月</div></div><div class="item"><div class="header">贮存条件：</div><div class="value">{{store_method}}</div></div><div class="item"><div class="header">产地：</div><div class="value">{{from}}</div></div><div class="item"><div class="header">生产商：</div><div class="value">{{factory}}</div></div></div></body><script>
+    let date = new Date()
+    document.getElementById("date").innerText = date.getFullYear()+"年"+(date.getMonth()+1)+"月"+date.getDate()+"日"
+</script></html>

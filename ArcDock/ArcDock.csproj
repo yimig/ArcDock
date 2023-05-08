@@ -412,6 +412,8 @@
     <Content Include="target\temp.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="template\nutrition_facts.html" />
+    <Content Include="template\production_label.html" />
     <Content Include="template\test.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -430,9 +432,6 @@
     <Resource Include="Icon\Personal_opinions.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="template\bg.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Icon\add.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
