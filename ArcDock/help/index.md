@@ -1,4 +1,14 @@
-﻿[TOC]
+﻿# 帮助文档
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="20" role="img" aria-label=".NET Framework: 4.7.2"><title>.NET Framework: 4.7.2</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="140" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="101" height="20" fill="#555"/><rect x="101" width="39" height="20" fill="#007ec6"/><rect width="140" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="515" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="910">.NET Framework</text><text x="515" y="140" transform="scale(.1)" fill="#fff" textLength="910">.NET Framework</text><text aria-hidden="true" x="1195" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="290">4.7.2</text><text x="1195" y="140" transform="scale(.1)" fill="#fff" textLength="290">4.7.2</text></g></svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="78" height="20" role="img" aria-label="version: 1.0"><title>version: 1.0</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="78" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="51" height="20" fill="#555"/><rect x="51" width="27" height="20" fill="#97ca00"/><rect width="78" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="265" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="410">version</text><text x="265" y="140" transform="scale(.1)" fill="#fff" textLength="410">version</text><text aria-hidden="true" x="635" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="170">1.0</text><text x="635" y="140" transform="scale(.1)" fill="#fff" textLength="170">1.0</text></g></svg>
+
+**文档适配程序版本：1.0.0.0 Preview及更高**
+
+编写人：张一鸣
+
+[TOC]
 
 
 
@@ -656,11 +666,515 @@
 
 ## 面向维护人员
 
+### 概述
+
+作为维护人员，首先希望您能够掌握面向用户的所有章节。在此基础上，本章节增补的内容有：
+
+- 文件结构
+
+  介绍程序目录下的各个文件、目录的作用
+
+- 部署程序
+
+  您将了解程序的安装、部署等相关操作
+
+- 模板结构
+
+  学习有关模板文件的相关知识，将帮助您构建模板
+
+- 文本分析
+
+  介绍文本分析脚本的相关知识
+
+- 交互性
+
+  您将在此学习本程序如何与其他三方程序构建交互
+
+**前置知识**
+
+维护本程序需要一些前置知识，在此默认运维人员已经掌握，不再赘述。这些技术包括：
+
+- 基础的网页编写能力（HTML、CSS、JavaScript）
+
+  这是构建模板的基础。不过实际应用中甚少用到网页的高级功能（例如超链接、动画、AJAX等），所以您只需基础的网页编写能力即可上手。对于简单的模板，您可以无需JavaScript即可编写。但对于需要导入JSON的高级模板，需要您具备基础的JavaScript编写能力。
+
+- 基础的编写Python脚本能力
+
+  文本分析功能使用Python解释器实现，如要使用此功能，需要您具备基础的编写Python处理字符串的能力。
+
+- 阅读及编写JSON
+
+  JSON作为模板中的配置部分载体，有些功能无法通过软件前台界面修改（如打印机设置、资源设置等）。同时JSON也是导入文件的数据载体。您需要了解基本的JSON结构、转义方式等知识，不当的修改可能导致程序故障。
+
+- 阅读和编写正则表达式
+
+  正则表达式作为预留值的约束条件载体，虽然对用户开放修改，但用户可能不明白如何实现。希望您具备基本的正则表达式阅读和编写能力以帮助用户定制模板。
+
+### 文件结构
+
+#### 一览表
+
+| 文件名                                                       | 文件类型   | 重要 | 作用                                 |
+| ------------------------------------------------------------ | ---------- | ---- | ------------------------------------ |
+| app.publish<br />x64<br />x86                                | 目录       |      | 编译附件                             |
+| template                                                     | 目录       | ▲    | 模板目录                             |
+| target                                                       | 目录       |      | 图文媒体生成目录                     |
+| Properties<br />locales<br />GPUCache                        | 目录       |      | CEF目录                              |
+| Log                                                          | 目录       | ▲    | 程序运行日志目录                     |
+| help                                                         | 目录       |      | 帮助文档目录                         |
+| CefSharp.BrowserSubprocess.Core.dll<br/>CefSharp.BrowserSubprocess.Core.pdb<br/>CefSharp.BrowserSubprocess.exe<br/>CefSharp.BrowserSubprocess.pdb<br/>CefSharp.Core.dll<br/>CefSharp.Core.pdb<br/>CefSharp.Core.Runtime.dll<br/>CefSharp.Core.Runtime.pdb<br/>CefSharp.Core.Runtime.xml<br/>CefSharp.Core.xml<br/>CefSharp.dll<br/>CefSharp.pdb<br/>CefSharp.Wpf.dll<br/>CefSharp.Wpf.pdb<br/>CefSharp.Wpf.xml<br/>CefSharp.xml<br/>chrome_100_percent.pak<br/>chrome_200_percent.pak<br/>chrome_elf.dll<br/>d3dcompiler_47.dll<br />libcef.dll<br/>libEGL.dll<br/>libGLESv2.dll<br />icudtl.dat<br />README.txt<br/>resources.pak<br/>snapshot_blob.bin<br />v8_context_snapshot.bin<br/>vk_swiftshader.dll<br/>vk_swiftshader_icd.json<br/>vulkan-1.dll<br />LICENSE.txt | 依赖包     |      | CEF包                                |
+| debug.log                                                    | 日志       |      | CEF调试日志（JavaScript运行时日志）  |
+| EntityFramework.dll<br/>EntityFramework.SqlServer.dll<br/>EntityFramework.SqlServer.xml<br/>EntityFramework.xml<br/>BouncyCastle.Crypto.xml<br/>BouncyCastle.Crypto.dll<br />Microsoft.Dynamic.dll<br/>Microsoft.Dynamic.xml<br/>Microsoft.mshtml.dll<br/>Microsoft.Scripting.dll<br/>Microsoft.Scripting.Metadata.dll<br/>Microsoft.Scripting.Metadata.xml<br/>Microsoft.Scripting.xml<br/>Microsoft.Xaml.Behaviors.dll<br/>Microsoft.Xaml.Behaviors.pdb<br/>Microsoft.Xaml.Behaviors.xml<br />System.Buffers.dll<br/>System.Buffers.xml<br/>System.Memory.dll<br/>System.Memory.xml<br/>System.Numerics.Vectors.dll<br/>System.Numerics.Vectors.xml<br/>System.Runtime.CompilerServices.Unsafe.dll<br/>System.Runtime.CompilerServices.Unsafe.xml | 依赖包     |      | 二级依赖包                           |
+| System.Data.SQLite.dll<br/>System.Data.SQLite.EF6.dll<br/>System.Data.SQLite.Linq.dll<br/>System.Data.SQLite.xml | 依赖包     |      | SQLite数据库                         |
+| history.db                                                   | 数据库     | ▲    | SQLite数据库文件                     |
+| IronPython.dll<br/>IronPython.Modules.dll<br/>IronPython.Modules.xml<br/>IronPython.SQLite.dll<br/>IronPython.SQLite.xml<br/>IronPython.Wpf.dll<br/>IronPython.Wpf.xml<br/>IronPython.xml | 依赖包     |      | IronPython解释器引擎                 |
+| AutoCompleteTextBox.pdb<br/>AutoCompleteTextBox.dll          | 依赖包     |      | 智能文本框控件                       |
+| ArcDock.pdb<br />ArcDock.exe.manifest<br />config.json<br/>ArcDock.application | 主程序资源 |      | 编译生成的主程序资源                 |
+| log.config<br/>log4net.dll<br/>log4net.xml                   | 依赖包     |      | Log4net日志生成包                    |
+| Newtonsoft.Json.dll<br/>Newtonsoft.Json.xml                  | 依赖包     |      | JSON处理包                           |
+| NPinyinPro.dll                                               | 依赖包     |      | 拼音头处理包                         |
+| NPOI.dll<br/>NPOI.OOXML.dll<br/>NPOI.OOXML.pdb<br/>NPOI.OOXML.xml<br/>NPOI.OpenXml4Net.dll<br/>NPOI.OpenXml4Net.pdb<br/>NPOI.OpenXml4Net.xml<br/>NPOI.OpenXmlFormats.dll<br/>NPOI.OpenXmlFormats.pdb<br/>NPOI.pdb<br/>NPOI.xml | 依赖包     |      | Excel处理包                          |
+| PDF-XChange Viewer Settings.dat<br/>PDFtoPrinter.dll<br/>PDFtoPrinter_m.exe | 依赖包     |      | PDFtoPrinter API                     |
+| Spire.Pdf.dll<br/>Spire.Pdf.xml                              | 依赖包     |      | Spire.Pdf API                        |
+| ArcDock.exe.config                                           | 配置       | ▲    | 主程序配置，包括连接字符串和全局配置 |
+| ArcDock.exe                                                  | 主程序     |      | 主程序                               |
+
+#### 扩展名说明
+
+- *.config
+
+  主程序或依赖包的配置文件
+
+- *.pdb
+
+  主程序或依赖包的编译符号文件，可以删除，但删除后不易排错
+
+- *.log
+
+  日志文件
+
+#### 重要文件说明
+
+- template目录
+
+  存放模板及其资源的目录，程序会扫描该目录下的html文件并在初始化时将其装载入模板。
+
+- Log目录
+
+  主程序日志目录，日志文件名称为`runtime.log`，体积限定在500KB。
+
+- history.db
+
+  SQLite数据库文件，存储打印历史和打印和Python脚本。
+
+- ArcDock.exe.config
+
+  主程序配置文件，存储SQLite连接字符串、全局配置。
+
+  连接字符串：
+
+  ```xml
+    <connectionStrings>
+      <add name="history" connectionString="data source=history.db;version=3;" />
+    </connectionStrings>
+  ```
+
+  默认全局配置：
+
+  ```xml
+  <userSettings>
+      <ArcDock.Properties.Settings>
+        <setting name="UserPrintApi" serializeAs="String">
+          <value>3</value>
+        </setting>
+        <setting name="IsEnableRules" serializeAs="String">
+          <value>True</value>
+        </setting>
+      </ArcDock.Properties.Settings>
+      <ArcDock.Settings>
+        <setting name="UserPrintApi" serializeAs="String">
+          <value>0</value>
+        </setting>
+      </ArcDock.Settings>
+    </userSettings>
+  ```
+
+### 部署
+
+#### 运行环境
+
+- 软件环境
+  - 操作系统：32位或64位Windows7 SP1及以上版本的Windows
+  - 运行环境：.NET Framework 4.7.2
+- 硬件环境
+  - CPU：1GHz及以上
+  - RAM：1G及以上
+  - 预留磁盘空间：500M以上
+
+#### 部署方法
+
+将程序目录导入目标电脑，手动创建主程序`ArcDock.exe`的快捷方式即可。若系统未安装.NET Framework 4.7.2运行时，请先[安装.NET Framework 4.7.2运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472)。
+
+**注意：如要更新程序，请先备份`history.db`，更新后替换`history.db`。**
+
+### 模板结构
+
+#### 概述
+
+模板文件使用**HTML文件标准**作为载体，存储在软件目录的**template**文件夹中，**注意后缀名必须是html，否则不会识别**。
+
+模板内部分为两部分：
+
+- 配置部分
+
+  配置部分使用`<script type="config/json"></script>`标签引入，配置部分定义了模板的各种配置，如默认打印机、模板外观的大小、预留值和自动填充值等参数，是一段JSON字符串。一个模板文件只能有一个配置标签，配置标签可以出现在符合HTML标准的任意位置，不过习惯上常放在`<head></head>`标签内。
+
+- 样式部分
+
+  除了配置部分其他都是样式部分，样式部分定义了配置文件的排版等外观配置。
+
+虽然模板使用HTML文件标准，可以作为普通网页解析，但由于读取模板时先按照XML标准读取配置再从CEF中渲染，某些仅HTML可用、XML不可用的标准不被支持，例如：
+
+- **不支持单标签**
+
+  不支持诸如`meta`/`br`/`input`等单标签，如要使用单标签功能请用其双标签格式。
+
+- **JavaScript代码块需转义**
+
+  JavaScript出现XML需转义内容，如"<"/">"等，会被转义为XML，由此建议在JavaScript代码块中使用`<![CDATA[CODE]]>`注释标签，或者使用外链JavaScript文件。如：
+
+  ```html
+  <div id="date"></div>
+  <script>
+      //<![CDATA[
+      let date = new Date()
+      document.getElementById("date").innerText = date.getFullYear()+"年"+(date.getMonth()+1)+"月"+date.getDate()+"日"
+      //]]>
+  </script>
+  ```
+
+#### 配置部分
+
+配置部分的JSON由两部分组成，分别是**文档配置（settings）**和**数据配置（data）**，结构如下：
+
+```
+{
+	"setting":{
+		...
+	},
+	"data":[
+		{},{},{}....
+	]
+}
+```
+
+文档配置主要设置一些与页面信息有关的配置，如页面大小、打印大小、默认打印机等，格式如下:
+
+```json
+"settings": {
+	"printer": "", //默认打印机，空串则由系统指定
+	"height": 265, //页面高度，单位是像素
+	"width": 340, //页面宽度，单位是像素
+	"print_unit": "cm", //打印宽高的单位，目前没有实现这个配置，默认都是厘米
+	"print_height": 7, //打印高度，有的API不受该配置控制
+	"print_width": 9, //打印宽度，有的API不受该配置控制
+    "zoom": 0, //模板内放大参数，目前没有实现这个配置
+    "resource": ["bg.jpg"] //模板资源，如果模板有引用到其他文件，请在此注册资源。本数组存放资源路径，可以是相对模板文件路径或绝对路径
+}
+```
+
+数据配置是一个列表，列表内的每一项都是预留值的信息。预留值的信息模板如下：
+
+```json
+{
+	"id": "medicament_num", //预留值的名称，也就是渲染页面中{{value}}内部包裹的value名称
+	"name": "药品数量", //预留值友好名称，显示在程序中让用户填写的文本框标题
+	"type": "input", //预留值类型，目前支持三种类型：普通文本框input、智能文本框autoinput、多行文本框richinput、JSON对象json
+	"opt_type": 0, //文本框的补全选项类型，0为无自动补全，普通文本框和多行文本框该值都应该为0，1为单框文本补全，2为多框联动补全
+	"option": [], //当上面的opt_type为1时，检索其中的内容并给用户提示。参见单款文本补全的示例，当type为json时，该列表是文件解析对应的列ID
+	"option_exc": [], //当上面的opt_type为1时，检索其中的内容并给用户提示，并根据用户选中的内容自动填充其他预留值，参见多框联动补全的示例
+	"default": "", //进入系统时该预留值默认填充的值
+	"rules": "[0-9]" //检查规则，是区分大小写的正则表达式，只有正则测试通过才允许用户打印。
+}
+```
+
+#### 案例
+
+**单框文本补全**
+
+用户输入值时给用户的备选项，输入拼音头或者文本都可以触发提示，用户选中后填充预留值。其 opt_type 为1，备选内容以字符串列表的形式填写在 option 中。例如下面的预留值，用户输入”神“、” 神经内“、”S“、”SJN“等都可以提示神经内科。
+
+```json
+{
+    "id": "patient_dept",
+	"name": "病人科室",
+	"type": "autoinput",
+	"opt_type": 1,
+	"option": [
+		"肿瘤科",
+		"神经内科",
+		"神经外科",
+		"小儿外科",
+		"创伤中心"
+	],
+	"option_exc": [],
+	"default": "",
+	"rules": "\\S+"
+}
+```
+
+**多框联动补全**
+
+用户输入值时给用户的备选项，输入拼音头或者文本都可以触发提示，用户选中后填充预留值，**并且触发填写其他预留值。**其 opt_type 为2，备选内容以对象列表的形式填写在 option_exc 中。 option_exc 的对象示例如下：
+
+```json
+{
+	"content": "乳清", //目前预留值的填充内容，与option中的字符串效果相同
+	"exec": [ //选中该项备选项时，还应该给其他预留值填充的内容
+		{
+			"key": "medicament_unit", //填充另一个预留值的ID
+			"content": "桶" //填充另一个预留值的内容
+		},{
+			"key": "medicament_usage",
+			"content": "测试内容"
+		}
+	]
+}
+```
+
+这段JSON表示当用户选择”乳清“这个备选项时，不仅为当前预留值填充”乳清“，也为ID为`medicament_unit`的预留值填充内容”桶“，为ID为`medicament_usage`的预留值填充”测试内容“
+
+**JSON对象**
+
+导入JSON对象需要在文档配置和样式配置配合实现。
+
+首先需要在预留值配置的`option`列表添加需要解析的对象名，用户导入文件后软件将数据转换为JSON。如对于一个预留值配置：
+
+```json
+{
+	"id": "obj1",
+	"name": "对象1",
+	"type": "json",
+	"opt_type": 0,
+	"option": ["id","content"],
+	"option_exc": [],
+	"default": "",
+	"rules": ""
+},
+```
+
+用户导入一个Excel文件：
+
+| 名称 | 产量  |
+| ---- | ----- |
+| 苹果 | 50斤  |
+| 橘子 | 100斤 |
+
+并且在软件中指定ID对应名称，content对应产量，
+
+由此将得到JSON：
+
+```json
+{
+    "id":["苹果","橘子"],
+    "content":["50斤","100斤"]
+}
+```
+
+程序将用此JSON去替换预留值`obj1`的值，所以我们需要编写JavaScript解析它：
+
+```html
+<div id="display"></div>
+<!--在文档最后添加-->
+<script>
+    //<![CDATA[
+    let val = {{obj1}} //等价于let val = {"id":["苹果","橘子"],"content":["50斤","100斤"]}
+    document.getElementById("display").innerText = val.id[0] //在display中显示了"苹果"
+    //]]>
+</script>
+```
+
+### 文本分析
+
+#### 原理
+
+本程序内容嵌入了一个Python解释器用于文本分析，您可编写Python脚本分析文本。
+
+输入值：字符串类型 `source`  
+
+输出值：字符串字典 `result` 
+
+**示例：** 
+
+当输入字符串为“abc,1234”时，以“,”进行分割，将切分后的”abc“赋给ID为`val1`的预留值，”1234“赋给ID为`val2`的预留值。  
+
+```python
+result['val1'] = source.split(',')[0] #将输入值按照","进行拆分，将拆分后第一个值赋给val1   
+result['val2'] = source.split(',')[1] #将输入值按照","进行拆分，将拆分后第二个值赋给val2   
+```
+
+#### 编写脚本
+
+**目标**
+
+完成本文档中[使用方法>工作流程>文本解析](#文本解析)的分析方法。
+
+具体为分析下列文本：
+
+> 天津大麻花|500|6|常温避光保存|天津市宁河区芦台街道光明路107号|天津市国营食品生产厂
+
+按照“|”进行分割，使得分析结果为：
+
+> 产品名称 = 天津大麻花
+>
+> 规格 = 500
+>
+> 保质期 = 6
+>
+> 贮存条件 = 常温避光保存
+>
+> 产地 = 天津市宁河区芦台街道光明路107号
+>
+> 生产商 = 天津市国营食品生产厂
+
+
+
+---
+
+
+
+**切换到相应模板**，点击程序菜单栏的`设置`→`全局设置`
+
+![image-20230508092832910](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508092832910.png)
+
+在弹出窗口中切换到`Python`选项卡，点击`文本解析`区域内的`代码编辑器`
+
+![image-20230508091943387](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508091943387.png)
+
+
+
+代码编辑器打开后界面如下：
+
+![image-20230508093301608](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093301608.png)
+
+首先将输入值source按照“|”进行分割，如下：
+
+```python
+array = source.split('|') #按照“|”进行分割
+```
+
+首先给产品名称赋值，您可以手动编写以下代码：
+
+```python
+result['production_name'] = array[0] #给产品名赋值
+```
+
+也可以使用下面的方法快速赋值：
+
+在代码编辑器界面右上角找到`插入当前配置ID`下拉列表框，选择产品名称：
+
+![image-20230508093824368](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093824368.png)
+
+点击旁边的`将所选项目插入代码`按钮：
+
+![image-20230508093920052](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508093920052.png)
+
+即可快速插入预留值ID字典
+
+![image-20230508094010983](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094010983.png)
+
+然后将代码补全即可
+
+![image-20230508094130678](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094130678.png)
+
+使用相同的方式给所有预留值赋值：
+
+![image-20230508094329832](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094329832.png)
+
+编写完毕，下面我们可以测试一下代码运行效果，点击代码编辑器窗口工具栏的`运行测试`按钮
+
+![image-20230508094605680](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094605680.png)
+
+在弹出的代码测试器窗口中输入测试内容，点击`运行测试`按钮，即可预览预留值ID与测试文本的对应测试结果。
+
+![image-20230508094514315](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094514315.png)
+
+如果测试结果符合预期，即可在代码编辑器窗口中保存代码。
+
+![image-20230508094826230](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508094826230.png)
+
+保存后，即可使用文本分析填充预留值。
+
+#### 注意事项
+
+- 插入当前配置ID使用的是当前模板文件的预留值，所以在编写脚本前请切换到正确的模板。
+
+- 初次进入代码编辑器会根据当前模板文件自动添加提示性注释，注释可以删除，不影响代码运行结果。
+
+  ![image-20230508095426754](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508095426754.png)
+
+  如果需要手动添加提示性注释，可以点击工具栏的`添加提示性注释`按钮
+
+  ![image-20230508095527912](D:\Projects\VS_Projects\ArcDock\ArcDock\help\assets\image-20230508095527912.png)
+
+- 无需保存脚本即可使用`运行测试`，最好在运行测试通过后再保存脚本。
+
+- 只有预留值ID与result字典都存在的ID才会被对应填充，对应关系行为标记如下：
+
+  |                     | 预留值ID存在 | 预留值ID不存在 |
+  | ------------------- | ------------ | -------------- |
+  | result字典存在Key   | 对应填充     | 忽略           |
+  | result字典不存在Key | 忽略         | --             |
+
+  
+
+### 交互性
+
+#### CLI传参
+
+不论程序是否已经实现启动都可以使用CLI传参，若程序未启动将启动程序并执行相应命令，若程序已启动则将程序唤醒到前台并执行相应命令（也可以使用静默打印，则可不将程序唤醒到前台）。
+
+命令参数：
+
 ```
 ArcDock [--silent][--template file_name] --args json_string
 ```
 
+参数说明：
+
+- silent
+
+  可选参数，静默打印，不需要用户点击打印直接打印图文媒体。若不启用此开关仅唤起程序传递参数，由用户选择是否打印。
+
+- template
+
+  可选参数，选择模板文件名称，需要带文件扩展名。模板必须在程序启动时成功加载。若不启动此开关则向当前使用的模板传递数据。
+
+- args
+
+  必选参数，数据对象，是JSON字符串，以{"预留值ID":"数据内容"}的格式传递数据。
+
+> 注意：json_string是JSON字符串，由于JSON字符串中含有双引号"，在控制台中需要对其进行转义，如对于原始内容为{"key":"hello"}的JSON字符串，转义后应写为：{"""key""":"""hello"""}
+
+**示例**：
+
+现有预留值ID为key、content的模板名称为test.html，使用命令为其传递数据使得key=Hello，content=World，并且传参后直接打印：
+
+```
+arcdock --silent --template test.html --args {"""key""":"""Hello""","""content""":"""World"""} 
+```
+
+向目前使用的模板传递数据，使得key=Hello，让用户选择是否打印：
+
+```
+arcdock --args {"""key""":"""Hello"""} 
+```
+
+仅将程序唤醒到前台：
+
+```
+arcdock --args {}
+```
 
 
-## 面向开发人员
 
