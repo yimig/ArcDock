@@ -160,19 +160,45 @@ namespace ArcDock
 
         public MainWindow()
         {
+            this.Visibility = Visibility.Hidden;
+            var wndLoad = new LoadWindow();
+            InitData();
+            InitLayout(wndLoad);
+        }
+
+        private async void InitLayout(LoadWindow wndLoad)
+        {
+            wndLoad.Show();
+            ChangeLoadStatue(wndLoad, "载入历史记录");
+            await Task.Run(new Action(()=>history = new History()));
+            ChangeLoadStatue(wndLoad, "初始化Python解释器");
+            await Task.Run(new Action(() => new PythonEnvironment()));//初始化Python环境
+            log.Info("Python环境初始化完毕");
+            ChangeLoadStatue(wndLoad, "初始化主窗体");
+            await Task.Run(new Action(() => InitializeComponent()));
+            ChangeLoadStatue(wndLoad, "载入配置文件");
+            await Task.Run(new Action(() => LoadConfig())); //载入配置文件
+            log.Info("配置文件载入完毕");
+            ChangeLoadStatue(wndLoad, "初始化主页UI");
+            SetChildren(); //初始化UI
+            ChangeLoadStatue(wndLoad, "初始化CEF配置");
+            InitBrowser();
+            this.Visibility = Visibility.Visible;
+            wndLoad.Close();
+        }
+
+        private void InitData()
+        {
             configList = new List<Config>();
             templateHtmlList = new List<string>();
-            history = new History();
             MaxPrintPage = 1;
             NowPrintPage = 1;
             PrintApi = Properties.Settings.Default.UserPrintApi;
             WindowState = ProcessInvoker.Data.IsSilent ? WindowState.Minimized : WindowState.Normal;
-            InitializeComponent();
-            new PythonEnvironment();//初始化Python环境
-            LoadConfig(); //载入配置文件
-            log.Info("配置文件载入完毕");
-            log.Info("Python环境初始化完毕");
-            SetChildren(); //初始化UI
+        }
+
+        private void InitBrowser()
+        {
             Browser.Address = Environment.CurrentDirectory + @".\target\temp.html"; //初始化浏览器导航地址
             Browser.LoadingStateChanged += (sender, args) => SetBrowserZoom(Config.Settings.Zoom);
         }
@@ -284,6 +310,12 @@ namespace ArcDock
         #endregion
 
         #region 功能解耦
+
+        private void ChangeLoadStatue(LoadWindow wndLoad,string msg)
+        {
+            wndLoad.Info = msg;
+            log.Info(msg);
+        }
 
         /// <summary>
         /// 修改模板预留值

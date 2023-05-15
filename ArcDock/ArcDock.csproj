@@ -242,6 +242,9 @@
     <Compile Include="ItemDataWindow.xaml.cs">
       <DependentUpon>ItemDataWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoadWindow.xaml.cs">
+      <DependentUpon>LoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PrintProgressWindow.xaml.cs">
       <DependentUpon>PrintProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemDataWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,6 +416,9 @@
     <Content Include="help\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Load.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="target\temp.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

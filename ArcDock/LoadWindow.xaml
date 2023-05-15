@@ -1,0 +1,42 @@
+﻿<Window x:Class="ArcDock.LoadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcDock"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Title="LoadWindow" Height="450" Width="900" WindowStyle="None">
+    <Grid>
+        <Image Source="/ArcDock;component/Resources/Load.png"></Image>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Foreground="White" Name="TbInfo" Text="{Binding Info}"></TextBlock>
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <TextBlock Foreground="White" FontWeight="Bold">Version.</TextBlock>
+                <TextBlock Foreground="White" FontWeight="Bold" Name="TbVersion" Text="{Binding Version}"></TextBlock>
+            </StackPanel>
+            
+        </Grid>
+    </Grid>
+</Window>
