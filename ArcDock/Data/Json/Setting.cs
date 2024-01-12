@@ -13,8 +13,8 @@ namespace ArcDock.Data.Json
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string printer, printUnit;
-        private int height, width, printHeight, printWidth;
-        private double zoom;
+        private int printHeight, printWidth;
+        private double zoom, height, width;
         private bool fixedHeader;
         private List<string> resource;
 
@@ -39,7 +39,7 @@ namespace ArcDock.Data.Json
         /// 纵向像素数量
         /// </summary>
         [JsonProperty("height")]
-        public int Height
+        public double Height
         {
             get => height;
             set
@@ -56,7 +56,7 @@ namespace ArcDock.Data.Json
         /// 横向像素数量
         /// </summary>
         [JsonProperty("width")]
-        public int Width
+        public double Width
         {
             get => width;
             set

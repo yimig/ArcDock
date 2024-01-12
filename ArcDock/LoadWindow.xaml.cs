@@ -42,6 +42,7 @@ namespace ArcDock
         public LoadWindow()
         {
             InitializeComponent();
+            Info = "正在初始化...";
             this.DataContext = this;
         }
 

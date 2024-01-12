@@ -7,7 +7,7 @@
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
         Icon="/ArcDock;component/Icon/tag.ico"
-        Title="ArcDock" Height="450" Width="1000"
+        Title="ArcDock" Height="600" Width="1000"
         Loaded="Window_Loaded"
         Closing="MainWindow_OnClosing">
     <Grid>

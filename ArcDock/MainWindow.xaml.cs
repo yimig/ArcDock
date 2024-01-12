@@ -294,7 +294,9 @@ namespace ArcDock
         /// </summary>
         private void SetBinding()
         {
+            GdBrowser.SetBinding(MaxWidthProperty, new Binding("Config.Settings.Width") { Source = this });
             GdBrowser.SetBinding(WidthProperty, new Binding("Config.Settings.Width") { Source = this });
+            GdBrowser.SetBinding(MaxHeightProperty, new Binding("Config.Settings.Height") { Source = this });
             GdBrowser.SetBinding(HeightProperty, new Binding("Config.Settings.Height") { Source = this });
         }
 
@@ -348,8 +350,8 @@ namespace ArcDock
             var browserHost = Browser.GetBrowserHost();
             var pageClient = Browser.GetBrowser().GetDevToolsClient().Page;
             browserHost.Invalidate(PaintElementType.View);
-            var viewport = new Viewport() { Height = Config.Settings.Height, Width = Config.Settings.Width };
-            var buffer = await pageClient.CaptureScreenshotAsync(CaptureScreenshotFormat.Jpeg, 100, viewport);
+            var viewport = new Viewport() { Height = Config.Settings.Height - 40, Width = Config.Settings.Width - 40 };
+            var buffer = await pageClient.CaptureScreenshotAsync(CaptureScreenshotFormat.Jpeg, 100, viewport, true, false);
             if (buffer.Data != null)
             {
                 //选取保存文件
@@ -487,7 +489,7 @@ namespace ArcDock
                 pd.PrinterSettings.PrinterName = Config.Settings.Printer == "" ? null : Config.Settings.Printer;
                 var ps = new PageSettings();
                 ps.Margins = new Margins(0, 0, 0, 0);
-                ps.PaperSize = new PaperSize("Card", Config.Settings.Width, Config.Settings.Height);
+                ps.PaperSize = new PaperSize("Card", Convert.ToInt32(Config.Settings.Width), Convert.ToInt32(Config.Settings.Height));
                 pd.DefaultPageSettings = ps;
                 SetPrinter(ps, null);
                 ps.Color = false;
@@ -792,7 +794,7 @@ namespace ArcDock
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.None; //不偏移像素，否则模糊
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(printImage, 0, 0, Config.Settings.Width, Config.Settings.PrintHeight); //渲染打印图片
+            e.Graphics.DrawImageUnscaled(printImage, 0, 0, Convert.ToInt32(Config.Settings.Width), Convert.ToInt32(Config.Settings.Height)); //渲染打印图片
             if (NowPrintPage < MaxPrintPage)
             {
                 NowPrintPage++;
